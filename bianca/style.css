@@ -1,0 +1,12 @@
+/* style.css 2009-12-04
+ * 
+ * Copyright (c) 2009 Bianca Foerster
+ * All rights reserved.
+ */
+
+
+#canvas .zahlenleiste-example {
+	background: blue;
+	height: 2px;
+	top: 50%;
+}

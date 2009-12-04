@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Émile unit tests</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <script src="../emile.js"></script>
+  <script src="evidence.js"></script>
+</head>
+<body>
+  <div id="test_basic" style="position:absolute;left:0px;">test1</div>
+  <div id="test_with_negative_value" style="position:absolute;left:-20px;">test2</div>
+  <script>
+    Evidence.TestCase.extend('ÉmileTest', {
+      
+      testBasicAnimation: function(testcase){
+        var element = document.getElementById('test_basic');
+        
+        testcase.assertEqual('0px', element.style.left);
+        emile(element, 'left:300px', {duration: 1});
+        testcase.assertEqual('0px', element.style.left);
+        
+        testcase.pause();
+        setTimeout(function(){
+          testcase.resume(function(){
+            testcase.assertEqual('300px', element.style.left);
+          });
+        }, 10);
+      },
+      
+      testAnimationWithNegativeValue: function(testcase) {
+        var element = document.getElementById('test_with_negative_value');
+        testcase.assertEqual('-20px', element.style.left);
+        emile(element, 'left:-10px', {duration: 1});
+        testcase.assertEqual('-20px', element.style.left);
+        
+        testcase.pause();
+        setTimeout(function(){
+          testcase.resume(function(){
+            testcase.assertEqual('-10px', element.style.left);
+          });
+        }, 10);
+        
+      }
+    });
+  </script>
+</body>
+</html>

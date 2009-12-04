@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=UTF-8">
+<TITLE>Visualisierung der Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems</TITLE>
+
+<!--
+	der Typ der Skripte müsste eigentlich application/ecmascript sein, aber das versteht der IE natürlich nicht :-(
+-->
+<SCRIPT TYPE="text/javascript" SRC="frameworks/emile/emile.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="arne/schaltstelle.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="holger/algorithmus.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="bianca/zeichnen.zahlenleiste.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="arne/zeichnen.rmax-balken.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="holger/animation.split.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="bianca/animation.hochfahren.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="arne/animation.rmax.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="toni/animation.rmax-summe.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="toni/animation.merge.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript">
+msa.domId = {
+	canvas: 'canvas',
+	'_': null  /* keep IE happy */
+}
+</SCRIPT>
+
+<!--
+	Da zu diesem Zeitpunkt (2009-12-03) das Grafikdesign noch nicht vorliegt, ist hier lediglich ein sehr knappes Platzhalter-Design umgesetzt.
+-->
+<STYLE TYPE="text/css">
+@import url(toni/style.css);
+@import url(bianca/style.css);
+@import url(arne/style.css);
+@import url(holger/style.css);
+
+HTML {
+	background-color: #eee;
+	font: 100% sans-serif;
+	color: #777;
+}
+H1 {
+	font-size: 1.2em;
+	text-shadow: 0px 1px 0px white;
+	filter: dropshadow(color=#ffffff,offX=0,offY=1);  /* try to keep IE happy */
+}
+#canvas {
+	position: relative;
+	padding: 0;  /* for positioning */
+	width: 600px;
+	height: 400px;
+	border: 3px ridge #ddd;
+	background-color: white;
+}
+#canvas>* {
+	position: absolute;
+}
+ADDRESS {
+	display: block;
+	margin-top: 1em;
+	font-size: .83em;
+}
+</STYLE>
+
+<H1>Die Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems</H1>
+
+<P>
+<INPUT TYPE="button" VALUE="Demo starten" ID="start-button" DISABLED>
+<INPUT TYPE="button" VALUE="nächster Schritt" ID="continue-button" DISABLED>
+
+<DIV ID="canvas"></DIV>
+
+<NOSCRIPT><P>Diese Web-Anwendung benötigt JavaScript. Eine Alternative ohne JavaScript steht leider noch nicht zur Verfügung.</NOSCRIPT>
+
+<ADDRESS>Antonia Boemanns, Bianca Förster, Arne Johannessen, Holger Schropp</ADDRESS>
