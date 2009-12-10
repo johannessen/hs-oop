@@ -119,7 +119,7 @@ msa.Schaltstelle = function () {
 			var script = document.getElementById('ie__onload');
 			script.onreadystatechange = function () {
 				if (this.readyState == 'complete') {
-					SKGB.domDidLoad();
+					domDidLoad();
 				}
 			}
 		/*@end @*/
