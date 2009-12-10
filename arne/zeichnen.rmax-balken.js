@@ -13,3 +13,4 @@
 // make sure our namespace exists
 if (! window.msa) { window.msa = {}; }
 
+// (ergibt sich automatisch bei Animation)
