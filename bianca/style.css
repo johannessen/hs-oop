@@ -6,7 +6,24 @@
 
 
 #canvas .zahlenleiste-example {
-	background: blue;
 	height: 2px;
 	top: 50%;
+	left: 0;
+	width: 100%;
 }
+
+#canvas .zahlenleiste-strich {
+	background: grey;
+	height: 2px;
+	position: absolute;
+}
+
+.Einheit{
+	position: absolute;
+	background: url(EinheitAktiv.png);
+	height: 30px;
+	font-weight: bold;
+	text-align: positionX;
+	vertical-align: 15px;
+}
+
