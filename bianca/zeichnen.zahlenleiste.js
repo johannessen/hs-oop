@@ -57,11 +57,11 @@ msa.Zahlenleiste = function () {
 	
 	this.zeichnen = function () {
 		// add the existing element to the HTML page
-		var canvasNode = msa.schaltstelle.domNode('canvas');
+		var canvasNode = msa.ui.dom.canvas;
 		canvasNode.appendChild(node);
 		
 		// make our newly added element available to the rest of the app
-		msa.schaltstelle.addNodeWithName(node, 'zahlenleiste');
+		msa.ui.dom.zahlenleiste = node;
 		
 		var strich = document.createElement('DIV');
 		strich.className = 'zahlenleiste-strich';
@@ -71,7 +71,7 @@ msa.Zahlenleiste = function () {
 		
 		// do a little animation, just for fun
 		//Dauer der Animation in millisekunden
-		emile(strich, 'left:70px;width:460px', { duration: 3000 });
+		emile(strich, 'left:70px;width:460px', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
 		
 		
 		this.zahlenblockZeichnen(2,'110px');
@@ -93,10 +93,4 @@ msa.Zahlenleiste = function () {
 }
 
 
-// execute this immediately when the app is loaded
-//msa bedeutet maximumsubarray - Namensraum/Variable?
-//addDom blabla: hier muss alles rein was anfangs gezeichnet wird 
-msa.schaltstelle.addDomLoadedMessage(function () {
-	msa.zahlenleiste = new msa.Zahlenleiste();
-	msa.zahlenleiste.zeichnen();
-});
+msa.zahlenleiste = new msa.Zahlenleiste();

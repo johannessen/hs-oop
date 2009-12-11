@@ -1,7 +1,7 @@
 /* $Id$
  * encoding utf-8
  * 
- * „Schaltstelle“ (quasi Rahmen, Leinwand und Kleber, um alles zusammen zu halten)
+ * „Schaltstelle“ (Mini-Framework mit einigen nützlichen Methoden)
  * Visualisierung der Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems
  * Skriptsprachen / Objektorientierte Programmierung WS 2009/10, Gruppe 5
  * 
@@ -19,7 +19,8 @@ msa.Schaltstelle = function () {
 	
 	// Singleton
 	if (arguments.callee.instance) {
-		return arguments.callee.instance;
+		throw 'only call this once!';  // :DEBUG: fail-fast
+//		return arguments.callee.instance;
 	}
 	arguments.callee.instance = this;
 	
@@ -30,44 +31,6 @@ msa.Schaltstelle = function () {
 			message();
 		}
 	}
-	
-	
-	this.domNode = function (name) {
-		if (domNodeCache[name]) {
-			return domNodeCache[name];
-		}
-		var id = msa.domId[name];
-		if (! id) {
-			throw 'Unknown DOM node named "' + name + '"';
-		}
-		domNodeCache[name] = document.getElementById(id);
-		return domNodeCache[name];
-	}
-	
-	
-	this.addNodeWithName = function (node, name) {
-		domNodeCache[name] = node;
-	}
-	
-	
-	this.removeNode = function (nodeRef) {
-		if (typeof nodeRef == 'string') {
-			var name = nodeRef;
-		}
-		else {
-			for (var i in domNodeCache) {
-				if (domNodeCache[i] == nodeRef) {
-					var name = i;
-					break;
-				}
-			}
-			return;  // object not cached; fail silently
-		}
-		domNodeCache[name] = undefined;
-	}
-	
-	
-	var domNodeCache = {};
 	
 	
 	var domLoaded = false;
@@ -138,3 +101,7 @@ msa.Schaltstelle = function () {
 
 
 msa.schaltstelle = new msa.Schaltstelle();
+
+
+// :DEBUG:
+function $ (id) { return document.getElementById(id); }

@@ -7,6 +7,7 @@
 -->
 <SCRIPT TYPE="text/javascript" SRC="frameworks/emile/emile.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="arne/schaltstelle.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="arne/ui.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="bianca/zeichnen.zahlenleiste.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="holger/algorithmus.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="holger/animation.split.js"></SCRIPT>
@@ -15,12 +16,6 @@
 <SCRIPT TYPE="text/javascript" SRC="arne/animation.rmax.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="toni/animation.rmax-summe.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="toni/animation.merge.js"></SCRIPT>
-<SCRIPT TYPE="text/javascript">
-msa.domId = {
-	canvas: 'canvas',
-	'_': null  /* keep IE happy */
-}
-</SCRIPT>
 
 <!--
 	Da zu diesem Zeitpunkt (2009-12-03) das Grafikdesign noch nicht vorliegt, ist hier lediglich ein sehr knappes Platzhalter-Design umgesetzt.
@@ -64,7 +59,11 @@ ADDRESS {
 <INPUT TYPE="button" VALUE="Demo starten" ID="start-button" DISABLED>
 <INPUT TYPE="button" VALUE="nächster Schritt" ID="continue-button" DISABLED>
 
-<DIV ID="canvas"></DIV>
+<DIV ID="canvas">
+	<DIV ID="Zahl1">1</DIV>
+	<DIV ID="Zahl2">2</DIV>
+	<DIV ID="Zahl3">3</DIV>
+</DIV>
 
 <NOSCRIPT><P>Diese Web-Anwendung benötigt JavaScript. Eine Alternative ohne JavaScript steht leider noch nicht zur Verfügung.</NOSCRIPT>
 
