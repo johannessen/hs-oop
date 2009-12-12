@@ -12,80 +12,130 @@
 // make sure our namespace exists
 if (! window.msa) { window.msa = {}; }
 
-/*
-
-function msa (l, r);
-	// animation .split
-	msa.split.animieren(l, r, trivial);
-}
-
-//trivialer Fall
-function trivial ()
-	if (array.getLength() <= 1) 
-	{
-		SubArray maximum = (SubArray)array.clone();
-		if (maximum.getSum() < 0) 
-			{
-				maximum.setLength(0);
+msa.Algorithmus = function () {
+	
+	var array;
+	var fertig = null;
+	var linkeGrenze, rechteGrenze;
+	var mitte;
+	var ergebnis = {};
+	
+	this.durchlaufen = function (options, l, r) {
+		fertig = options.fertig;
+		array = options.array;
+		linkeGrenze  =l;
+		rechteGrenze =r;
+		// animation .split
+		this.trivialUndSplit();
+//		msa.split.animieren(l, r, this);
+	}
+	
+	
+	this.trivialUndSplit = function () {
+		
+		//trivialer Fall?
+		if (linkeGrenze >= rechteGrenze ) {
+			// trivialer Fall => Ergebnis melden
+			
+			if (linkeGrenze > rechteGrenze) {
+				fertig (0);  // leerer Array
 			}
-		msa.animation.hochfahren(...);  // vor dem return
-		return maximum;
+			if (array[linkeGrenze] < 0) {
+				fertig (0);  // nur ein Element (negativ => Maximum ist leerer Sub-Array)
+			}
+			else {
+				fertig (array[linkeGrenze]);  // nur ein Element
+			}
+			
+		}
+		else {
+			// kein trivialer Fall => loesen mit Divide and Conquer
+			
+			mitte = Math.floor((linkeGrenze + rechteGrenze) / 2);
+			
+			rekursionLinks();
+		}
 	}
-}
-		
-// Split (Divide)
-function split ()
-{
-	int leftIndex = array.getBeginIndex();
-	int rightIndex = array.getEndIndex();
-	int centerIndex = (leftIndex + rightIndex) / 2;
 	
-	SubArray leftMaximum = findMaximumSubArray(... leftIndex, centerIndex);
-	SubArray rightMaximum = this.findMaximumSubArray(rightPart); // analog
-	join(...);
-}
-
-// Join (Merge)
-function join (...)
-{
-	leftPart.findRightEdgeMaximum();
-	rightPart.findLeftEdgeMaximum();
-	SubArray centerMaximum = new SubArray(array, leftPart.getBeginIndex(), rightPart.getEndIndex());
-	centerMaximum.setSum(leftPart.getSum() + rightPart.getSum());
-	msa.animation.rmax_summe(...);
-}		
-
-// groesstes der drei Maxima ermitteln (noch Join)
-function findMax ()
-{
-	var maximum = centerMaximum;
-	if (leftMaximum.getSum() > maximum.getSum()) 
+	// Split (Divide)
+	function rekursionLinks ()
 	{
-		maximum = leftMaximum;
-	}
-	if (rightMaximum.getSum() > maximum.getSum()) 
-	{
-		maximum = rightMaximum;
-	}
-	msa.animation.merge(...);
+		var linkerTeil = new msa.Algorithmus()
+		var options = {};
+		options.fertig = rekursionRechts;
+		options.array = array;
+		linkerTeil.durchlaufen(options, linkeGrenze, mitte);
 		
-	msa.animation.hochfahren(...);
-	msa.split.animieren(l, r, ...);  // gleiche, originale grenzen l und r
+	}
 	
-	// Ergebnis zurueckgeben
-	//msa.schaltstelle....(maximum);
-	fertig(maximum);
+	function rekursionRechts (ergebnisLinks) {
+		ergebnis.links = ergebnisLinks;
+		
+		var rechterTeil = new msa.Algorithmus()
+		var options = {};
+		options.fertig = randmaxima;
+		options.array = array;
+		rechterTeil.durchlaufen(options, mitte + 1, rechteGrenze);
+		
+	}
+	
+	function randmaxima (ergebnisRechts) {
+		ergebnis.rechts = ergebnisRechts;
+		
+		
+		
+/*		
+		
+		SubArray leftMaximum = findMaximumSubArray(... leftIndex, centerIndex);
+		SubArray rightMaximum = this.findMaximumSubArray(rightPart); // analog
+		join(...);
+	}
+
+	// Join (Merge)
+	function join (...)
+	{
+		leftPart.findRightEdgeMaximum();
+		rightPart.findLeftEdgeMaximum();
+		SubArray centerMaximum = new SubArray(array, leftPart.getBeginIndex(), rightPart.getEndIndex());
+		centerMaximum.setSum(leftPart.getSum() + rightPart.getSum());
+		
+		msa.animation.rmax_summe(...);
+	}		
+
+	// groesstes der drei Maxima ermitteln (noch Join)
+	function findMax ()
+	{
+		
+		
+		
+		
+*/
+		ergebnis.mitte = 0;
+		
+		// groesstes der drei Maxima ermitteln (noch Join)
+	
+		var maximaleSumme = ergebnis.mitte;
+		if (ergebnis.links > maximaleSumme) 
+		{
+			maximaleSumme = ergebnis.links;
+		}
+		if (ergebnis.rechts > maximaleSumme) 
+		{
+			maximaleSumme = ergebnis.rechts;
+		}
+	
+		
+//		msa.animation.merge(...);
+			
+//		msa.animation.hochfahren(...);
+//		msa.split.animieren(l, r, ...);  // gleiche, originale grenzen l und r
+		
+		// Ergebnis zurueckgeben
+		//msa.schaltstelle....(maximum);
+		fertig(maximaleSumme, 'Ergebnis');
+	}
 }
 
-*/
+//msa.algorithmus = new msa.Algorithmus();
 
-/*
-msa.schaltstelle.addDomLoadedMessage(function () 
-{
-	int[] array = SubArray.createRandomArray();
-	//SubArray maximumSubArray = new Loesung42().findMaximumSubArray(array);
 
-	msa.Subarray maximumSubArray = new msa.Subarray(array); //Die ganze Klasse wird als Konstruktor ausgeführt.
-	
-});
-*/
