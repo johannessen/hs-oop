@@ -14,6 +14,11 @@
 if (! window.msa) { window.msa = {}; }
 
 
+// das Array, auf dem gearbeitet wird
+msa.theArray = [2, 4, -8, -1, 2, -6, 4, 3];
+
+
+
 msa.Ui = function () {
 	
 	
@@ -32,7 +37,7 @@ msa.Ui = function () {
 	function run () {
 		var options = {
 			fertig: function(zahl){ ergebnisZeigen(zahl); },
-			array: [1, 4, -3, 2]
+			array: msa.theArray
 		}
 		var algorithmus = new msa.Algorithmus();
 		algorithmus.durchlaufen(options, 0, options.array.length - 1);
@@ -40,8 +45,7 @@ msa.Ui = function () {
 	
 	
 	function ergebnisZeigen (ergebnisZahl) {
-		// call this as 'return' from algorthm.js
-		console.info(ergebnisZahl/*Node.innerHTML*/);
+		alert('Maximale Teilsumme: ' + ergebnisZahl);
 	}
 	
 	
@@ -79,5 +83,5 @@ msa.ui = new msa.Ui();
 
 // execute this immediately when the app is loaded
 msa.schaltstelle.addDomLoadedMessage(function () {
-	msa.zahlenleiste.zeichnen();
+	msa.zahlenleiste.zeichnen(msa.theArray);
 });
