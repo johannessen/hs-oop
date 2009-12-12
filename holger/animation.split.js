@@ -14,3 +14,13 @@ if (! window.msa) { window.msa = {}; }
 
 
 // to be continued...
+
+/*
+
+var zahlenleiste = zahlenleisteFuerHolger();
+
+// ...
+
+zahlenleiste.appendChild(strich);
+
+*/
