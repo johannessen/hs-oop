@@ -69,6 +69,7 @@ msa.Ui = function () {
 	function init () {
 		msa.schaltstelle.addDomLoadedMessage(function () {
 			initDomReferences();
+			dom.startButton.disabled = true;
 		});
 	}
 	
