@@ -31,15 +31,17 @@ msa.Ui = function () {
 	
 	function run () {
 		var options = {
-			fertig: function(){ ergebnisZeigen(); }
+			fertig: function(zahl){ ergebnisZeigen(zahl); },
+			array: [1, 4, -3, 2]
 		}
-		msa.algorithmus.durchlaufen(options);
+		var algorithmus = new msa.Algorithmus();
+		algorithmus.durchlaufen(options, 0, options.array.length - 1);
 	}
 	
 	
-	function ergebnisZeigen (ergebnisZahlNode) {
+	function ergebnisZeigen (ergebnisZahl) {
 		// call this as 'return' from algorthm.js
-		alert(ergebnisZahlNode.innerHTML);
+		console.info(ergebnisZahl/*Node.innerHTML*/);
 	}
 	
 	
