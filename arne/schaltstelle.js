@@ -47,7 +47,14 @@ msa.Schaltstelle = function () {
 		domLoaded = true;
 		
 		for (var i = 0; i < domLoadedMessages.length; i++) {
-			domLoadedMessages[i]();
+			try {
+				domLoadedMessages[i]();
+			}
+			catch (exception) {
+				if (exception instanceof msa.Schaltstelle.DomReferenceException) {
+					throw exception;  // a DOM reference failed to load; abort these steps
+				}
+			}
 		}
 	}
 	
@@ -97,6 +104,15 @@ msa.Schaltstelle = function () {
 	
 	registerDomDidLoad();
 	
+}
+
+
+msa.Schaltstelle.DomReferenceException = function (referenceName) {
+	this.name = 'msa.Schaltstelle.DomReferenceException';
+	this.message = this.name + ': required DOM reference "' + referenceName + '" unavailable; aborting start of MSA';
+	this.toString = function () {
+		return this.message;
+	}
 }
 
 
