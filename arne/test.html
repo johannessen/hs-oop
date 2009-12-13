@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=UTF-8">
+<TITLE>Test Bench</TITLE>
+
+<SCRIPT TYPE="application/ecmascript" SRC="../frameworks/emile/emile.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript" SRC="../arne/schaltstelle.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript" SRC="../arne/ui.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript" SRC="../bianca/zeichnen.zahlenleiste.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript" SRC="../holger/algorithmus.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript" SRC="../holger/animation.split.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript" SRC="../bianca/animation.hochfahren.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript" SRC="../arne/zeichnen.rmax-balken.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript" SRC="../arne/animation.rmax.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript" SRC="../toni/animation.rmax-summe.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript" SRC="../toni/animation.merge.js"></SCRIPT>
+
+<!--SCRIPT TYPE="application/ecmascript" SRC="../frameworks/evidence-20091205T225750Z/dist/evidence.js"></SCRIPT-->
+<SCRIPT TYPE="application/ecmascript" SRC="../frameworks/evidence-0.6/dist/evidence.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript">
+/*
+msa.schaltstelle.addDomLoadedMessage(function () {
+	loader = new Evidence.TestLoader();
+	suite = loader.loadTestsFromTestCase(msa.test.numerik);
+	runner = new Evidence.UI.Web.TestRunner();
+	results = runner.run(suite);
+});
+*/
+/*
+out = [];
+msa.schaltstelle.addDomLoadedMessage(function () {
+	setTimeout(function(){
+		var pre = document.createElement('PRE');
+		for (var i = 0; ! (i >= out.length); i++) {
+			pre.appendChild(document.createTextNode(
+					out[i] + '\n'
+					));
+		}
+		document.getElementsByTagName('BODY')[0].appendChild(pre);
+	}, 1000);
+});
+*/
+</SCRIPT>
+
+<SCRIPT TYPE="application/ecmascript">
+Evidence.TestCase.extend('NumerikTest', {
+//	setUp: function () {
+//	},
+	
+	
+	assertArrayEqual: function (array1, array2) {
+		this.assertEqual(array1.length, array2.length);
+		for (var i = array1.length - 1; i >= 0 ; i--) {
+			this.assertEqual(array1[i], array2[i]);
+		}
+	},
+	
+	
+/*
+	_assertExpression: function (expression, message, template) {
+		if (expression) {
+			this.addAssertion();
+		} else {
+			var args = Array.prototype.slice.call(arguments, 3);
+			out[out.length] = message + ' ' + Evidence.UI.printf(template, args);
+			throw new Evidence.AssertionFailedError(message, template, args);
+		}
+	},
+*/	
+	
+	
+	assertMaximumEqual: function (expected, array, message) {
+		var testcase = this;
+		testcase.pause();
+		// run msa
+		(new msa.Algorithmus()).durchlaufen({
+			array: array,
+			fertig: function(actual){
+				testcase.resume(function(){
+					this._assertExpression((typeof actual !== 'undefined'), message || 'Failed refutation.', 'Expected MSA of %o to not be undefined.', array);
+					this._assertExpression((actual !== null), message || 'Failed refutation.', 'Expected MSA of %o to not be null.', array);
+					this._assertExpression(actual == expected, message || 'Failed Assertion.', 'Expected MSA of %o (%o) to be == to %o.', array, actual, expected);
+				});
+			},
+		}, 0, array.length - 1);
+	},
+	
+	
+	testTrivialeFaelle: function () {
+		this.assertMaximumEqual(1, [1]);  // testEinElementArray
+		this.assertMaximumEqual(0, [-1]);
+		this.assertMaximumEqual(0, []);  // testLeererArray
+	},
+	
+	
+	testSonderfaelle: function () {
+		this.assertMaximumEqual(0, [-2, -1, -4]);  // testNegativerArray
+		this.assertMaximumEqual(127, [8, 16, 2, 0, 32, 1, 64, 4]);
+	},
+	
+	
+	testAussenliegendeMaxima: function () {
+		this.assertMaximumEqual(9, [2, -1, 8, -16, 4]);  // testMaximumLinkerRand
+		this.assertMaximumEqual(18, [1, 8, 0, -4, -32, 2, 16]);  // testMaximumRechterRand
+	},
+	
+	
+	testDefaultArray: function () {
+		this.assertArrayEqual(msa.theArray, [2, 4, -8, -1, 2, -6, 4, 3]);
+		this.assertMaximumEqual(7, [2, 4, -8, -1, 2, -6, 4, 3]);
+	},
+	
+	
+	testDiverseArrays: function () {
+		this.assertMaximumEqual(8, [2, -4, 8, -1]);  // testEinElementMaximum
+		this.assertMaximumEqual(9, [8, -1, 0, -2, -4, 8]);  // testGanzerArrayMaximum
+		this.assertMaximumEqual(68, [16, 8, -32, 4, 64, -2, 0, 1]);  // testMaximumMitte
+		this.assertMaximumEqual(1, [1, -2]);  // testZweiElementeArray
+	},
+	
+	
+});
+</SCRIPT>
+<P>check debugger console
