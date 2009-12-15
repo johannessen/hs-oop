@@ -48,8 +48,8 @@ msa.Zahlenleiste = function () {
 			}
 			
 			node.appendChild(block);
-			emile(block, 'left:positionX;width:30px;', { duration: 3000});
-			emile(block, 'color:black;', { duration: 5000});
+			emile(block, 'left:positionX;width:30px;', { duration: 300});
+			emile(block, 'color:black;', { duration: 500});
 
 		}
 	}
@@ -71,7 +71,7 @@ msa.Zahlenleiste = function () {
 		
 		// do a little animation, just for fun
 		//Dauer der Animation in millisekunden
-		emile(strich, 'left:70px;width:460px', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
+		emile(strich, 'left:70px;width:460px', { duration: 300, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
 		
 		
 		this.zahlenblockZeichnen(2,'110px');
