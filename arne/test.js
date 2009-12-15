@@ -31,6 +31,7 @@ window.onload = function () {
 	// run all provided test suites and log the result
 	for (var i = 0; i < tests.length; i++) {
 		var suite = (new Evidence.TestLoader()).loadTestsFromTestCase(tests[i]);
+//		var runner = new Evidence.UI.Web.TestRunner(new Evidence.UI.Console.Logger(loglevel));
 		var runner = new Evidence.UI.Console.TestRunner(new Evidence.UI.Console.Logger(loglevel));
 		var result = runner.run(suite);
 		// the runner may return before the test suite is complete, so we need to wait
