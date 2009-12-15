@@ -14,32 +14,7 @@
 <SCRIPT TYPE="application/ecmascript" SRC="../toni/animation.rmax-summe.js"></SCRIPT>
 <SCRIPT TYPE="application/ecmascript" SRC="../toni/animation.merge.js"></SCRIPT>
 
-<!--SCRIPT TYPE="application/ecmascript" SRC="../frameworks/evidence-20091205T225750Z/dist/evidence.js"></SCRIPT-->
 <SCRIPT TYPE="application/ecmascript" SRC="../frameworks/evidence-0.6/dist/evidence.js"></SCRIPT>
-<SCRIPT TYPE="application/ecmascript">
-/*
-msa.schaltstelle.addDomLoadedMessage(function () {
-	loader = new Evidence.TestLoader();
-	suite = loader.loadTestsFromTestCase(msa.test.numerik);
-	runner = new Evidence.UI.Web.TestRunner();
-	results = runner.run(suite);
-});
-*/
-/*
-out = [];
-msa.schaltstelle.addDomLoadedMessage(function () {
-	setTimeout(function(){
-		var pre = document.createElement('PRE');
-		for (var i = 0; ! (i >= out.length); i++) {
-			pre.appendChild(document.createTextNode(
-					out[i] + '\n'
-					));
-		}
-		document.getElementsByTagName('BODY')[0].appendChild(pre);
-	}, 1000);
-});
-*/
-</SCRIPT>
 
 <SCRIPT TYPE="application/ecmascript">
 Evidence.TestCase.extend('NumerikTest', {
@@ -53,19 +28,6 @@ Evidence.TestCase.extend('NumerikTest', {
 			this.assertEqual(array1[i], array2[i]);
 		}
 	},
-	
-	
-/*
-	_assertExpression: function (expression, message, template) {
-		if (expression) {
-			this.addAssertion();
-		} else {
-			var args = Array.prototype.slice.call(arguments, 3);
-			out[out.length] = message + ' ' + Evidence.UI.printf(template, args);
-			throw new Evidence.AssertionFailedError(message, template, args);
-		}
-	},
-*/	
 	
 	
 	assertMaximumEqual: function (expected, array, message) {
