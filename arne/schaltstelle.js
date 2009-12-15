@@ -109,7 +109,7 @@ msa.Schaltstelle = function () {
 
 msa.Schaltstelle.DomReferenceException = function (referenceName) {
 	this.name = 'msa.Schaltstelle.DomReferenceException';
-	this.message = this.name + ': required DOM reference "' + referenceName + '" unavailable; aborting start of MSA';
+	this.message = this.name + ': required DOM reference "' + referenceName + '" unavailable; aborting start of animation';
 	this.toString = function () {
 		return this.message;
 	}
