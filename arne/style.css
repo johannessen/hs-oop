@@ -5,3 +5,7 @@
  * All rights reserved.
  */
 
+.randmaximum-container {
+	position: absolute;
+	z-index: 1;
+}
