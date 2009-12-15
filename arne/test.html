@@ -9,28 +9,79 @@
 <SCRIPT TYPE="application/ecmascript" SRC="../holger/algorithmus.js"></SCRIPT>
 <SCRIPT TYPE="application/ecmascript" SRC="../holger/animation.split.js"></SCRIPT>
 <SCRIPT TYPE="application/ecmascript" SRC="../bianca/animation.hochfahren.js"></SCRIPT>
-<SCRIPT TYPE="application/ecmascript" SRC="../arne/zeichnen.rmax-balken.js"></SCRIPT>
+<!--SCRIPT TYPE="application/ecmascript" SRC="../arne/zeichnen.rmax-balken.js"></SCRIPT-->
 <SCRIPT TYPE="application/ecmascript" SRC="../arne/animation.rmax.js"></SCRIPT>
 <SCRIPT TYPE="application/ecmascript" SRC="../toni/animation.rmax-summe.js"></SCRIPT>
 <SCRIPT TYPE="application/ecmascript" SRC="../toni/animation.merge.js"></SCRIPT>
 
 <SCRIPT TYPE="application/ecmascript" SRC="../frameworks/evidence-0.6/dist/evidence.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript">
+out = [];
+tests = [];
+window.onload = function () {
+	var delay = 600;
+	for (var i = 0; ! (i >= tests.length); i++) {
+		var loader = new Evidence.TestLoader();
+		var suite = loader.loadTestsFromTestCase(tests[i]);
+		var runner = new Evidence.UI.Console.TestRunner(new Evidence.UI.Console.Logger());
+		var result = runner.run(suite);
+		setTimeout(function(){
+			out[out.length] = '\nCompleted test suite ' + suite + ': ' + result + '.\n';
+		}, delay);
+	}
+	setTimeout(function(){
+		var pre = document.createElement('PRE');
+		for (var i = 0; ! (i >= out.length); i++) {
+			pre.appendChild(document.createTextNode(
+					out[i] + '\n'
+					));
+		}
+		document.body.insertBefore(pre, document.body.firstChild);
+	}, delay);
+}
+</SCRIPT>
 
 <SCRIPT TYPE="application/ecmascript">
-Evidence.TestCase.extend('NumerikTest', {
+tests[tests.length] = Evidence.TestCase.extend('NumerikTest', {
 //	setUp: function () {
 //	},
 	
 	
 	assertArrayEqual: function (array1, array2) {
-		this.assertEqual(array1.length, array2.length);
-		for (var i = array1.length - 1; i >= 0 ; i--) {
-			this.assertEqual(array1[i], array2[i]);
+		var equal = array1.length == array2.length;
+		var i = array1.length - 1;
+		while (equal && i >= 0) {
+			if (array1[i] != array2[i]) {
+				equal = false;
+				break;
+			}
+			i -= 1;
+		}
+		this.assertWithReason(equal, true, 'Expected array %o to be == to array %o.', array1, array2);
+	},
+	
+	
+	_assertExpression: function (expression, message, template) {
+		var args = Array.prototype.slice.call(arguments, 3);
+		if (expression) {
+			out[out.length] = 'Test succeded. (' + ((arguments.callee.caller == this.assertWithReason) ? message : 'Not ' + message.toLowerCase()) + ' ' + Evidence.UI.printf(template, args) + ')';
+			this.addAssertion();
+		} else {
+			var templateWithArgs = Evidence.UI.printf(template, args);
+			out[out.length] = message + ' ' + templateWithArgs;
+			throw new Evidence.AssertionFailedError(message, templateWithArgs, args);
 		}
 	},
 	
 	
-	assertMaximumEqual: function (expected, array, message) {
+	assertWithReason: function (expression, kind, template) {
+		arguments[0] = arguments[0] == arguments[1];
+		arguments[1] = (arguments[0] ? 'Passed' : 'Failed') + ' ' + (arguments[1] ? 'assertion' : 'refutation') + '.';
+		this._assertExpression.apply(this, arguments);
+	},
+	
+	
+	assertMaximumEqual: function (expected, array) {
 		var testcase = this;
 		testcase.pause();
 		// run msa
@@ -38,9 +89,9 @@ Evidence.TestCase.extend('NumerikTest', {
 			array: array,
 			fertig: function(actual){
 				testcase.resume(function(){
-					this._assertExpression((typeof actual !== 'undefined'), message || 'Failed refutation.', 'Expected MSA of %o to not be undefined.', array);
-					this._assertExpression((actual !== null), message || 'Failed refutation.', 'Expected MSA of %o to not be null.', array);
-					this._assertExpression(actual == expected, message || 'Failed Assertion.', 'Expected MSA of %o (%o) to be == to %o.', array, actual, expected);
+					this.assertWithReason(typeof actual === 'undefined', false, 'Expected MSA of %o to not be undefined.', array);
+					this.assertWithReason(actual === null, false, 'Expected MSA of %o to not be null.', array);
+					this.assertWithReason(actual == expected, true, 'Expected MSA of %o (%o) to be == to %o.', array, actual, expected);
 				});
 			},
 		}, 0, array.length - 1);
