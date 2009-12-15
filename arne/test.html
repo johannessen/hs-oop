@@ -15,88 +15,17 @@
 <SCRIPT TYPE="application/ecmascript" SRC="../toni/animation.merge.js"></SCRIPT>
 
 <SCRIPT TYPE="application/ecmascript" SRC="../frameworks/evidence-0.6/dist/evidence.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript" SRC="test.js"></SCRIPT>
 <SCRIPT TYPE="application/ecmascript">
-out = [];
-tests = [];
-window.onload = function () {
-	var delay = 600;
-	for (var i = 0; ! (i >= tests.length); i++) {
-		var loader = new Evidence.TestLoader();
-		var suite = loader.loadTestsFromTestCase(tests[i]);
-		var runner = new Evidence.UI.Console.TestRunner(new Evidence.UI.Console.Logger());
-		var result = runner.run(suite);
-		setTimeout(function(){
-			out[out.length] = '\nCompleted test suite ' + suite + ': ' + result + '.\n';
-		}, delay);
-	}
-	setTimeout(function(){
-		var pre = document.createElement('PRE');
-		for (var i = 0; ! (i >= out.length); i++) {
-			pre.appendChild(document.createTextNode(
-					out[i] + '\n'
-					));
-		}
-		document.body.insertBefore(pre, document.body.firstChild);
-	}, delay);
-}
+//loglevel = Evidence.UI.Console.Logger.CRITICAL;
+//loglevel = Evidence.UI.Console.Logger.WARN;
+loglevel = Evidence.UI.Console.Logger.DEBUG;
+delay = 300;
 </SCRIPT>
 
+
 <SCRIPT TYPE="application/ecmascript">
-tests[tests.length] = Evidence.TestCase.extend('NumerikTest', {
-//	setUp: function () {
-//	},
-	
-	
-	assertArrayEqual: function (array1, array2) {
-		var equal = array1.length == array2.length;
-		var i = array1.length - 1;
-		while (equal && i >= 0) {
-			if (array1[i] != array2[i]) {
-				equal = false;
-				break;
-			}
-			i -= 1;
-		}
-		this.assertWithReason(equal, true, 'Expected array %o to be == to array %o.', array1, array2);
-	},
-	
-	
-	_assertExpression: function (expression, message, template) {
-		var args = Array.prototype.slice.call(arguments, 3);
-		if (expression) {
-			out[out.length] = 'Test succeded. (' + ((arguments.callee.caller == this.assertWithReason) ? message : 'Not ' + message.toLowerCase()) + ' ' + Evidence.UI.printf(template, args) + ')';
-			this.addAssertion();
-		} else {
-			var templateWithArgs = Evidence.UI.printf(template, args);
-			out[out.length] = message + ' ' + templateWithArgs;
-			throw new Evidence.AssertionFailedError(message, templateWithArgs, args);
-		}
-	},
-	
-	
-	assertWithReason: function (expression, kind, template) {
-		arguments[0] = arguments[0] == arguments[1];
-		arguments[1] = (arguments[0] ? 'Passed' : 'Failed') + ' ' + (arguments[1] ? 'assertion' : 'refutation') + '.';
-		this._assertExpression.apply(this, arguments);
-	},
-	
-	
-	assertMaximumEqual: function (expected, array) {
-		var testcase = this;
-		testcase.pause();
-		// run msa
-		(new msa.Algorithmus()).durchlaufen({
-			array: array,
-			fertig: function(actual){
-				testcase.resume(function(){
-					this.assertWithReason(typeof actual === 'undefined', false, 'Expected MSA of %o to not be undefined.', array);
-					this.assertWithReason(actual === null, false, 'Expected MSA of %o to not be null.', array);
-					this.assertWithReason(actual == expected, true, 'Expected MSA of %o (%o) to be == to %o.', array, actual, expected);
-				});
-			},
-		}, 0, array.length - 1);
-	},
-	
+tests[tests.length] = MyTestCase.extend('NumerikTest', {
 	
 	testTrivialeFaelle: function () {
 		this.assertMaximumEqual(1, [1]);  // testEinElementArray
@@ -104,24 +33,21 @@ tests[tests.length] = Evidence.TestCase.extend('NumerikTest', {
 		this.assertMaximumEqual(0, []);  // testLeererArray
 	},
 	
-	
 	testSonderfaelle: function () {
 		this.assertMaximumEqual(0, [-2, -1, -4]);  // testNegativerArray
-		this.assertMaximumEqual(127, [8, 16, 2, 0, 32, 1, 64, 4]);
+		this.assertMaximumEqual(127, [8, 16, 2, 32, 1, 64, 4]);
 	},
-	
 	
 	testAussenliegendeMaxima: function () {
 		this.assertMaximumEqual(9, [2, -1, 8, -16, 4]);  // testMaximumLinkerRand
 		this.assertMaximumEqual(18, [1, 8, 0, -4, -32, 2, 16]);  // testMaximumRechterRand
 	},
 	
-	
 	testDefaultArray: function () {
-		this.assertArrayEqual(msa.theArray, [2, 4, -8, -1, 2, -6, 4, 3]);
-		this.assertMaximumEqual(7, [2, 4, -8, -1, 2, -6, 4, 3]);
+		var defaultArray = [2, 4, -8, -1, 2, -6, 4, 3];
+		this.assertArrayEqual(msa.theArray, defaultArray);
+		this.assertMaximumEqual(7, defaultArray);
 	},
-	
 	
 	testDiverseArrays: function () {
 		this.assertMaximumEqual(8, [2, -4, 8, -1]);  // testEinElementMaximum
@@ -130,7 +56,19 @@ tests[tests.length] = Evidence.TestCase.extend('NumerikTest', {
 		this.assertMaximumEqual(1, [1, -2]);  // testZweiElementeArray
 	},
 	
-	
 });
 </SCRIPT>
-<P>check debugger console
+
+
+<SCRIPT TYPE="application/ecmascript">
+/*
+tests[tests.length] = MyTestCase.extend('', {
+	setUp: function () {
+	},
+	
+});
+*/
+</SCRIPT>
+
+
+<P>Check debugger console for detailed testing log.
