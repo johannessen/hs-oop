@@ -23,39 +23,52 @@
 out = [];
 tests = [];
 loglevel = Evidence.UI.Console.Logger.NOTSET;
-delay = 600;  // expected max time for a test suite to finish (ms)
+suite = null;
+result = null;
+pre = null;
 
 
 window.onload = function () {
 	
-	// run all provided test suites and log the result
-	for (var i = 0; i < tests.length; i++) {
-		var suite = (new Evidence.TestLoader()).loadTestsFromTestCase(tests[i]);
-//		var runner = new Evidence.UI.Web.TestRunner(new Evidence.UI.Console.Logger(loglevel));
-		var runner = new Evidence.UI.Console.TestRunner(new Evidence.UI.Console.Logger(loglevel));
-		var result = runner.run(suite);
-		// the runner may return before the test suite is complete, so we need to wait
-		setTimeout(function(){
-			out[out.length] = new OutImportant('\nCompleted test suite ' + suite + ': ' + result + '.\n');
-		}, delay);
-	}
+	var myDelay = 0;
 	
-	// after all runners have been started, we need to wait some more and then display the logged result
-	setTimeout(function(){
-		var pre = document.createElement('PRE');
-		for (var i = 0; i < out.length; i++) {
-			if (out[i].important) {
+	pre = document.createElement('PRE');
+	document.body.insertBefore(pre, document.body.firstChild);
+	
+	function flushOut () {
+		while (out.length) {
+			var outItem = out.shift();
+			if (outItem.important) {
 				var node = document.createElement('STRONG');
-				node.appendChild(document.createTextNode(out[i]));
+				node.appendChild(document.createTextNode(outItem));
 			}
 			else {
-				var node = document.createTextNode(out[i]);
+				var node = document.createTextNode(outItem);
 			}
 			pre.appendChild(node);
 			pre.appendChild(document.createTextNode('\n'));
 		}
-		document.body.insertBefore(pre, document.body.firstChild);
-	}, delay * tests.length + 50);  // run after all else is done
+	}
+	
+	function runTest (j) {
+		if (j >= tests.length) { return; }
+		suite = (new Evidence.TestLoader()).loadTestsFromTestCase(tests[j]);
+		var runner = new Evidence.UI.Console.TestRunner(new Evidence.UI.Console.Logger(loglevel));
+		result = runner.run(suite);
+		myDelay += tests[j].delay;
+		setTimeout(function(){
+			out[out.length] = new ImportantString('\nCompleted test suite ' + suite + ': ' + result + '.\n');
+			flushOut();
+			runTest(j + 1);
+		}, tests[j].delay);
+	}
+	
+	runTest(0);
+	
+	// after all runners have been started, we need to wait some more and then display the logged result
+	setTimeout(function(){
+		flushOut();
+	}, myDelay + tests.length * 300);  // run after all else is done
 	
 	/* Note: This timer-based logging technique *will* fail as soon as only
 	 * one of the test suites takes longer than the specified delay time.
@@ -67,7 +80,26 @@ window.onload = function () {
 }
 
 
-// extend Evidence.TestCase to add HTML logging output and some utility assert methods
+
+
+/**
+ * utility object to mark up important output
+ */
+function ImportantString (string) {
+	this.toString = function () { return '' + string; }
+}
+ImportantString.prototype = new String;
+ImportantString.prototype.constructor = ImportantString;
+ImportantString.prototype.valueOf = function () { return this.toString(); };
+ImportantString.prototype.important = true;
+
+
+
+
+/**
+ * extend Evidence.TestCase to add HTML logging output and some utility assert
+ * methods
+ */
 function MyTestCase (methodName) {
 	
 	// this override adds a suitable output logging string item to the output
@@ -79,7 +111,7 @@ function MyTestCase (methodName) {
 			this.addAssertion();
 		} else {
 			var templateWithArgs = Evidence.UI.printf(template, args);
-			out[out.length] = new OutImportant(message + ' ' + templateWithArgs);
+			out[out.length] = new ImportantString(message + ' ' + templateWithArgs);
 			throw new Evidence.AssertionFailedError(message, templateWithArgs, args);
 		}
 	}
@@ -131,7 +163,7 @@ MyTestCase.displayName = 'MyTestCase';
 MyTestCase.subclasses = [];
 MyTestCase.defaultTimeout = Evidence.TestCase.defaultTimeout;
 
-MyTestCase.extend = function (name, methods) {
+MyTestCase.extend = function (name, methods, delay) {
 	
 	function chain(subclass, superclass) {
 		function Subclass() {}
@@ -144,13 +176,13 @@ MyTestCase.extend = function (name, methods) {
 	function MyTestCaseSubclass(methodName) {
 		MyTestCase.call(this, methodName);
 	}
+	MyTestCaseSubclass.delay = delay;
 	
-/*
-	if (!methods) {
-		methods = name;
-		name = getNameFromFile();
-	}
-*/
+//	if (!methods) {
+//		methods = name;
+//		name = getNameFromFile();
+//	}
+
 	
 	chain(MyTestCaseSubclass, this);
 	MyTestCaseSubclass.displayName = name;
@@ -161,11 +193,4 @@ MyTestCase.extend = function (name, methods) {
 	}
 	MyTestCase.subclasses.push(MyTestCaseSubclass);
 	return MyTestCaseSubclass;
-}
-
-
-// utility object to mark up important output
-function OutImportant (content) {
-	this.toString = function () { return '' + content; }
-	this.important = true;
 }

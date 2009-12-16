@@ -20,26 +20,37 @@
 //loglevel = Evidence.UI.Console.Logger.CRITICAL;
 //loglevel = Evidence.UI.Console.Logger.WARN;
 loglevel = Evidence.UI.Console.Logger.DEBUG;
-delay = 300;
 </SCRIPT>
 
 
 <SCRIPT TYPE="application/ecmascript">
 tests[tests.length] = MyTestCase.extend('NumerikTest', {
 	
-	testTrivialeFaelle: function () {
+	testEinElementArray: function () {
 		this.assertMaximumEqual(1, [1]);  // testEinElementArray
+	},
+	
+	testTrivialeFaelle_1: function () {
 		this.assertMaximumEqual(0, [-1]);
+	},
+	
+	testLeererArray: function () {
 		this.assertMaximumEqual(0, []);  // testLeererArray
 	},
 	
-	testSonderfaelle: function () {
+	testNegativerArray: function () {
 		this.assertMaximumEqual(0, [-2, -1, -4]);  // testNegativerArray
+	},
+	
+	testSonderfaelle_1: function () {
 		this.assertMaximumEqual(127, [8, 16, 2, 32, 1, 64, 4]);
 	},
 	
-	testAussenliegendeMaxima: function () {
+	testMaximumLinkerRand: function () {
 		this.assertMaximumEqual(9, [2, -1, 8, -16, 4]);  // testMaximumLinkerRand
+	},
+	
+	testMaximumRechterRand: function () {
 		this.assertMaximumEqual(18, [1, 8, 0, -4, -32, 2, 16]);  // testMaximumRechterRand
 	},
 	
@@ -49,14 +60,23 @@ tests[tests.length] = MyTestCase.extend('NumerikTest', {
 		this.assertMaximumEqual(7, defaultArray);
 	},
 	
-	testDiverseArrays: function () {
+	testEinElementMaximum: function () {
 		this.assertMaximumEqual(8, [2, -4, 8, -1]);  // testEinElementMaximum
+	},
+	
+	testGanzerArrayMaximum: function () {
 		this.assertMaximumEqual(9, [8, -1, 0, -2, -4, 8]);  // testGanzerArrayMaximum
+	},
+	
+	testMaximumMitte: function () {
 		this.assertMaximumEqual(68, [16, 8, -32, 4, 64, -2, 0, 1]);  // testMaximumMitte
+	},
+	
+	testZweiElementeArray: function () {
 		this.assertMaximumEqual(1, [1, -2]);  // testZweiElementeArray
 	},
 	
-});
+}, 2000);
 </SCRIPT>
 
 
