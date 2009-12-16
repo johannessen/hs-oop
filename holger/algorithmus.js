@@ -26,7 +26,7 @@ msa.Algorithmus = function () {
 		linkeGrenze  =l;
 		rechteGrenze =r;
 		// animation .split
-		this.trivialUndSplit();
+		setTimeout(this.trivialUndSplit, 1);
 //		msa.split.animieren(l, r, this);
 	}
 	
@@ -53,7 +53,7 @@ msa.Algorithmus = function () {
 			
 			mitte = Math.floor((linkeGrenze + rechteGrenze) / 2);
 			
-			rekursionLinks();
+			setTimeout(rekursionLinks, 1);
 		}
 	}
 	
@@ -64,7 +64,9 @@ msa.Algorithmus = function () {
 		var options = {};
 		options.fertig = rekursionRechts;
 		options.array = array;
-		linkerTeil.durchlaufen(options, linkeGrenze, mitte);
+		setTimeout(function () {
+			linkerTeil.durchlaufen(options, linkeGrenze, mitte);
+		}, 1);
 		
 	}
 	
@@ -75,7 +77,9 @@ msa.Algorithmus = function () {
 		var options = {};
 		options.fertig = randmaxima;
 		options.array = array;
-		rechterTeil.durchlaufen(options, mitte + 1, rechteGrenze);
+		setTimeout(function () {
+			rechterTeil.durchlaufen(options, mitte + 1, rechteGrenze);
+		}, 1);
 		
 	}
 	
@@ -132,7 +136,9 @@ msa.Algorithmus = function () {
 		
 		// Ergebnis zurueckgeben
 		//msa.schaltstelle....(maximum);
-		fertig(maximaleSumme, 'Ergebnis');
+		setTimeout(function () {
+			fertig(maximaleSumme, 'Ergebnis');
+		}, 1);
 	}
 }
 
