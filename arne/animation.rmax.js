@@ -23,19 +23,31 @@ msa.RandmaximumAnimation = function (options) {
 	var x1;
 	var containerNode;
 	
-	var b1, b2;
-	this.b1 = function () { return b1; }
-	this.b2 = function () { return b2; }
+//	var b1, b2;
+//	this.b1 = function () { return b1; }
+//	this.b2 = function () { return b2; }
+	
+	var columns = [];
 	
 	
 	function init (options) {
-		x0 = options.x;
-		y0 = 50;  // :TODO: figure this one out in a way that makes sense
-		x1 = x0;
+//		startFromIndex: theStart,
+//		length: theLength,
+		
 		containerNode = document.createElement('DIV');
 		containerNode.className = 'randmaximum-container';
 		msa.ui.dom.zahlenleiste.appendChild(containerNode);
 		
+		var zahlenleiste = msa.ui.dom.zahlenleiste;
+		for (var i = 0; i < options.length; i++) {
+			columns[columns.length] = zahlenleiste.childNodes[options.startFromIndex + i];
+		}
+		
+		x0 = columns[0].offsetLeft;
+		y0 = 50;  // :TODO: figure this one out in a way that makes sense
+		x1 = x0;
+		
+/*
 		// :TODO: fix this mess
 		var allBlocks = document.getElementsByClassName('Einheit');
 		var o1 = [
@@ -60,6 +72,7 @@ msa.RandmaximumAnimation = function (options) {
 			blockNodeClone(o2[1]),
 			blockNodeClone(o2[2]),
 		];
+*/
 	}
 	
 	
@@ -69,13 +82,12 @@ msa.RandmaximumAnimation = function (options) {
 	
 	
 	function blockNodeList (columnNode) {
-		// :TODO:
-		throw 'not yet implemented';
+		return columnNode.childNodes;
 	}
 	
 	
 	function blockNodeClone (node) {
-		var clone = node.cloneNode(false);
+		var clone = node.cloneNode(false);  // false: don't clone child nodes
 		containerNode.appendChild(clone);
 		return clone;
 	}
@@ -83,7 +95,9 @@ msa.RandmaximumAnimation = function (options) {
 	
 	this.moveDownColumn = function (options) {
 //		var blocks = blockNodeList(options.column);
-		var blocks = options.blocks;  // :TODO: fix this mess
+		
+		var blocks = blockNodeList(columns[options.columnIndexOffset]);
+		
 		function moveDownBlocks (i) {
 			if (i < 0) { return; }
 			var block = blocks[i];
@@ -114,22 +128,38 @@ msa.schaltstelle.addDomLoadedMessage(function () {
 	document.body.appendChild(widgetNode);
 });
 function testRandmaximumAnimation () {
-	if (window.ani) {
-		ani.flush();
+	// :DEBUG: clean up testing space
+	if (msa.randmaximumAnimation) { msa.randmaximumAnimation.flush(); }
+	
+	// :DEBUG: hard-code input values
+	var theStart = 6;
+	var theLength = 2;
+	
+	// ===> init animation
+	var ani = new msa.RandmaximumAnimation({
+		startFromIndex: theStart,
+		length: theLength,
+//		x: 405,  // :TODO: maybe a ref to the divider element would be ideal?
+	});
+	
+	// :DEBUG: simulate rmax loop
+	for (var i = 0; i < theLength; i++) {
+//		(function () {
+//			setTimeout(function (i) {
+				
+				// ===> call single animation step
+				ani.moveDownColumn({
+					columnIndexOffset: i,
+	//				blocks: ani.b2(),
+				});
+				
+				// :DEBUG: end of rmax loop
+//			}, i * 2000 + 1);
+//		})(i);
 	}
-	ani = new msa.RandmaximumAnimation({
-		x: 405,  // :TODO: maybe a ref to the divider element would be ideal?
-	});
-	ani.moveDownColumn({
-		column: null,
-		blocks: ani.b1(),
-	});
-	setTimeout(function () {
-		ani.moveDownColumn({
-			column: null,
-			blocks: ani.b2(),
-		});
-	}, 2000);
+	
+	// :DEBUG: define testing space
+	msa.randmaximumAnimation = ani;
 }
 
 
