@@ -12,39 +12,50 @@
 // make sure our namespace exists
 if (! window.msa) { window.msa = {}; }
 
-
 msa.MaxHochfahren = function (){
 
-	var max1 = null;
-	var max2 = null;
+	var maxl = null;
+	var maxr = null;
 
 	function init(){
-		max1 = document.getElementById('max1');
-		max2 = document.getElementById('max2');
+		maxl = document.getElementById('maxl');
+		maxr = document.getElementById('maxr');
 	}
 	
-	
-	this.MaxHochfahren = function (){
-		max1.style.top = '200px';
-		max2.style.top = '200px';
-		emile(max1, 'left:415px;top:100px', { duration: 3000});
-		emile(max2, 'left:475px;top:100px', { duration: 3000});
+	this.maxHochfahren = function (){
+		maxl.style.top = '200px';
+		maxr.style.top = '200px';
+		emile(maxl, 'left:415px;top:50px', { duration: 3000});
+		emile(maxr, 'left:475px;top:50px', { duration: 3000});
 		
 		setTimeout(function () {
 			msa.hochfahren.hochfahren();
 		}, 3000);
-	
 	}
-
-
+	
+	this.hochf = function (stelle, wert, binfertig) {
+	    // animation
+		msa.maxHochfahren.maxHochfahren();  // anzupassen
+		
+		binfertig()
+	}
+	
+	this.geben = function () {
+	    return{
+			maxl:maxl,
+			maxr:maxr
+		}
+	}
 	init();
-
 }
 
 msa.schaltstelle.addDomLoadedMessage(function () {
 //neues objekt wird erstellt, zahlenreihe wird gezeichnet
-	msa.MaxHochfahren = new msa.MaxHochfahren();
+	msa.maxHochfahren = new msa.MaxHochfahren();
 	//funktion wir aufgerrufen 
-	msa.MaxHochfahren.MaxHochfahren();
+	//msa.MaxHochfahren.MaxHochfahren();
+	setTimeout(function () {
+		msa.maxHochfahren.hochf(6, 4, function(){});
+	}, 3000);
 });
 // to be continued...

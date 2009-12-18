@@ -92,9 +92,7 @@ msa.Zahlenleiste = function () {
 		this.zahlenblockZeichnen(4,'410px');
 		this.zahlenblockZeichnen(3,'460px');
 		
-		
 	}
-	
 	
 	init();
 	
