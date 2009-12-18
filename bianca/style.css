@@ -23,7 +23,13 @@
 	background: url(EinheitAktiv.png);
 	height: 30px;
 	font-weight: bold;
-	text-align: positionX;
+	text-align: center;
 	vertical-align: 15px;
+	font-size: 0;
+}
+
+#Zahl1,#Zahl2,#Zahl3{
+	z-index:1;
+	background:red;
 }
 

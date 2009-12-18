@@ -14,7 +14,7 @@ if (! window.msa) { window.msa = {}; }
 
 
 // Implementierungsvorschlag von Arne:
-//was in der Funktion msa.Zahlenleiste aufgelistet wird wird alles ausgeführt unten bei new msa.Zahlenleiste
+//was in der Funktion msa.Zahlenleiste aufgelistet wird wird alles ausgefuehrt unten bei new msa.Zahlenleiste
 msa.Zahlenleiste = function () {
 	
 	
@@ -34,7 +34,7 @@ msa.Zahlenleiste = function () {
 			block.className = 'Einheit';
 			block.style.left = positionX;
 			block.style.width = '0';
-			block.style.color = 'white';
+			block.style.color = '#55de52';
 			
 			if (wert<=0){
 				block.style.top = (i*30) + 1 + 'px';
@@ -48,9 +48,7 @@ msa.Zahlenleiste = function () {
 			}
 			
 			node.appendChild(block);
-			emile(block, 'left:positionX;width:30px;', { duration: 300});
-			emile(block, 'color:black;', { duration: 500});
-
+			emile(block, 'left:positionX;width:30px;color:#444444;font-size:20px;', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
 		}
 	}
 	
@@ -63,6 +61,7 @@ msa.Zahlenleiste = function () {
 		// make our newly added element available to the rest of the app
 		msa.ui.dom.zahlenleiste = node;
 		
+		
 		var strich = document.createElement('DIV');
 		strich.className = 'zahlenleiste-strich';
 		strich.style.left = '300px';
@@ -71,8 +70,7 @@ msa.Zahlenleiste = function () {
 		
 		// do a little animation, just for fun
 		//Dauer der Animation in millisekunden
-		emile(strich, 'left:70px;width:460px', { duration: 300, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
-		
+		emile(strich, 'left:70px;width:460px', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
 		
 		this.zahlenblockZeichnen(2,'110px');
 		this.zahlenblockZeichnen(2,'110px');
@@ -92,5 +90,5 @@ msa.Zahlenleiste = function () {
 	
 }
 
-
+//msa bedeutet maximumsubarray - Namensraum/Variable?
 msa.zahlenleiste = new msa.Zahlenleiste();
