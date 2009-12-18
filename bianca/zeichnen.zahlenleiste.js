@@ -13,7 +13,6 @@
 if (! window.msa) { window.msa = {}; }
 
 
-// Implementierungsvorschlag von Arne:
 //was in der Funktion msa.Zahlenleiste aufgelistet wird wird alles ausgefuehrt unten bei new msa.Zahlenleiste
 msa.Zahlenleiste = function () {
 	
@@ -29,27 +28,38 @@ msa.Zahlenleiste = function () {
 	
 	
 	this.zahlenblockZeichnen = function (wert, positionX) {
+		var zahlenblock = document.createElement('DIV');
+		zahlenblock.className = 'zahlenblock';
+		zahlenblock.style.left = positionX;
+		zahlenblock.style.width = '0';
+		zahlenblock.style.color = '#55de52';
+		zahlenblock.style.height = Math.abs(wert)*30+'px';
+		zahlenblock.style.fontSize = '0';
+	
+		if (wert<=0){
+			zahlenblock.style.top = 1 + 'px';
+		}
+		else {
+			zahlenblock.style.bottom = 1 + 'px';
+		}
+	
 		for(var i=0; i<Math.abs(wert); i++){
 			var block = document.createElement('DIV');
 			block.className = 'Einheit';
-			block.style.left = positionX;
-			block.style.width = '0';
-			block.style.color = '#55de52';
 			
-			if (wert<=0){
-				block.style.top = (i*30) + 1 + 'px';
-				
+			if (i == 0 && wert < 0){
+				block.innerHTML = wert;
 			}
-			else {
-				block.style.bottom = (i*30) + 1 + 'px';
-			}
-			if (i == 0){
+			if (i == Math.abs(wert) - 1 && wert > 0){
 				block.innerHTML = wert;
 			}
 			
-			node.appendChild(block);
-			emile(block, 'left:positionX;width:30px;color:#444444;font-size:20px;', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
+			
+			zahlenblock.appendChild(block);
 		}
+		node.appendChild(zahlenblock);
+		emile(zahlenblock, 'left:positionX;width:30px;color:#444444;font-size:20px;', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
+		
 	}
 	
 	

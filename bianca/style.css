@@ -19,17 +19,44 @@
 }
 
 .Einheit{
-	position: absolute;
 	background: url(EinheitAktiv.png);
 	height: 30px;
 	font-weight: bold;
 	text-align: center;
 	vertical-align: 15px;
-	font-size: 0;
+	font-size: 100%;
+	width:100%;
+}
+
+.zahlenblock{
+	position: absolute;
 }
 
 #Zahl1,#Zahl2,#Zahl3{
 	z-index:1;
 	background:red;
 }
+
+#max1{
+	left:415px;
+	font-weight:bold;
+	text-align:center;
+	font-size:20px;
+	z-index:2;
+	background:blue;
+	top:200px;
+}
+
+#max2{
+	position:absolute;
+	left:475px;
+	font-weight:bold;
+	text-align:center;
+	font-size:20px;
+	z-index:2;
+	background:blue;
+	top:100px;
+}
+
+
 
