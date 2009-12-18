@@ -31,11 +31,17 @@ msa.Hochfahren = function () {
 	}
 	
 	
-   this.hochfahren = function () {
-	   zahl2.style.top = '300px';
-	   
-       emile(zahl2, 'left:435px;top:100px', { duration: 3000 });    
-         
+	
+	this.hochfahren = function () {
+		zahl2.style.top = '300px';
+		
+		emile(zahl2, 'left:435px;top:100px', {
+			duration: 3000
+		});
+		
+		setTimeout(function () {
+			msa.merge.merge();
+		}, 3000);
 	}
   this.zahlen = function () {
     return{zahl1:zahl1,
@@ -55,7 +61,7 @@ msa.schaltstelle.addDomLoadedMessage(function () {
 //neues objekt wird erstellt, zahlenreihe wird gezeichnet
 	msa.hochfahren = new msa.Hochfahren();
 	//funktion wir aufgerrufen 
-	msa.hochfahren.hochfahren();
+	//msa.hochfahren.hochfahren();
 });
 
 

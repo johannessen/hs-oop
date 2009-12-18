@@ -20,9 +20,22 @@ msa.Merge = function () {
 	var zahl1 = null;
 	var zahl2 = null;
 	var zahl3 = null;
+
+	var zahlneu = null;
 	
 	function init () {
 		// create the HTML element in its initial state
+		//zahl1 = document.getElementById('Zahl1');
+	    //zahl2 = document.getElementById('Zahl2');       
+	    //zahl3 = document.getElementById('Zahl3');
+		
+		
+		//zahl1 = document.getElementById(parseInt('Zahl1'));
+	    //zahl2 = document.getElementById(parseInt('Zahl2'));       
+	    //zahl3 = document.getElementById(parseInt('Zahl3'));
+		
+		
+		
 		var zahlen = msa.hochfahren.zahlen ();
 		zahl1 = zahlen.zahl1
 		zahl2 = zahlen.zahl2
@@ -31,27 +44,23 @@ msa.Merge = function () {
 	
 	
    this.merge = function () {
-/*
-       var zahlvonoben;
+       //var zahlneu;
+	   if(Number(zahl1.innerHTML) < Number(zahl2.innerHTML)){
+	    zahlneu = zahl2;
+	      }else{
+		  zahlneu = zahl1;
+	    }
 	   
-	   if(zahl1 <zahl2){
-	   zahlvonoben = zahl2;
-	      else if(zahl1>zahl2){
-		  nehme zahl1;
-		  }
-	   }
 	   
-	   if(zahlvon oben if<zahl3){
-	       nehme zahl3;
-	      else if(zahlvonoben > zahl3){
-		     nehmen zaahlvonoben;
-		  }
-	   }
+	   if(Number(zahlneu.innerHTML)<Number(zahl3.innerHTML)){
+	       zahlneu = zahl3;
+	    }
 	          
-	   zahlvonoben.style.fontSize = '100%';	   
-       emile(zahlvonoben, 'font-size:200%', { duration: 3000 });    
+	   zahlneu.style.fontSize = '100%';	
+       zahlneu.style.top = '100px';	
+       zahlneu.style.left = '435px';	   
+       emile(zahlneu, 'font-size:200%', { duration: 3000 });    
          
-*/
 	}
 		
 	init();
@@ -64,7 +73,7 @@ msa.schaltstelle.addDomLoadedMessage(function () {
 //neues objekt wird erstellt, zahlenreihe wird gezeichnet
 	msa.merge = new msa.Merge();
 	//funktion wir aufgerrufen 
-	msa.merge.merge();
+//	msa.merge.merge();
 });
 
 
