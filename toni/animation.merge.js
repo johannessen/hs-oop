@@ -12,14 +12,11 @@
 // make sure our namespace exists
 if (! window.msa) { window.msa = {}; }
 
-
 msa.Merge = function () {
 	
-	
-	
-	var zahl1 = null;
-	var zahl2 = null;
-	var zahl3 = null;
+	var maxl = null;
+	var rmaxs = null;
+	var maxr = null;
 
 	var zahlneu = null;
 	
@@ -28,45 +25,35 @@ msa.Merge = function () {
 		//zahl1 = document.getElementById('Zahl1');
 	    //zahl2 = document.getElementById('Zahl2');       
 	    //zahl3 = document.getElementById('Zahl3');
-		
-		
-		//zahl1 = document.getElementById(parseInt('Zahl1'));
-	    //zahl2 = document.getElementById(parseInt('Zahl2'));       
-	    //zahl3 = document.getElementById(parseInt('Zahl3'));
-		
-		
-		
 		var zahlen = msa.hochfahren.zahlen ();
-		zahl1 = zahlen.zahl1
-		zahl2 = zahlen.zahl2
-		zahl3 = zahlen.zahl3
+		rmaxs = zahlen.rmaxs;
+		
+		var geben = msa.maxHochfahren.geben ();
+		maxl = geben.maxl;
+		maxr = geben.maxr;
 	}
-	
 	
    this.merge = function () {
        //var zahlneu;
-	   if(Number(zahl1.innerHTML) < Number(zahl2.innerHTML)){
-	    zahlneu = zahl2;
+	   if(Number(maxl.innerHTML) < Number(rmaxs.innerHTML)){
+	    zahlneu = rmaxs;
 	      }else{
-		  zahlneu = zahl1;
+		  zahlneu = maxl;
 	    }
 	   
-	   
-	   if(Number(zahlneu.innerHTML)<Number(zahl3.innerHTML)){
-	       zahlneu = zahl3;
+	   if(Number(zahlneu.innerHTML)<Number(maxr.innerHTML)){
+	       zahlneu = maxr;
 	    }
 	          
 	   zahlneu.style.fontSize = '100%';	
-       zahlneu.style.top = '100px';	
-       zahlneu.style.left = '435px';	   
+       zahlneu.style.top = '50px';	
+       zahlneu.style.left = '445px';	   
        emile(zahlneu, 'font-size:200%', { duration: 3000 });    
          
 	}
 		
 	init();
-	
 }
-
 
 // execute this immediately when the app is loaded; 
 msa.schaltstelle.addDomLoadedMessage(function () {
@@ -75,5 +62,3 @@ msa.schaltstelle.addDomLoadedMessage(function () {
 	//funktion wir aufgerrufen 
 //	msa.merge.merge();
 });
-
-
