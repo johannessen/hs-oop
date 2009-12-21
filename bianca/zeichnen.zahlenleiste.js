@@ -83,7 +83,7 @@ msa.Zahlenleiste = function () {
 		emile(strich, 'left:70px;width:460px', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
 		
 		this.zahlenblockZeichnen(2,'110px');
-		this.zahlenblockZeichnen(2,'110px');
+//		this.zahlenblockZeichnen(2,'110px');
 		this.zahlenblockZeichnen(4,'160px');
 		this.zahlenblockZeichnen(-8,'210px');
 		this.zahlenblockZeichnen(-1,'260px');

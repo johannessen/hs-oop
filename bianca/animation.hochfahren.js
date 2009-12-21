@@ -28,16 +28,18 @@ msa.MaxHochfahren = function (){
 		emile(maxl, 'left:415px;top:50px', { duration: 3000});
 		emile(maxr, 'left:475px;top:50px', { duration: 3000});
 		
-		setTimeout(function () {
-			msa.hochfahren.hochfahren();
-		}, 3000);
+//		setTimeout(function () {
+//			msa.hochfahren.hochfahren();
+//		}, 3000);
 	}
 	
 	this.hochf = function (stelle, wert, binfertig) {
 	    // animation
 		msa.maxHochfahren.maxHochfahren();  // anzupassen
 		
-		binfertig()
+		setTimeout(function () {
+			binfertig();
+		}, 3000);
 	}
 	
 	this.geben = function () {
