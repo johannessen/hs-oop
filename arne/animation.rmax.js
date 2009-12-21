@@ -23,56 +23,37 @@ msa.RandmaximumAnimation = function (options) {
 	var x1;
 	var containerNode;
 	
-//	var b1, b2;
-//	this.b1 = function () { return b1; }
-//	this.b2 = function () { return b2; }
-	
-	var columns = [];
+	var cloneBlocksColumns = [];
 	
 	
 	function init (options) {
-//		startFromIndex: theStart,
-//		length: theLength,
-		
 		containerNode = document.createElement('DIV');
 		containerNode.className = 'randmaximum-container';
 		msa.ui.dom.zahlenleiste.appendChild(containerNode);
 		
-		var zahlenleiste = msa.ui.dom.zahlenleiste;
-		for (var i = 0; i < options.length; i++) {
-			columns[columns.length] = zahlenleiste.childNodes[options.startFromIndex + i];
+		var zahlen = msa.ui.dom.zahlenleiste.getElementsByClassName('zahlenblock');
+		for (var i = 0; i < options.columnCount; i++) {
+			cloneColumn(zahlen[options.startFromIndex + i]);
 		}
 		
-		x0 = columns[0].offsetLeft;
+		x0 = options.x;  // :TODO: figure this one out in a way that makes sense
 		y0 = 50;  // :TODO: figure this one out in a way that makes sense
 		x1 = x0;
-		
-/*
-		// :TODO: fix this mess
-		var allBlocks = document.getElementsByClassName('Einheit');
-		var o1 = [
-			allBlocks[allBlocks.length - 7],
-			allBlocks[allBlocks.length - 6],
-			allBlocks[allBlocks.length - 5],
-			allBlocks[allBlocks.length - 4],
-		];
-		var o2 = [
-			allBlocks[allBlocks.length - 3],
-			allBlocks[allBlocks.length - 2],
-			allBlocks[allBlocks.length - 1],
-		];
-		b1 = [
-			blockNodeClone(o1[0]),
-			blockNodeClone(o1[1]),
-			blockNodeClone(o1[2]),
-			blockNodeClone(o1[3]),
-		];
-		b2 = [
-			blockNodeClone(o2[0]),
-			blockNodeClone(o2[1]),
-			blockNodeClone(o2[2]),
-		];
-*/
+	}
+	
+	
+	function cloneColumn (columnNode) {
+		var cloneBlocks = [];
+		for (var i = 0; i < columnNode.childNodes.length; i++) {
+			var blockOriginal = columnNode.childNodes[i];
+			var blockClone = blockOriginal.cloneNode(false);  // false: don't clone any child nodes
+			blockClone.style.top = (columnNode.offsetTop + i * 30) + 'px';
+			blockClone.style.left = columnNode.offsetLeft + 'px';
+			blockClone.style.visibility = 'hidden';
+			containerNode.appendChild(blockClone);
+			cloneBlocks[cloneBlocks.length] = blockClone;
+		}
+		cloneBlocksColumns[cloneBlocksColumns.length] = cloneBlocks;
 	}
 	
 	
@@ -81,22 +62,8 @@ msa.RandmaximumAnimation = function (options) {
 	}
 	
 	
-	function blockNodeList (columnNode) {
-		return columnNode.childNodes;
-	}
-	
-	
-	function blockNodeClone (node) {
-		var clone = node.cloneNode(false);  // false: don't clone child nodes
-		containerNode.appendChild(clone);
-		return clone;
-	}
-	
-	
 	this.moveDownColumn = function (options) {
-//		var blocks = blockNodeList(options.column);
-		
-		var blocks = blockNodeList(columns[options.columnIndexOffset]);
+		var blocks = cloneBlocksColumns[options.columnIndexOffset];
 		
 		function moveDownBlocks (i) {
 			if (i < 0) { return; }
@@ -105,9 +72,7 @@ msa.RandmaximumAnimation = function (options) {
 			x1 += 30;
 			var top = (y0) + 'px';
 			var css = 'left:' + left + ';top:' + top;
-			block.style.left = block.offsetLeft + 'px';
-			block.style.top = block.offsetTop + 'px';  // WebKit needs this, IE perhaps too
-			block.style.bottom = 'auto';
+			block.style.visibility = 'visible';
 			setTimeout(function () {
 				emile(block, css, { duration: 450, after: moveDownBlocks(i - 1) });
 			}, 160);  // :BUG: there is an initial delay before this animation starts of exactly this duration; is that a problem?
@@ -119,6 +84,9 @@ msa.RandmaximumAnimation = function (options) {
 	init(options);
 	
 }
+
+
+
 
 
 // :DEBUG: driver for live debugging without clients
@@ -138,29 +106,29 @@ function testRandmaximumAnimation () {
 	// ===> init animation
 	var ani = new msa.RandmaximumAnimation({
 		startFromIndex: theStart,
-		length: theLength,
-//		x: 405,  // :TODO: maybe a ref to the divider element would be ideal?
+		columnCount: theLength,
+		x: 405,  // :TODO: maybe a ref to the divider element would be ideal?
 	});
 	
 	// :DEBUG: simulate rmax loop
 	for (var i = 0; i < theLength; i++) {
-//		(function () {
-//			setTimeout(function (i) {
+		(function () {
+			setTimeout(function (i) {
 				
 				// ===> call single animation step
 				ani.moveDownColumn({
 					columnIndexOffset: i,
-	//				blocks: ani.b2(),
 				});
 				
 				// :DEBUG: end of rmax loop
-//			}, i * 2000 + 1);
-//		})(i);
+			}, i * 2000 + 1, i);
+		})(i);
 	}
 	
 	// :DEBUG: define testing space
 	msa.randmaximumAnimation = ani;
 }
+
 
 
 
