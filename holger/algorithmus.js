@@ -26,12 +26,19 @@ msa.Algorithmus = function () {
 		linkeGrenze  =l;
 		rechteGrenze =r;
 		// animation .split
-		setTimeout(this.trivialUndSplit, 1);
-//		msa.split.animieren(l, r, this);
+/*
+		setTimeout(function () {
+			trivialUndSplit();
+		}, 1);
+*/
+		msa.trennstrich.zeichnenAdapter(Math.floor((linkeGrenze + rechteGrenze) / 2) + 1, function () {
+			trivialUndSplit();
+		});
+//		msa.trennstrich.zeichnenAdapter(7, function(){});
 	}
 	
 	
-	this.trivialUndSplit = function () {
+	function trivialUndSplit () {
 		
 		//trivialer Fall?
 		if (linkeGrenze >= rechteGrenze ) {
@@ -44,8 +51,10 @@ msa.Algorithmus = function () {
 				fertig (0);  // nur ein Element (negativ => Maximum ist leerer Sub-Array)
 			}
 			else {
-				fertig (array[linkeGrenze]);  // nur ein Element
-			}
+//				msa.maxHochfahren.hochf(linkeGrenze, array[linkeGrenze], function(){
+					fertig (array[linkeGrenze]);  // nur ein Element
+//				});
+			 }
 			
 		}
 		else {
@@ -75,7 +84,7 @@ msa.Algorithmus = function () {
 		
 		var rechterTeil = new msa.Algorithmus()
 		var options = {};
-		options.fertig = randmaxima;
+		options.fertig = randmaximumLinkerTeil;
 		options.array = array;
 		setTimeout(function () {
 			rechterTeil.durchlaufen(options, mitte + 1, rechteGrenze);
@@ -83,39 +92,43 @@ msa.Algorithmus = function () {
 		
 	}
 	
-	function randmaxima (ergebnisRechts) {
+	function randmaximumLinkerTeil (ergebnisRechts) {
 		ergebnis.rechts = ergebnisRechts;
 		
+		// Sub-Array von rechts nach links durchlaufen und rechtes Randmaximum bestimmen
+		var maximaleSumme = 0;
+		var summe = 0;
+		for (var i = mitte; i >= linkeGrenze; i--) {
+			summe += array[i];
+			if (summe > maximaleSumme) {
+				maximaleSumme = summe;
+			}
+		}
+		ergebnis.mitte = maximaleSumme;
 		
-		
-/*		
-		
-		SubArray leftMaximum = findMaximumSubArray(... leftIndex, centerIndex);
-		SubArray rightMaximum = this.findMaximumSubArray(rightPart); // analog
-		join(...);
+		setTimeout(function () {
+			randmaximumRechterTeil();
+		}, 1);
 	}
-
-	// Join (Merge)
-	function join (...)
-	{
-		leftPart.findRightEdgeMaximum();
-		rightPart.findLeftEdgeMaximum();
-		SubArray centerMaximum = new SubArray(array, leftPart.getBeginIndex(), rightPart.getEndIndex());
-		centerMaximum.setSum(leftPart.getSum() + rightPart.getSum());
+	function randmaximumRechterTeil () {
 		
-		msa.animation.rmax_summe(...);
-	}		
-
-	// groesstes der drei Maxima ermitteln (noch Join)
-	function findMax ()
-	{
+		// Sub-Array von links nach rechts durchlaufen und linkes Randmaximum bestimmen
+		var maximaleSumme = 0;
+		var summe = 0;
+		for (var i = mitte + 1; i <= rechteGrenze; i++) {
+			summe += array[i];
+			if (summe > maximaleSumme) {
+				maximaleSumme = summe;
+			}
+		}
+		ergebnis.mitte = ergebnis.mitte + maximaleSumme;
 		
+		setTimeout(function () {
+			ergebnisAuswaehlen();
+		}, 1);
+	}	
 		
-		
-		
-*/
-		ergebnis.mitte = 0;
-		
+	function ergebnisAuswaehlen () {
 		// groesstes der drei Maxima ermitteln (noch Join)
 	
 		var maximaleSumme = ergebnis.mitte;
@@ -127,7 +140,6 @@ msa.Algorithmus = function () {
 		{
 			maximaleSumme = ergebnis.rechts;
 		}
-	
 		
 //		msa.animation.merge(...);
 			

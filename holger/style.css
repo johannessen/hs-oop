@@ -5,3 +5,30 @@
  * All rights reserved.
  */
 
+/*
+#canvas .trennstrich-example {
+	height: 200px;
+	top: 50%;
+	left: 0;
+	width: 100%;
+}
+*/
+
+#canvas .trennstrich {
+	background: red;
+	height: 3px;
+	position: absolute;
+}
+
+/*
+.Einheit{
+	
+	z-index: -1    === nach hinten
+	
+	position: absolute;
+	background: url(EinheitAktiv.png);
+	height: 30px;
+	font-weight: bold;
+	text-align: positionX;
+	vertical-align: 15px;
+}
