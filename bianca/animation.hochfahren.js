@@ -25,12 +25,14 @@ msa.MaxHochfahren = function (){
 	this.maxHochfahren = function (){
 		maxl.style.top = '200px';
 		maxr.style.top = '200px';
+		maxl.style.left = '200px';  // temporaerer Fix
+		maxr.style.left = '200px';  // temporaerer Fix
 		emile(maxl, 'left:415px;top:50px', { duration: 3000});
 		emile(maxr, 'left:475px;top:50px', { duration: 3000});
 		
-//		setTimeout(function () {
-//			msa.hochfahren.hochfahren();
-//		}, 3000);
+		setTimeout(function () {
+			msa.hochfahren.hochfahren();
+		}, 3000);
 	}
 	
 	this.hochf = function (stelle, wert, binfertig) {
