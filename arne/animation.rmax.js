@@ -38,9 +38,18 @@ msa.RandmaximumAnimation = function (options) {
 	function init (options) {
 		startFromIndex = options.startFromIndex;
 		columnCount = options.columnCount;
-		x0 = options.x;  // :TODO: figure this one out in a way that makes sense
-		y0 = 50;  // :TODO: figure this one out in a way that makes sense
+		if (options.divider) {
+			x0 = options.divider.offsetLeft + options.divider.offsetWidth;
+		}
+		else {
+			x0 = options.x;
+		}
 		x1 = x0;
+		var maxNegative = 0;
+		for (var i = 0; i < columnCount; i++) {
+			maxNegative = Math.min(maxNegative, msa.theArray[startFromIndex + i]);
+		}
+		y0 = maxNegative * -30 + 30;
 		
 		containerNode = document.createElement('DIV');
 		containerNode.className = 'randmaximum-container';
@@ -218,6 +227,7 @@ function testRandmaximumAnimation () {
 	var ani = new msa.RandmaximumAnimation({
 		startFromIndex: theStart,
 		columnCount: theLength,
+		divider: document.getElementsByClassName('trennstrich')[0],
 		x: 405,  // :TODO: maybe a ref to the divider element would be ideal?
 	});
 	
