@@ -16,3 +16,25 @@
 	width: 30px;
 	position: absolute;
 }
+.randmaximum-container .balken-temperaturstreifen {
+	background: #555;
+	border-right: solid 3px #c00;
+}
+.randmaximum-container .balken-summe {
+	color: black;
+	margin-left: -.5ex;
+}
+.randmaximum-container .maximum {
+	z-index: 1;
+	color: red;
+}
+
+.explosion {
+	position: absolute;
+	z-index: 2;  /* ist das noetig? */
+	width: 32px;
+	height: 32px;
+	background-image: url(poof.png);
+	background-repeat: no-repeat;
+	background-position: top left;  /* initial */
+}
