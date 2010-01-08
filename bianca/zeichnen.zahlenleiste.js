@@ -1,4 +1,4 @@
-/* Id: zeichnen.zahlenleiste.js 2009-12-04
+﻿/* Id: zeichnen.zahlenleiste.js 2009-12-20
  * 
  * Zahlenleiste zeichnen
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
@@ -18,12 +18,19 @@ msa.Zahlenleiste = function () {
 	
 	
 	var node = null;
+	//Array mit den Zahlen der Zahlenleiste:
+	var zahlenwerte = new Array(2,4,-8,-1,2,-6,4,3);
 	
+	this.nehmen = function(){
+		return{
+			zahllenwerte:zahlenwerte
+		}
+	}
 	
 	function init () {
 		// create the HTML element in its initial state
 		node = document.createElement('DIV');
-		node.className = 'zahlenleiste-example';
+		node.className = 'zahlenleiste';
 	}
 	
 	
@@ -45,20 +52,26 @@ msa.Zahlenleiste = function () {
 	
 		for(var i=0; i<Math.abs(wert); i++){
 			var block = document.createElement('DIV');
-			block.className = 'Einheit';
+			if (wert>0){
+				block.className = 'Einheit';
+			}
+			else{
+				block.className = 'Einheit negativ';
+			}
 			
 			if (i == 0 && wert < 0){
-				block.innerHTML = wert;
+				block.innerHTML = '−' + (-wert);
 			}
 			if (i == Math.abs(wert) - 1 && wert > 0){
-				block.innerHTML = wert;
+				block.innerHTML = '+' + wert;
 			}
 			
 			
 			zahlenblock.appendChild(block);
 		}
 		node.appendChild(zahlenblock);
-		emile(zahlenblock, 'left:positionX;width:30px;color:#444444;font-size:20px;', { duration: 600, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
+		//Animation - Aufbau der Zahlenblöcke und deren Beschriftung:
+		emile(zahlenblock, 'left:positionX;width:30px;color:#ffffff;font-size:20px;', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
 		
 	}
 	
@@ -80,17 +93,12 @@ msa.Zahlenleiste = function () {
 		
 		// do a little animation, just for fun
 		//Dauer der Animation in millisekunden
-		emile(strich, 'left:70px;width:460px', { duration: 600, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
+		emile(strich, 'left:70px;width:460px', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
 		
-		this.zahlenblockZeichnen(2,'110px');
-//		this.zahlenblockZeichnen(2,'110px');
-		this.zahlenblockZeichnen(4,'160px');
-		this.zahlenblockZeichnen(-8,'210px');
-		this.zahlenblockZeichnen(-1,'260px');
-		this.zahlenblockZeichnen(2,'310px');
-		this.zahlenblockZeichnen(-6,'360px');
-		this.zahlenblockZeichnen(4,'410px');
-		this.zahlenblockZeichnen(3,'460px');
+		//Array mit den X-Positionen der einzelnen Zahlen auf der Zahlenleiste:
+		for(var i = 0; i < zahlenwerte.length; i++) {
+			this.zahlenblockZeichnen(zahlenwerte[i], (110 + i * 50) + 'px');
+		}
 		
 	}
 	

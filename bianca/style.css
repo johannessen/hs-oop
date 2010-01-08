@@ -5,7 +5,7 @@
  */
 
 
-#canvas .zahlenleiste-example {
+#canvas .zahlenleiste {
 	height: 2px;
 	top: 50%;
 	left: 0;
@@ -21,23 +21,25 @@
 .Einheit{
 	background: url(EinheitAktiv.png);
 	height: 30px;
-	font-weight: bold;
 	text-align: center;
 	vertical-align: 15px;
 	font-size: 100%;
 	width:100%;
+}
+.Einheit.negativ {
+	background: url(EinheitNegativ.png);
 }
 
 .zahlenblock{
 	position: absolute;
 }
 
-#Zahl1,#Zahl2,#Zahl3{
+#rmaxs{
 	z-index:1;
 	background:red;
 }
 
-#max1{
+#maxl{
 	left:415px;
 	font-weight:bold;
 	text-align:center;
@@ -47,7 +49,7 @@
 	top:200px;
 }
 
-#max2{
+#maxr{
 	position:absolute;
 	left:475px;
 	font-weight:bold;
@@ -55,7 +57,7 @@
 	font-size:20px;
 	z-index:2;
 	background:blue;
-	top:100px;
+	top:200px;
 }
 
 
