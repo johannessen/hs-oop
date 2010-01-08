@@ -53,6 +53,7 @@ msa.MaxHochfahren = function (){
 	init();
 }
 
+/*
 msa.schaltstelle.addDomLoadedMessage(function () {
 //neues objekt wird erstellt, zahlenreihe wird gezeichnet
 	msa.maxHochfahren = new msa.MaxHochfahren();
@@ -63,3 +64,4 @@ msa.schaltstelle.addDomLoadedMessage(function () {
 	}, 3000);
 });
 // to be continued...
+*/

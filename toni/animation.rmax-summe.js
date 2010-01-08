@@ -44,6 +44,7 @@ msa.Hochfahren = function () {
 }
 
 
+/*
 // execute this immediately when the app is loaded; 
 msa.schaltstelle.addDomLoadedMessage(function () {
 	//neues objekt wird erstellt, zahlenreihe wird gezeichnet
@@ -51,6 +52,4 @@ msa.schaltstelle.addDomLoadedMessage(function () {
 	//funktion wir aufgerrufen 
 	//msa.hochfahren.hochfahren();
 });
-
-
-
+*/
