@@ -15,7 +15,7 @@ if (! window.msa) { window.msa = {}; }
 
 
 // das Array, auf dem gearbeitet wird
-msa.theArray = [2, 4, -8, -1, 2, -6, 4, -3];
+msa.theArray = [2, 4, -8, -1, 2, -6, 4, 3];
 
 
 
