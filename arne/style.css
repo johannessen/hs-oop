@@ -5,22 +5,32 @@
  * All rights reserved.
  */
 
-.randmaximum-container {
+.randmaximum-container, .stapel-blocks-container {
 	position: absolute;
 	z-index: 1;
 	top: 0;
 	left: 0;
 	width: 100%;
 }
-.randmaximum-container>* {
-	width: 30px;
+.randmaximum-container>*, .stapel-blocks-container>* {
 	position: absolute;
 }
-.randmaximum-container .balken-temperaturstreifen {
-	background: #555;
-	border-right: solid 3px #c00;
+.randmaximum-container .Einheit {
+	width: 30px;
 }
-.randmaximum-container .balken-summe {
+.randmaximum-container .stapel-temperaturstreifen {
+	background: #555;
+	border-style: none;
+	border-width: 3px;
+	border-color: #c00;
+}
+.randmaximum-container .stapel-temperaturstreifen.rechts {
+	border-right-style: solid;
+}
+.randmaximum-container .stapel-temperaturstreifen.links {
+	border-left-style: solid;
+}
+.randmaximum-container .stapel-summe {
 	color: black;
 	margin-left: -.5ex;
 }

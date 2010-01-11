@@ -22,12 +22,14 @@ msa.RandmaximumAnimation = function (options) {
 	var x0, y0;
 	var x1;
 	var containerNode;
-	var barNode;
+	var stackNode;
+	var stackedBlocksContainerNode;
 	var numberNode;
 	var numberMaxNode;
 	
 	var startFromIndex;
 	var columnCount;
+	var direction;
 	
 	var currentValue = 0;
 	var currentMaxValue = 0;
@@ -35,18 +37,21 @@ msa.RandmaximumAnimation = function (options) {
 	var cloneBlocksColumns = [];
 	
 	
-	function init (options) {
+	function init () {
 		startFromIndex = options.startFromIndex;
 		columnCount = options.columnCount;
+		direction = options.direction;
+		
+		// determine initial x and y coordinates
 		if (options.divider) {
-			x0 = options.divider.offsetLeft + options.divider.offsetWidth;
+			x0 = options.divider.offsetLeft + 2 * options.divider.offsetWidth * options.direction;
 		}
-		else {
+		else {  // :KILLME:
 			x0 = options.x;
 		}
-		x1 = x0;
+		x1 = 0;
 		var maxNegative = 0;
-		for (var i = 0; i < columnCount; i++) {
+		for (var i = 0; Math.abs(columnCount - i) > 0; i += direction) {  // bi-directional for loop
 			maxNegative = Math.min(maxNegative, msa.theArray[startFromIndex + i]);
 		}
 		y0 = maxNegative * -30 + 30;
@@ -55,28 +60,34 @@ msa.RandmaximumAnimation = function (options) {
 		containerNode.className = 'randmaximum-container';
 		msa.ui.dom.zahlenleiste.appendChild(containerNode);
 		
-		barNode = document.createElement('DIV');
-		barNode.className = 'balken-temperaturstreifen';
-		barNode.style.top = y0 + 'px';
-		barNode.style.left = x0 + 'px';
-		barNode.style.height = '30px';
-		barNode.style.width = 0;
-		containerNode.appendChild(barNode);
+		stackedBlocksContainerNode = document.createElement('DIV');
+		stackedBlocksContainerNode.className = 'stapel-blocks-container';
+		containerNode.appendChild(stackedBlocksContainerNode);
+		
+		stackNode = document.createElement('DIV');
+		stackNode.className = 'stapel-temperaturstreifen ' + ((options.direction > 0) ? 'rechts' :'links');
+		stackNode.style.top = y0 + 'px';
+		stackNode.style.left = x0 + 'px';
+		stackNode.style.marginLeft = 0;
+		stackNode.style.height = '30px';
+		stackNode.style.width = 0;
+		containerNode.appendChild(stackNode);
 		
 		numberNode = document.createElement('DIV');
-		numberNode.className = 'balken-summe';
+		numberNode.className = 'stapel-summe';
 		numberNode.style.top = (y0 + 35) + 'px';
 		numberNode.style.left = (x0 + 1) + 'px';
 		containerNode.appendChild(numberNode);
 		
 		numberMaxNode = document.createElement('DIV');
-		numberMaxNode.className = 'balken-summe maximum';
+		numberMaxNode.className = 'stapel-summe maximum';
 		numberMaxNode.style.top = (y0 + 35) + 'px';
 		numberMaxNode.style.left = (x0 + 1) + 'px';
+		numberMaxNode.innerHTML = "0";
 		containerNode.appendChild(numberMaxNode);
 		
 		var zahlen = msa.ui.dom.zahlenleiste.getElementsByClassName('zahlenblock');
-		for (var i = 0; i < options.columnCount; i++) {
+		for (var i = 0; Math.abs(columnCount - i) > 0; i += direction) {  // bi-directional for loop
 			cloneColumn(zahlen[options.startFromIndex + i]);
 		}
 	}
@@ -104,60 +115,79 @@ msa.RandmaximumAnimation = function (options) {
 	
 	this.moveDownColumn = function (options) {
 		
-		// show maximum (bar and number)
+		var currentSubtotalValue = currentValue;
 		var arrayItemValue = msa.theArray[startFromIndex + options.columnIndexOffset];
+		
+		// show maximum (stack and number)
 		currentValue += arrayItemValue;
 		if (currentValue > currentMaxValue) {
 			currentMaxValue = currentValue;
-			var barCss = 'width:' + (currentMaxValue * 30) + 'px';
-			emile(barNode, barCss, { duration: 160 * arrayItemValue - 160 + 450 });
+			var stackCss = 'width:' + (currentMaxValue * 30) + 'px';
+			if (direction < 0) {
+				stackCss += ';margin-left:' + (currentMaxValue * -30) + 'px';
+			}
+			emile(stackNode, stackCss, { duration: 160 * arrayItemValue - 160 + 450 });
 			setTimeout(function () {
 				numberMaxNode.innerHTML = currentMaxValue;
-				numberMaxNode.style.left = (x0 + currentMaxValue * 30 + 1) + 'px';
+				numberMaxNode.style.left = (x0 + direction * (currentMaxValue * 30 + 1)) + 'px';
 			}, 160 * arrayItemValue - 160 + 450);  // :FIXME:
 		}
 		
 		// show current (animate blocks and update number)
-		var blocks = cloneBlocksColumns[options.columnIndexOffset];
+		var blocks = cloneBlocksColumns[Math.abs(options.columnIndexOffset)];
 		function moveDownBlocks (i) {
 			if (i < 0) { return; }
 			
-			// calculate new position
-			if (arrayItemValue < 0) {
-				x1 -= 30;
+			// calculate new subtotal value
+			var stackGetsLarger = currentSubtotalValue >= 0 && arrayItemValue > 0 || currentSubtotalValue <= 0 && arrayItemValue < 0;
+			currentSubtotalValue += (arrayItemValue > 0 ? 1 : -1);
+			
+			// calculate new x positions
+			// NB: we can't cross the vertical divider line; negative and positive blocks must be on the same side of it
+			var x = Math.abs(currentSubtotalValue) * 30 * direction;
+			var stackOverflow = currentSubtotalValue < 0 && Math.abs(currentSubtotalValue) > currentMaxValue;
+			if ( (direction > 0) == stackOverflow ) {
+				x += 3;  // account for the maximum mark's width
 			}
-			var left = (x1) + 'px';
-			if (arrayItemValue > 0) {
-				x1 += 30;
+			var xLeft = x;
+			if ( (direction > 0) == stackGetsLarger ) {
+				xLeft -= 30;  // // adjust for position root being on the left edge whenever the direction of move is towards the left
 			}
+			var left = (x0 + xLeft) + 'px';
 			var top = (y0) + 'px';
 			
-			// animate block movement down to the horizontal bar
+			// animate block movement down to the horizontal stack
 			var block = blocks[i];
 			block.style.visibility = 'visible';
 			var blockCss = 'left:' + left + ';top:' + top;
 			emile(block, blockCss, { duration: 450, after: function () {
-				if (arrayItemValue < 0) {
-					new msa.RandmaximumExplosion(block);
+				if (stackGetsLarger) {
+					block.parentNode.removeChild(block);
+					stackedBlocksContainerNode.appendChild(block);
+				}
+				else {
+					var existingBlock = stackedBlocksContainerNode.childNodes[stackedBlocksContainerNode.childNodes.length - 1];
+					var explosion = new msa.RandmaximumExplosion(block, existingBlock);
+					explosion.run();
 				}
 			} });
 			
-			// show calculated current value and animate its movement along the bar
-			var numberCss = 'left:' + (x1 + 1) + 'px';
+			// show calculated current value and animate its movement along the stack
+			var numberCss = 'left:' + (x0 + x) + 'px';
 			emile(numberNode, numberCss, { duration: 450, after: function () {
-				numberNode.innerHTML = Number(numberNode.innerHTML) + ((arrayItemValue > 0) ? 1 : -1);
+				numberNode.innerHTML = Number(numberNode.innerHTML) + (arrayItemValue > 0 ? 1 : -1);
 			} });
 			
 			// delay recursion so that all blocks don't move at once
 			setTimeout(function () {
 				moveDownBlocks(i - 1);
-			}, 160);  // :BUG: there is an initial delay before this animation starts of exactly this duration; is that a problem?
+			}, 160);
 		}
 		moveDownBlocks(blocks.length - 1);
 	}
 	
 	
-	init(options);
+	init();
 	
 }
 
@@ -167,42 +197,47 @@ msa.RandmaximumAnimation = function (options) {
 
 // Randmaximum-Animation „positive und negative Blöcke annihilieren sich gegenseitig“ [B], Teil von [3+4]
 
-msa.RandmaximumExplosion = function (block) {
+msa.RandmaximumExplosion = function (block1, block2) {
 	
-	// set up initial state of explosion's animation
-	var imageNode = document.createElement('DIV');
-	imageNode.className = 'explosion';
-	imageNode.style.top = (block.offsetTop - 1) + 'px';
-	imageNode.style.left = (block.offsetLeft - 1) + 'px';
-	block.parentNode.appendChild(imageNode);
+	this.block1 = block1;
+	this.block2 = block2;
 	
-	function explosion (step) {
-		setTimeout(function () {
-			if (step > 4) {
-				imageNode.parentNode.removeChild(imageNode);  // get rid of this animation's remains
-				block.parentNode.removeChild(block);  // get rid of the clone's remains
-				return;
-			}
-			if (step == 1) {  // :KLUDGE:
-				// get rid of the original (positive) block
-				for (var i = 0; i < block.parentNode.childNodes.length; i++) {
-					if (block.parentNode.childNodes[i].className == 'Einheit') {
-						block.parentNode.removeChild(block.parentNode.childNodes[i]);
-						break;
-					}
+	this.run = function () {
+		
+		block1 = this.block1;
+		block2 = this.block2;
+		
+		// set up initial state of explosion's animation
+		var imageNode = document.createElement('DIV');
+		imageNode.className = 'explosion';
+		imageNode.style.top = (block1.offsetTop - 1) + 'px';
+		imageNode.style.left = (block1.offsetLeft - 1) + 'px';
+		block1.parentNode.appendChild(imageNode);
+		
+		function explosion (step) {
+			setTimeout(function () {
+				if (step > 4) {
+					imageNode.parentNode.removeChild(imageNode);  // get rid of this animation's remains
+					block1.parentNode.removeChild(block1);  // get rid of the clone's remains
+					return;
 				}
-			}
-			
-			block.style.visibility = 'hidden';
-			var heightOfImagePerStep = imageNode.offsetWidth;
-			var backgroundPositionTop = heightOfImagePerStep * step * -1;
-			imageNode.style.backgroundPosition = '0 ' + backgroundPositionTop + 'px';
-			explosion(step + 1);
-			
-		}, 100);
+				if (step == 1) {  // :KLUDGE:
+					// get rid of the original (positive) block
+					block2.parentNode.removeChild(block2);
+				}
+				
+				block1.style.visibility = 'hidden';
+				var heightOfImagePerStep = imageNode.offsetWidth;
+				var backgroundPositionTop = heightOfImagePerStep * step * -1;
+				imageNode.style.backgroundPosition = '0 ' + backgroundPositionTop + 'px';
+				explosion(step + 1);
+				
+			}, 100);
+		}
+		
+		explosion(1);
 	}
 	
-	explosion(1);
 }
 
 
@@ -220,19 +255,25 @@ function testRandmaximumAnimation () {
 	if (msa.randmaximumAnimation) { msa.randmaximumAnimation.flush(); }
 	
 	// :DEBUG: hard-code input values
+//	var theStart = 4;
+//	var theLength = 3;
+//	var theStart = 4;
+//	var theLength = -3;
 	var theStart = 6;
-	var theLength = 2;
+	var theLength = -3;
+	var direction = theLength / Math.abs(theLength);
 	
 	// ===> init animation
 	var ani = new msa.RandmaximumAnimation({
 		startFromIndex: theStart,
 		columnCount: theLength,
 		divider: document.getElementsByClassName('trennstrich')[0],
+		direction: direction,
 		x: 405,  // :TODO: maybe a ref to the divider element would be ideal?
 	});
 	
 	// :DEBUG: simulate rmax loop
-	for (var i = 0; i < theLength; i++) {
+	for (var i = 0; Math.abs(theLength - i) > 0; i += direction) {  // bi-directional for loop
 		(function () {
 			setTimeout(function (i) {
 				
@@ -242,7 +283,7 @@ function testRandmaximumAnimation () {
 				});
 				
 				// :DEBUG: end of rmax loop
-			}, i * 2000 + 1, i);
+			}, Math.abs(i * 2000) + 1, i);
 		})(i);
 	}
 	
