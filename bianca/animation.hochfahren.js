@@ -24,24 +24,24 @@ msa.MaxHochfahren = function (){
 	
 	this.maxHochfahren = function (){
 		maxl.style.top = '200px';
+		maxl.style.left = '415px';
 		maxr.style.top = '200px';
-		maxl.style.left = '200px';  // temporaerer Fix
-		maxr.style.left = '200px';  // temporaerer Fix
-		emile(maxl, 'left:415px;top:50px', { duration: 3000});
-		emile(maxr, 'left:475px;top:50px', { duration: 3000});
+		maxr.style.left = '475px';
+		emile(maxl, 'top:50px', { duration: 3000});
+		emile(maxr, 'top:50px', { duration: 3000});
 		
-		setTimeout(function () {
-			msa.hochfahren.hochfahren();
-		}, 3000);
+//		setTimeout(function () {
+//			msa.hochfahren.hochfahren();
+//		}, 3000);
 	}
 	
 	this.hochf = function (stelle, wert, binfertig) {
 	    // animation
 		msa.maxHochfahren.maxHochfahren();  // anzupassen
 		
-		setTimeout(function () {
+//		setTimeout(function () {
 			binfertig();
-		}, 3000);
+//		}, 3000);
 	}
 	
 	this.geben = function () {
@@ -53,7 +53,6 @@ msa.MaxHochfahren = function (){
 	init();
 }
 
-/*
 msa.schaltstelle.addDomLoadedMessage(function () {
 //neues objekt wird erstellt, zahlenreihe wird gezeichnet
 	msa.maxHochfahren = new msa.MaxHochfahren();
@@ -64,4 +63,3 @@ msa.schaltstelle.addDomLoadedMessage(function () {
 	}, 3000);
 });
 // to be continued...
-*/
