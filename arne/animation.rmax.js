@@ -167,7 +167,7 @@ msa.RandmaximumAnimation = function (options) {
 				}
 				else {
 					var existingBlock = stackedBlocksContainerNode.childNodes[stackedBlocksContainerNode.childNodes.length - 1];
-					var explosion = new msa.RandmaximumExplosion(block, existingBlock);
+					var explosion = new msa.BlockExplosion(block, existingBlock);
 					explosion.run();
 				}
 			} });
@@ -197,47 +197,60 @@ msa.RandmaximumAnimation = function (options) {
 
 // Randmaximum-Animation „positive und negative Blöcke annihilieren sich gegenseitig“ [B], Teil von [3+4]
 
-msa.RandmaximumExplosion = function (block1, block2) {
-	
+msa.BlockExplosion = function (block1, block2) {
 	this.block1 = block1;
 	this.block2 = block2;
+}
+msa.BlockExplosion.constructor = msa.BlockExplosion;
+
+msa.BlockExplosion.prototype.removeBlocksAtStep = 1;
+msa.BlockExplosion.prototype.stepCount = 5;
+msa.BlockExplosion.prototype.millisecondsPerStep = 100;
+msa.BlockExplosion.prototype.imageClassName = 'explosion';
+msa.BlockExplosion.prototype.imageOffset = -1;
+
+msa.BlockExplosion.prototype.heightOfImagePerStep = function (imageNode) {
+	return imageNode.offsetWidth;
+}
+
+msa.BlockExplosion.prototype.run = function () {
+	var block1 = this.block1;
+	var block2 = this.block2;
+	var removeBlocksAtStep = this.removeBlocksAtStep;
+	var stepCount = this.stepCount;
+	var millisecondsPerStep = this.millisecondsPerStep;
 	
-	this.run = function () {
-		
-		block1 = this.block1;
-		block2 = this.block2;
-		
-		// set up initial state of explosion's animation
-		var imageNode = document.createElement('DIV');
-		imageNode.className = 'explosion';
-		imageNode.style.top = (block1.offsetTop - 1) + 'px';
-		imageNode.style.left = (block1.offsetLeft - 1) + 'px';
-		block1.parentNode.appendChild(imageNode);
-		
-		function explosion (step) {
-			setTimeout(function () {
-				if (step > 4) {
-					imageNode.parentNode.removeChild(imageNode);  // get rid of this animation's remains
-					block1.parentNode.removeChild(block1);  // get rid of the clone's remains
-					return;
-				}
-				if (step == 1) {  // :KLUDGE:
-					// get rid of the original (positive) block
-					block2.parentNode.removeChild(block2);
-				}
-				
-				block1.style.visibility = 'hidden';
-				var heightOfImagePerStep = imageNode.offsetWidth;
-				var backgroundPositionTop = heightOfImagePerStep * step * -1;
-				imageNode.style.backgroundPosition = '0 ' + backgroundPositionTop + 'px';
-				explosion(step + 1);
-				
-			}, 100);
-		}
-		
-		explosion(1);
+	// set up initial state of explosion's animation
+	var imageNode = document.createElement('DIV');
+	imageNode.className = this.imageClassName;
+	imageNode.style.top = (block1.offsetTop + this.imageOffset) + 'px';
+	imageNode.style.left = (block1.offsetLeft + this.imageOffset) + 'px';
+	block1.parentNode.appendChild(imageNode);
+	var heightOfImagePerStep = this.heightOfImagePerStep(imageNode);
+	
+	function explosion (step) {
+		setTimeout(function () {
+			if (! imageNode) { return; }  // fail silently if some of our DOM nodes vanished
+			
+			if (step >= stepCount) {
+				if (! imageNode.parentNode) { return; }
+				imageNode.parentNode.removeChild(imageNode);  // get rid of this animation's remains
+				return;  // end recursion
+			}
+			
+			if (step == removeBlocksAtStep) {
+				if (block1 && block1.parentNode) { block1.parentNode.removeChild(block1); }
+				if (block2 && block2.parentNode) { block2.parentNode.removeChild(block2); }
+			}
+			
+			var backgroundPositionTop = heightOfImagePerStep * step * -1;
+			imageNode.style.backgroundPosition = '0 ' + backgroundPositionTop + 'px';
+			explosion(step + 1);
+			
+		}, millisecondsPerStep);
 	}
 	
+	explosion(1);
 }
 
 
