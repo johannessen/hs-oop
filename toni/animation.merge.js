@@ -22,45 +22,70 @@ msa.Merge = function () {
 	
 	function init () {
 		// create the HTML element in its initial state
-		//zahl1 = document.getElementById('Zahl1');
-	    //zahl2 = document.getElementById('Zahl2');       
-	    //zahl3 = document.getElementById('Zahl3');
-		var zahlen = msa.hochfahren.zahlen ();
-		rmaxs = zahlen.rmaxs;
 		
+		//rmaxs werden von hochfahren übergeben
+//		var zahlen = msa.hochfahren.zahlen ();
+//		rmaxs = zahlen.rmaxs;
+		//rmaxl und rmaxr werden von maxHochfahren übergeben
 		var geben = msa.maxHochfahren.geben ();
 		maxl = geben.maxl;
 		maxr = geben.maxr;
 	}
 	
-   this.merge = function () {
-       //var zahlneu;
-	   if(Number(maxl.innerHTML) < Number(rmaxs.innerHTML)){
+   this.merge = function (binfertig, rmax) {
+		rmaxs = rmax;
+	   	var zielCss = 'left:445px;top:50px';
+		
+	    if(Number(maxl.innerHTML) < Number(rmaxs.innerHTML)){
 	    zahlneu = rmaxs;
 	      }else{
 		  zahlneu = maxl;
 	    }
 	   
-	   if(Number(zahlneu.innerHTML)<Number(maxr.innerHTML)){
+	    if(Number(zahlneu.innerHTML)<Number(maxr.innerHTML)){
 	       zahlneu = maxr;
 	    }
-	          
-	   zahlneu.style.fontSize = '100%';	
-       zahlneu.style.top = '50px';	
-       zahlneu.style.left = '445px';	   
-       emile(zahlneu, 'font-size:200%', { duration: 3000 });    
-         
-	}
+	    
+        emile(zahlneu, 'font-size:200%', { duration: 3000
+			, after: function(){ 
+
+			
+				maxl.style.visibility = 'hidden';
+				maxr.style.visibility = 'hidden'; 
+
+
 		
+	    zahlneu.style.fontSize = '100%';	
+        zahlneu.style.top = '50px';	
+        zahlneu.style.left = '445px';
+        zahlneu.style.background = 'white';
+	    zahlneu.style.zIndex = '2';
+		msa.ui.dom.canvas.appendChild(zahlneu);
+
+				binfertig();
+
+				}	
+
+			
+		});		
+		
+        emile(maxl, zielCss, { duration: 3000
+		});    
+        emile(maxr, zielCss, { duration: 3000
+		});  		
+	
+
+
+	}
+		 
 	init();
 }
 
-/*
 // execute this immediately when the app is loaded; 
 msa.schaltstelle.addDomLoadedMessage(function () {
 //neues objekt wird erstellt, zahlenreihe wird gezeichnet
 	msa.merge = new msa.Merge();
+	//alert('fertig1')
 	//funktion wir aufgerrufen 
 //	msa.merge.merge();
 });
-*/

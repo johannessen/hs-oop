@@ -4,17 +4,23 @@
  * All rights reserved.
  */
 
-#Zahl1
- {top:100px; 
-  left:425px;
+#Zahl1{
+	top:100px; 
+    left:425px;
+	font-size:20px;
+	font-weight:bold;
  }
  
- #rmaxs
- {top:300px; 
-  left:445px;
+ #rmaxs{   
+    top:300px; 
+    left:445px;
+	font-size:20px;
+	font-weight:bold;
  }
  
- #Zahl3
- {top:100px; 
-  left:475px;
+ #Zahl3{
+	top:100px; 
+    left:475px;
+	font-size:20px;
+	font-weight:bold;
  }
