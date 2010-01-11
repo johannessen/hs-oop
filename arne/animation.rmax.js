@@ -36,15 +36,19 @@ msa.RandmaximumAnimation = function (options) {
 	
 	var cloneBlocksColumns = [];
 	
+	var columnIndexOffset;
+	var animationDone;
+	
 	
 	function init () {
 		startFromIndex = options.startFromIndex;
 		columnCount = options.columnCount;
-		direction = options.direction;
+		direction = columnCount / Math.abs(columnCount);
+		animationDone = options.after || function () {};
 		
 		// determine initial x and y coordinates
 		if (options.divider) {
-			x0 = options.divider.offsetLeft + 2 * options.divider.offsetWidth * options.direction;
+			x0 = options.divider.offsetLeft + 2 * options.divider.offsetWidth * direction;
 		}
 		else {  // :KILLME:
 			x0 = options.x;
@@ -65,7 +69,7 @@ msa.RandmaximumAnimation = function (options) {
 		containerNode.appendChild(stackedBlocksContainerNode);
 		
 		stackNode = document.createElement('DIV');
-		stackNode.className = 'stapel-temperaturstreifen ' + ((options.direction > 0) ? 'rechts' :'links');
+		stackNode.className = 'stapel-temperaturstreifen ' + (direction > 0 ? 'rechts' :'links');
 		stackNode.style.top = y0 + 'px';
 		stackNode.style.left = x0 + 'px';
 		stackNode.style.marginLeft = 0;
@@ -90,6 +94,7 @@ msa.RandmaximumAnimation = function (options) {
 		for (var i = 0; Math.abs(columnCount - i) > 0; i += direction) {  // bi-directional for loop
 			cloneColumn(zahlen[options.startFromIndex + i]);
 		}
+		columnIndexOffset = 0;
 	}
 	
 	
@@ -109,14 +114,23 @@ msa.RandmaximumAnimation = function (options) {
 	
 	
 	this.flush = function () {
+		if (! containerNode || ! containerNode.parentNode) { return; }
 		containerNode.parentNode.removeChild(containerNode);
+	}
+	
+	
+	function moveDone () {
+		if (columnIndexOffset * direction >= cloneBlocksColumns.length) {
+			animationDone();
+		}
 	}
 	
 	
 	this.moveDownColumn = function (options) {
 		
+		var moveDoneCallback = options ? options.after || function () {} : function () {};
 		var currentSubtotalValue = currentValue;
-		var arrayItemValue = msa.theArray[startFromIndex + options.columnIndexOffset];
+		var arrayItemValue = msa.theArray[startFromIndex + columnIndexOffset];
 		
 		// show maximum (stack and number)
 		currentValue += arrayItemValue;
@@ -134,9 +148,15 @@ msa.RandmaximumAnimation = function (options) {
 		}
 		
 		// show current (animate blocks and update number)
-		var blocks = cloneBlocksColumns[Math.abs(options.columnIndexOffset)];
+		var blocks = cloneBlocksColumns[Math.abs(columnIndexOffset)];
 		function moveDownBlocks (i) {
-			if (i < 0) { return; }
+			if (i < 0) {
+				setTimeout(function (i) {
+					moveDoneCallback();
+					moveDone();
+				}, 450);
+				return;  // end recursion
+			}
 			
 			// calculate new subtotal value
 			var stackGetsLarger = currentSubtotalValue >= 0 && arrayItemValue > 0 || currentSubtotalValue <= 0 && arrayItemValue < 0;
@@ -184,6 +204,29 @@ msa.RandmaximumAnimation = function (options) {
 			}, 160);
 		}
 		moveDownBlocks(blocks.length - 1);
+		
+		columnIndexOffset += direction;
+	}
+	
+	
+	this.containerNode = function () {
+		return containerNode;
+	}
+	
+	
+	this.run = function () {
+		var moveDownColumn = this.moveDownColumn;
+		function moveColumn (i) {
+			if (i < 0) {
+				return;
+			}
+			moveDownColumn({ after: function () {
+				setTimeout(function () {
+					moveColumn(i - 1);
+				}, 1000);
+			} });
+		}
+		moveColumn(Math.abs(columnCount) - 1);
 	}
 	
 	
@@ -264,9 +307,6 @@ msa.schaltstelle.addDomLoadedMessage(function () {
 	document.body.appendChild(widgetNode);
 });
 function testRandmaximumAnimation () {
-	// :DEBUG: clean up testing space
-	if (msa.randmaximumAnimation) { msa.randmaximumAnimation.flush(); }
-	
 	// :DEBUG: hard-code input values
 //	var theStart = 4;
 //	var theLength = 3;
@@ -274,32 +314,26 @@ function testRandmaximumAnimation () {
 //	var theLength = -3;
 	var theStart = 6;
 	var theLength = -3;
-	var direction = theLength / Math.abs(theLength);
 	
 	// ===> init animation
 	var ani = new msa.RandmaximumAnimation({
 		startFromIndex: theStart,
 		columnCount: theLength,
 		divider: document.getElementsByClassName('trennstrich')[0],
-		direction: direction,
-		x: 405,  // :TODO: maybe a ref to the divider element would be ideal?
+		
+		after: function () {
+			document.documentElement.style.backgroundColor = '#eee';
+			emile(document.documentElement, 'background-color:#090', { duration: 120, after: function () {
+				emile(document.documentElement, 'background-color:#eee', { duration: 180, after: function () {
+					ani.containerNode().style.opacity = 1;
+					emile(ani.containerNode(), 'opacity:0', { duration: 1400, after: function () {
+						ani.flush();
+					} });
+				} });
+			} });
+		},
+		
 	});
 	
-	// :DEBUG: simulate rmax loop
-	for (var i = 0; Math.abs(theLength - i) > 0; i += direction) {  // bi-directional for loop
-		(function () {
-			setTimeout(function (i) {
-				
-				// ===> call single animation step
-				ani.moveDownColumn({
-					columnIndexOffset: i,
-				});
-				
-				// :DEBUG: end of rmax loop
-			}, Math.abs(i * 2000) + 1, i);
-		})(i);
-	}
-	
-	// :DEBUG: define testing space
-	msa.randmaximumAnimation = ani;
+	ani.run();
 }
