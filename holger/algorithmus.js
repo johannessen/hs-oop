@@ -1,4 +1,4 @@
-/* Id: algorithmus.js 2009-12-04
+/* $Id$
  * 
  * MSA-Algorithmus (Numerik und ereignisbasierter Wiedereinstieg)
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
@@ -6,6 +6,8 @@
  * 
  * Copyright (c) 2009 Holger Schropp
  * All rights reserved.
+ * 
+ * Changes 2010-01-12 by Arne Johannessen
  */
 
 
@@ -25,16 +27,8 @@ msa.Algorithmus = function () {
 		array = options.array;
 		linkeGrenze  =l;
 		rechteGrenze =r;
-		// animation .split
-/*
-		setTimeout(function () {
-			trivialUndSplit();
-		}, 1);
-*/
-		msa.trennstrich.zeichnenAdapter(Math.floor((linkeGrenze + rechteGrenze) / 2) + 1, function () {
-			trivialUndSplit();
-		});
-//		msa.trennstrich.zeichnenAdapter(7, function(){});
+		
+		trivialUndSplit();
 	}
 	
 	
@@ -60,15 +54,18 @@ msa.Algorithmus = function () {
 		else {
 			// kein trivialer Fall => loesen mit Divide and Conquer
 			
+			// Split (Divide)
 			mitte = Math.floor((linkeGrenze + rechteGrenze) / 2);
 			
-			setTimeout(rekursionLinks, 1);
+			// animation .split
+			msa.trennstrich.zeichnenAdapter(mitte + 1, function () {
+				rekursionLinks();
+			});
 		}
 	}
 	
-	// Split (Divide)
-	function rekursionLinks ()
-	{
+	
+	function rekursionLinks () {
 		var linkerTeil = new msa.Algorithmus()
 		var options = {};
 		options.fertig = rekursionRechts;
@@ -76,24 +73,37 @@ msa.Algorithmus = function () {
 		setTimeout(function () {
 			linkerTeil.durchlaufen(options, linkeGrenze, mitte);
 		}, 1);
-		
 	}
+	
 	
 	function rekursionRechts (ergebnisLinks) {
 		ergebnis.links = ergebnisLinks;
 		
 		var rechterTeil = new msa.Algorithmus()
 		var options = {};
-		options.fertig = randmaximumLinkerTeil;
+		options.fertig = theJoin;
 		options.array = array;
 		setTimeout(function () {
 			rechterTeil.durchlaufen(options, mitte + 1, rechteGrenze);
 		}, 1);
-		
 	}
 	
-	function randmaximumLinkerTeil (ergebnisRechts) {
+	
+	function theJoin (ergebnisRechts) {
 		ergebnis.rechts = ergebnisRechts;
+		
+		if (rechteGrenze - linkeGrenze > 1) {  // :FIX: prevent double drawing of divider (:TODO: remove this)
+			msa.trennstrich.zeichnenAdapter(mitte + 1, function () {
+				randmaximumLinkerTeil();
+			});
+		}
+		else {
+			randmaximumLinkerTeil();
+		}
+	}
+	
+	
+	function randmaximumLinkerTeil () {
 		
 		// Sub-Array von rechts nach links durchlaufen und rechtes Randmaximum bestimmen
 		var maximaleSumme = 0;
@@ -106,10 +116,22 @@ msa.Algorithmus = function () {
 		}
 		ergebnis.mitte = maximaleSumme;
 		
-		setTimeout(function () {
-			randmaximumRechterTeil();
-		}, 1);
+		var animation = new msa.RandmaximumAnimation({
+			startFromIndex: mitte,
+			columnCount: linkeGrenze - mitte - 1,
+			divider: document.getElementsByClassName('trennstrich')[0],  // :BUG: dirty hack, but seems to work and is only used for horizontal positioning anyway
+			after: function () {
+				animation.containerNode().style.opacity = 1;
+				emile(animation.containerNode(), 'opacity:0', { duration: 600, after: function () {  // :TODO: this animation should better be handled by msa.RandmaximumAnimation itself
+					animation.flush();
+					randmaximumRechterTeil();
+				} });
+			},
+		});
+		animation.run();
 	}
+	
+	
 	function randmaximumRechterTeil () {
 		
 		// Sub-Array von links nach rechts durchlaufen und linkes Randmaximum bestimmen
@@ -123,10 +145,21 @@ msa.Algorithmus = function () {
 		}
 		ergebnis.mitte = ergebnis.mitte + maximaleSumme;
 		
-		setTimeout(function () {
-			ergebnisAuswaehlen();
-		}, 1);
-	}	
+		var animation = new msa.RandmaximumAnimation({
+			startFromIndex: mitte + 1,
+			columnCount: rechteGrenze - mitte,
+			divider: document.getElementsByClassName('trennstrich')[0],  // :BUG: dirty hack, but seems to work and is only used for horizontal positioning anyway
+			after: function () {
+				animation.containerNode().style.opacity = 1;
+				emile(animation.containerNode(), 'opacity:0', { duration: 600, after: function () {  // :TODO: this animation should better be handled by msa.RandmaximumAnimation itself
+					animation.flush();
+					ergebnisAuswaehlen();
+				} });
+			},
+		});
+		animation.run();
+	}
+	
 		
 	function ergebnisAuswaehlen () {
 		// groesstes der drei Maxima ermitteln (noch Join)
