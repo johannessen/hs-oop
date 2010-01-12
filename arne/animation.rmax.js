@@ -223,7 +223,7 @@ msa.RandmaximumAnimation = function (options) {
 			moveDownColumn({ after: function () {
 				setTimeout(function () {
 					moveColumn(i - 1);
-				}, 1000);
+				}, 600);
 			} });
 		}
 		moveColumn(Math.abs(columnCount) - 1);
