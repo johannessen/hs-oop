@@ -38,11 +38,13 @@
 	z-index:1;
 }
 
-#maxl{
+.max{
+	position:absolute;
 	left:415px;
 	font-weight:bold;
-	text-align:center;
 	font-size:20px;
+	width: 30px;
+	text-align:center;
 	z-index:2;
 	top:200px;
 }

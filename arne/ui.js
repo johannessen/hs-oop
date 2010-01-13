@@ -5,7 +5,7 @@
  * Visualisierung der Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems
  * Skriptsprachen / Objektorientierte Programmierung WS 2009/10, Gruppe 5
  * 
- * Copyright (c) 2009-2010 Arne Johannessen
+ * Copyright (c) 2009 Arne Johannessen
  * All rights reserved.
  */
 
@@ -71,6 +71,21 @@ msa.Ui = function () {
 	
 	this.zahlenleisteZeichnenFertig = function () {
 		initButtons();
+	}
+	
+	
+	this.vorzeichenAnbringen = function (element) {
+		try {
+			var wert = Number(element.innerHTML);
+			if (wert < 0) {
+				element.innerHTML = '−' + (-wert);
+			}
+			if (wert > 0) {
+				element.innerHTML = '+' + wert;
+			}
+		}
+		catch (e) {
+		}
 	}
 	
 	

@@ -19,7 +19,7 @@ msa.Zahlenleiste = function () {
 	
 	var node = null;
 	//Array mit den Zahlen der Zahlenleiste:
-	var zahlenwerte = new Array(2,4,-8,-1,2,-6,4,3);
+	var zahlenwerte = msa.theArray;
 	
 	this.nehmen = function(){
 		return{
@@ -49,7 +49,7 @@ msa.Zahlenleiste = function () {
 		else {
 			zahlenblock.style.bottom = 1 + 'px';
 		}
-	
+		
 		for(var i=0; i<Math.abs(wert); i++){
 			var block = document.createElement('DIV');
 			if (wert>0){
@@ -59,13 +59,10 @@ msa.Zahlenleiste = function () {
 				block.className = 'Einheit negativ';
 			}
 			
-			if (i == 0 && wert < 0){
-				block.innerHTML = '−' + (-wert);
+			if (i == 0 && wert < 0 || i == Math.abs(wert) - 1 && wert > 0) {
+				block.innerHTML = wert;
+				msa.ui.vorzeichenAnbringen(block);
 			}
-			if (i == Math.abs(wert) - 1 && wert > 0){
-				block.innerHTML = '+' + wert;
-			}
-			
 			
 			zahlenblock.appendChild(block);
 		}
@@ -73,6 +70,11 @@ msa.Zahlenleiste = function () {
 		//Animation - Aufbau der Zahlenblöcke und deren Beschriftung:
 		emile(zahlenblock, 'left:positionX;width:30px;color:#ffffff;font-size:20px;', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
 		
+	}
+	
+	
+	this.positionLeft = function (stelle) {
+		return (110 + stelle * 50);
 	}
 	
 	
@@ -97,7 +99,7 @@ msa.Zahlenleiste = function () {
 		
 		//Array mit den X-Positionen der einzelnen Zahlen auf der Zahlenleiste:
 		for(var i = 0; i < zahlenwerte.length; i++) {
-			this.zahlenblockZeichnen(zahlenwerte[i], (110 + i * 50) + 'px');
+			this.zahlenblockZeichnen(zahlenwerte[i], this.positionLeft(i) + 'px');
 		}
 		
 	}
