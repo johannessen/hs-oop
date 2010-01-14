@@ -128,11 +128,11 @@ dt.erledigt+dd {
 <h2>Über dieses Dokument</h2>
 
 <p>
-Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus: Maximum–Sub-Array–Problem, Divide-and-Conquer–Lösung), bestehend aus <a href="mailto:boan0025@hs-karlsruhe.de" class="toni">Antonia Boemanns</a>, <a href="mailto:mabi0013@hs-karlsruhe.de" class="bianca">Bianca Förster</a>, <a href="mailto:joar0011@hs-karlsruhe.de" class="arne">Arne Johannessen</a> und <a href="mailto:scho0011@hs-karlsruhe.de" class="holger">Holger Schropp</a>. Es wächst zusammen mit dem Projekt und hält Ergebnisse, aber teils auch Hintergründe fest, die Teil der Durchführung oder der Leitung des Projekts sind.
+Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus: Maximum–Sub-Array–Problem, Divide-and-Conquer–Lösung), bestehend aus <a href="mailto:boan0025@hs-karlsruhe.de" class=toni>Antonia Boemanns</a>, <a href="mailto:mabi0013@hs-karlsruhe.de" class=bianca>Bianca Förster</a>, <a href="mailto:joar0011@hs-karlsruhe.de" class=arne>Arne Johannessen</a> und <a href="mailto:scho0011@hs-karlsruhe.de" class=holger>Holger Schropp</a>. Es wächst zusammen mit dem Projekt und hält Ergebnisse, aber teils auch Hintergründe fest, die Teil der Durchführung oder der Leitung des Projekts sind.
 
 <dl>
 	<dt>Autor
-	<dd><span class="arne">Arne Johannessen</span>
+	<dd><span class=arne>Arne Johannessen</span>
 	<dt>Letzte Änderung
 	<dd><i>$Date$</i>
 </dl>
@@ -142,7 +142,7 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 	
 	<dl>
 		<dt><strong>Projektstatus</strong>
-		<dd>Implementierung läuft
+		<dd>Implementierung ist nahzu abgeschlossen, Text und Layout sind immer noch offen
 		<dt><strong>Nächster Meilenstein</strong>
 		<dd>15. Januar 2010
 	</dl>
@@ -158,7 +158,9 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 		<dd>totale Korrektheit der Numerik, erste Ansätze einzelner Animationen zu erkennen
 		<dt>15. Januar 2010
 		<dd>Implementierung abgeschlossen, Beginn der Qualitätssicherungs-Phase
-		<dt>21. Januar 2010
+		<dt>19. Januar 2010, 24:00 Uhr
+		<dd>Freeze für Version 1.0
+		<dt>21. Januar 2010, 09:50 Uhr
 		<dd>Abgabe, Projektabschluss
 	</dl>
 	
@@ -174,6 +176,8 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 		<li>27. November 2009
 		<li>4. Dezember 2009
 		<li>11./12. Dezember 2009
+		<li>18. Dezember 2009
+		<li>8. Januar 2010
 	</ol>
 	
 </section>
@@ -185,75 +189,100 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 	
 	<dl>
 		<dt>Projektleitung
-		<dd><span class="arne">Arne Johannessen</span>
+		<dd><span class=arne>Arne Johannessen</span>
 		<dt>stellvertretende Projektleitung
-		<dd><span class="holger">Holger Schropp</span>
+		<dd><span class=holger>Holger Schropp</span>
 		<dt>Design und Logik
-		<dd><span class="bianca">Bianca Förster</span> und <span class="toni">Antonia Boemanns</span>
+		<dd><span class=bianca>Bianca Förster</span> und <span class=toni>Antonia Boemanns</span>
 		<dt>Funktionalität
-		<dd><span class="holger">Holger Schropp</span>
+		<dd><span class=holger>Holger Schropp</span>
 	</dl>
 	
 	<h2>Module zur Implementerung in Software</h2>
 	
 	<dl>
-		<dt class="arne">„Schaltstelle“ (quasi Rahmen, Leinwand und Kleber, um alles zusammen zu halten)
+		<dt class=arne>„Schaltstelle“ (quasi Rahmen, Leinwand und Kleber, um alles zusammen zu halten)
 		<dd><span>Arne Johannessen</span>
-		<dt class="arne">Benutzerschnittstelle (Anbindung des HTML-DOMs an JS)
+		<dd><code>arne/schaltstelle.js</code>
+		<dt class=arne>Benutzerschnittstelle (Anbindung des HTML-DOMs an JS)
 		<dd><span>Arne Johannessen</span>
-		<dt class="bianca">Zahlenleiste zeichnen
+		<dd><code>arne/ui.js</code>
+		<dt class=bianca>Zahlenleiste zeichnen
 		<dd><span>Bianca Förster</span>
-		<dt class="holger">MSA-Algorithmus (Numerik und ereignisbasierter Wiedereinstieg)
+		<dd><code>bianca/zeichnen.zahlenleiste.js</code>
+		<dt class=holger>MSA-Algorithmus (Numerik und ereignisbasierter Wiedereinstieg)
 		<dd><span>Holger Schropp</span>
-		<dt class="holger">„split“–Animation (Visualisierung der Einschränkung der Zahlenleiste auf den momentan betrachteten Sub-Array)
+		<dd><code>holger/algorithmus.js</code>
+		<dt class=holger>„split“–Animation (Visualisierung der Einschränkung der Zahlenleiste auf den momentan betrachteten Sub-Array)
 		<dd><span>Holger Schropp</span>
-		<dt class="bianca">Hochfahr-Animation [1+2] (bereits bekanntes, linkes/rechtes Ergebnis „fährt hoch“; einschl. trivialer Fall)
+		<dd><code>holger/animation.split.js</code>
+		<dt class=bianca>Hochfahr-Animation [1+2] (bereits bekanntes, linkes/rechtes Ergebnis „fährt hoch“; einschl. trivialer Fall)
 		<dd><span>Bianca Förster</span>
-		<dt class="arne">Randmaximum-Animation „Blöcke fliegen runter“ [A], Teil von [3+4]
+		<dd><code>bianca/animation.hochfahren.js</code>
+		<dt class=arne>Randmaximum-Animation „Blöcke fliegen runter“ [A], Teil von [3+4]
 		<dd><span>Arne Johannessen</span>
-		<dt class="arne">Randmaximum-Animation „positive und negative Blöcke annihilieren sich gegenseitig“ [B], Teil von [3+4]
+		<dd><code>arne/animation.rmax.js</code>
+		<dt class=arne>Randmaximum-Animation „positive und negative Blöcke annihilieren sich gegenseitig“ [B], Teil von [3+4]
 		<dd><span>Arne Johannessen</span>
+		<dd><code>arne/animation.explosion.js</code>
 		<dt>Randmaximum-Animation „Thermometer wird zum Randmaximum“ [C], Teil von [5] oder [3+4]
-		<dd><i>offen</i> (fällt voraus. weg)
-		<dt class="toni">Randmaxima-Animation [5] und [6] (Visualisierung der Addition beider Randmaximorum; Ergebnis „fährt hoch“)
+		<dd><i>offen (fällt voraus. weg)</i>
+		<dt class=toni>Randmaxima-Animation [5] und [6] (Visualisierung der Addition beider Randmaximorum; Ergebnis „fährt hoch“)
 		<dd><span>Antonia Boemanns</span>
-		<dt class="toni">„merge“–Animation [7] (Visualisierung der Auswahl des höchsten aus je drei Maximis)
+		<dd><code>toni/animation.addition.js</code>, <code>toni/animation.rmax-summe.js</code>
+		<dt class=toni>„merge“–Animation [7] (Visualisierung der Auswahl des höchsten aus je drei Maximis)
 		<dd><span>Antonia Boemanns</span>
+		<dd><code>toni/animation.merge.js</code>
 	</dl>
 	
 	<h2>Weitere Arbeitspakete</h2>
 	
 	<dl>
-		<dt class="arne">Basis für HTML/CSS
+		<dt class=arne>Basis für HTML/CSS
 		<dd><span>Arne Johannessen</span>
 		<dt>Text
-		<dd><i>offen</i>
-		<dt class="bianca">Grafikdesign
+		<dd><i>offen (kommissarisch durch den Projektleiter, falls keine andere Lösung gefunden wird)</i>
+		<dt class=bianca>Grafikdesign
 		<dd><span>Bianca Förster</span>
-		<dt class="arne">Default-Zahlen für MSA
+		<dt class=arne>Default-Zahlen für MSA
 		<dd><span>Arne Johannessen</span>
 	</dl>
 	
-	<h2>Hinweise zu Design und Implementierung</h2>
+</section>
+
+<section>
+	<h1>Design und Implementierung</h1>
+	
+	<h2>Allgemeine Hinweise</h2>
 	
 	<p>
-	Soweit möglich und sinnvoll, werden Aufgabenaufteilung und Implementierung ähnlich <strong>Contract-first Design</strong> im Sinne des diesbezüglichen <a href="http://www.ulm.ccc.de/ChaosSeminar/2007/07_Software_Engineering">Montagsvortrags von Volker Birk</a> durchgeführt. Im Wesentlichen sind die Kosequenzen folgende:
+	Soweit möglich und sinnvoll, werden Aufgabenaufteilung und Implementierung ähnlich <strong>Contract-first Design</strong> im Sinne des diesbezüglichen <a href="http://www.ulm.ccc.de/ChaosSeminar/2007/07_Software_Engineering">Montagsvortrags von Volker Birk</a> durchgeführt. Im Wesentlichen sind die Konsequenzen folgende:
 	
 	<ul>
 		<li>Aufteilung des Gesamtprojekts in mehrere Module
-		<li>jedes Modul wird von genau einer Person grundsätzlich eigenständig bearbeitet (jedoch natürlich Hilfe und Unterstützung durch Projektleiter oder andere Entwickler, wann immer nötig)
-		<li>sowohl die exakte Abgrenzung der Grenzen zwischen je zwei Modulen als auch die Schnittstellen zwischen beiden Modulen werden von den beiden Modulbearbeitern untereinander vereinbart (führt zu „Dezentralisierung des Designs“)
-		<li>enge Zusammenarbeit bis hin zum Pair Programming dort, wo es sinnvoll ist; gleichzeitig automatisch gute Kapselung der nicht zusammenarbeitenden Module gegeneinander
+		<li><strong>jedes Modul</strong> wird von <strong>genau einer Person</strong> grundsätzlich eigenständig bearbeitet (jedoch natürlich Hilfe und Unterstützung durch Projektleiter oder andere Entwickler, wann immer nötig)
+		<li>sowohl die exakte Abgrenzung der Grenzen zwischen je zwei Modulen als auch die Schnittstellen zwischen beiden Modulen werden von den beiden Modulbearbeitern untereinander vereinbart (führt zu <strong>Dezentralisierung des Designs)</strong>
+		<li>enge Zusammenarbeit bis hin zum <strong>Pair Programming</strong> dort, wo es sinnvoll ist; gleichzeitig automatisch gute Kapselung der nicht zusammenarbeitenden Module gegeneinander
 	</ul>
 	
 	<p>
-	Ob und in welchem Ausmaß andere Eigenschaften des Contract-first Design nach Volker Birk bei uns integriert werden, ist noch offen. In Frage käme hier in erster Linie die Systematisierung oder Automatisierung von Software- und Modultestverfahren.
+	Die <strong>Dokumentation</strong> der einzelnen Module auf Projektebene wird überwiegend in den Modulen selbst in Textform vorgenommen. Die Module enthalten alle einen oder wenige JavaScript-„Klassen“ (genauer: Objekte zur Verwendung als Prototyp zusammen mit dem <code>new</code>-Operator). Neben einer kurzen Dokumentation zur „Klasse“ selbst in einem Dokumentationskommentar werden die Schnittstellen aller dieser „Klassen“ jeweils auf Methoden-Ebene dokumentiert. Das Ergebnis ähnelt dem Javadoc-Dokumentationsstil, eine automatische Weiterverarbeitung ist jedoch nicht vorgesehen.
+	
+	<p>
+	Parallel zur Entwicklung ist eine Anzahl von <strong>Struktur- und Sequenzdiagrammen</strong> entstanden, deren graphische Qualität jedoch nicht wiedergabefähig ist. Soweit es die Zeit erlaubt, ist vorgesehen, diese (bzw. eine Auswahl) zur Ergänzung der Dokumentation sauber neu zu zeichnen.
+	
+	<h2>Weitere Eigenschaften von Contract-first Design</h2>
+	
+	<p>
+	Andere Eigenschaften des Contract-first Design nach Volker Birk werden bei uns nicht systematisch integriert. Eine Anwendung von automatisierten Softwaretestverfahren erfolgt lediglich im Einzelfall der Numerik des MSA-Algorithmus; der weitergehende Einsatz wird einerseits durch die fehlende Erfahrung der Mehrzahl der Entwickler, andererseits aber auch durch die Unit-Tests auf DOM-Operationen durch asynchrone gekapselte Objekte inhärente Komplexität erschwert.
 	
 	<p>
 	Im Übrigen wurde festgestellt, dass der Ausbau der bereits bestehenden JavaScript-Kenntnisse bei der Mehrheit der Mitwirkenden von Vorteil wäre. Dies erfolgt nach Bedarf „on the job“.
 	
+	<h2>Begriffsabgrenzung Contract-first Design</h2>
+	
 	<p>
-	<strong><abbr lang=la title="nota bene">NB.</abbr></strong> Der Begriff „Contract-first Design“ wird von verschiedenen Personen in unterschiedlichen Zusammenhängen verwendet. Insbesondere entsprechen nicht alle der in den folgenden Quellen beschriebenen relevanten Konzepte Contract-first Design in dem in unserem Falle angewandten Sinn, obschon einzelne Elemente wiederzuerkennen sind:
+	Der Begriff „Contract-first Design“ wird von verschiedenen Personen in unterschiedlichen Zusammenhängen verwendet. Insbesondere entsprechen nicht alle der in den folgenden Quellen beschriebenen relevanten Konzepte Contract-first Design in dem in unserem Falle angewandten Sinn, obschon einzelne Elemente wiederzuerkennen sind:
 	
 	<ul>
 		<li><a href="http://msdn.microsoft.com/en-us/library/ee658118.aspx" hreflang=en lang=en>Communication and Messaging (Microsoft Application Architecture Guide)</a>
@@ -265,14 +294,28 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 		<li><a href="http://en.wikipedia.org/wiki/Design_by_contract" hreflang=en lang=en>Design by contract (Wikipedia)</a>
 		<li><a href="http://se.ethz.ch/~meyer/publications/computer/contract.pdf" hreflang=en lang=en type="application/pdf">Applying “Design by Contract”</a>
 	</ul>
-		
+	
+	<h2>Zielumgebung</h2>
+	
+	<p>
+	Bereits in den ersten Stunden des Projekts wurde versucht, eine geeignete Definition für die Zielumgebung zu finden, in der die Anwendung lauffähig sein sollte. Interessant für die Zielumgebung sind vor allem Browser-Versionen oder Web-Standards sowie ferner die Pixel-Anzahl („Auflösung“).
+	
+	<p>
+	Für die <strong>Browser-Kompatibilität</strong> wurde nach gründlicher Überlegung auf eine Vorabfestlegung der Entwicklungsziele bewusst verzichtet. Angesichts der Tatsache, dass die Anwendung keine Zielgruppe hat, weil sie nicht produktiv eingesetzt werden soll (sondern ausschließlich eine Hausarbeit mit dem Ziel des Erlernens einer Skriptsprache ist, vgl. Modulhandbuch und Aufgabenstellung), und der Tatsache, dass weder die Aufgabenstellung Browser-Versionen oder Web-Standards auch nur erwähnt noch der Dozent der Lehrveranstaltung trotz mehrmaliger Nachfrage des Projektleiters eine konkrete Antwort gab, wäre die Definition einer Zielumgebung Makulatur.
+	
+	<p>
+	Statt dessen wird hiermit als Zielvorgabe eine Anwendung der relevanten <strong>Web-Standards</strong> festgelegt, insbesondere <a href="http://www.w3.org/TR/html4/" hreflang=en>HTML 4.01</a>, <a href="http://www.w3.org/TR/html5/" hreflang=en>HTML5</a> (soweit stabil), <a href="http://www.w3.org/TR/CSS2/" hreflang=en>CSS Level 2.1</a>, <a href="http://www.w3.org/DOM/DOMTR" hreflang=en>W3C DOM</a> Level 2 und <a href="http://en.wikipedia.org/wiki/ECMAScript" hreflang=en>ECMA 262</a>. Abweichungen von den Standards sind nur zulässig, wenn die abweichende Form verbreitet implementiert ist und messbare Vorteile gegenüber der besten konformen Alternative bietet (wie etwa <a href="http://www.quirksmode.org/dom/innerhtml.html" hreflang=en>im Falle der <code>innerHTML</code>-Eigenschaft</a>). Angesichts der fehlenden Interoperabilität bestimmter, älterer dieser Standards wird darüber hinaus gefordert, dass die fertige Web-Anwendung in mindestens drei User-Agents korrekt funktioniert (wobei die graphische Ausgabe nicht notwendigerweise identisch sein muss).
+	
+	<p>
+	Die <strong>Pixel-Anzahl</strong> wurde erst nach Fertigstellung des Grafik-Mockups (siehe unten) als mögliches Problem erkannt. Die Grösen der einzelnen Grafikelemente begründen jedoch die Vermutung, dass handelsübliche Bildschirme mehr als ausreichend zur scroll-freien Darstellung der Anwendung sein werden. Auf eine Festlegung einer konkreten Ziel-Pixelanzahl wurde daher ebenfalls bewusst verzichtet.
+	
 </section>
 
 <section>
 	<h1>Visualisierungskonzept</h1>
 	
 	<p>
-	Das grobe Visualisierungskonzept liegt vollständig vor. Es wurde der Entwurf von <span class="toni">Antonia Boemanns</span> und <span class="bianca">Bianca Förster</span> verwendet. Die Eckpunkte des Entwurfs sind:
+	Das grobe Visualisierungskonzept liegt vollständig vor. Es wurde der Entwurf von <span class=toni>Antonia Boemanns</span> und <span class=bianca>Bianca Förster</span> verwendet. Die Eckpunkte des Entwurfs sind:
 	
 	<ul>
 		<li>Ausgangspunkt: Veranschaulichung der Array-Werte als „Zahlenleiste“ mit positiven und negativen Balken
