@@ -9,8 +9,9 @@
 <SCRIPT TYPE="application/ecmascript" SRC="../holger/algorithmus.js"></SCRIPT>
 <SCRIPT TYPE="application/ecmascript" SRC="../holger/animation.split.js"></SCRIPT>
 <SCRIPT TYPE="application/ecmascript" SRC="../bianca/animation.hochfahren.js"></SCRIPT>
-<!--SCRIPT TYPE="application/ecmascript" SRC="../arne/zeichnen.rmax-balken.js"></SCRIPT-->
+<SCRIPT TYPE="application/ecmascript" SRC="../arne/animation.explosion.js"></SCRIPT>
 <SCRIPT TYPE="application/ecmascript" SRC="../arne/animation.rmax.js"></SCRIPT>
+<SCRIPT TYPE="application/ecmascript" SRC="../toni/animation.addition.js"></SCRIPT>
 <SCRIPT TYPE="application/ecmascript" SRC="../toni/animation.rmax-summe.js"></SCRIPT>
 <SCRIPT TYPE="application/ecmascript" SRC="../toni/animation.merge.js"></SCRIPT>
 
@@ -76,7 +77,7 @@ tests[tests.length] = MyTestCase.extend('NumerikTest', {
 		this.assertMaximumEqual(1, [1, -2]);  // testZweiElementeArray
 	},
 	
-}, 4500);
+}, 60000);
 </SCRIPT>
 
 
@@ -92,3 +93,8 @@ tests[tests.length] = MyTestCase.extend('', {
 
 
 <P>Check debugger console for detailed testing log.
+
+<P><STRONG>NB.</STRONG> When the animations were integrated into <code>algorithmus.js</code>, these test cases by and large stopped working right. Not sure how to best fix that—we’d need a way for our <code>fertig()</code> callback to trigger the next test case (or move every test case to its own file).
+
+<DIV ID="canvas"></DIV>
+<INPUT TYPE="button" VALUE="Demo starten" ID="start-button" DISABLED HIDDEN>
