@@ -250,7 +250,8 @@ msa.BlockExplosion.prototype.removeBlocksAtStep = 1;
 msa.BlockExplosion.prototype.stepCount = 5;
 msa.BlockExplosion.prototype.millisecondsPerStep = 100;
 msa.BlockExplosion.prototype.imageClassName = 'explosion';
-msa.BlockExplosion.prototype.imageOffset = -1;
+msa.BlockExplosion.prototype.imageOffsetTop = -9;
+msa.BlockExplosion.prototype.imageOffsetLeft = -9;
 
 msa.BlockExplosion.prototype.heightOfImagePerStep = function (imageNode) {
 	return imageNode.offsetWidth;
@@ -266,8 +267,8 @@ msa.BlockExplosion.prototype.run = function () {
 	// set up initial state of explosion's animation
 	var imageNode = document.createElement('DIV');
 	imageNode.className = this.imageClassName;
-	imageNode.style.top = (block1.offsetTop + this.imageOffset) + 'px';
-	imageNode.style.left = (block1.offsetLeft + this.imageOffset) + 'px';
+	imageNode.style.top = (block1.offsetTop + this.imageOffsetTop) + 'px';
+	imageNode.style.left = (block1.offsetLeft + this.imageOffsetLeft) + 'px';
 	block1.parentNode.appendChild(imageNode);
 	var heightOfImagePerStep = this.heightOfImagePerStep(imageNode);
 	
