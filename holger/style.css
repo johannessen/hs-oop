@@ -20,6 +20,11 @@
 	position: absolute;
 }
 
+.zahlenblock.aus  .Einheit {
+	background-image: none;
+	background-color: #dfd;
+}
+
 /*
 .Einheit{
 	
@@ -32,3 +37,4 @@
 	text-align: positionX;
 	vertical-align: 15px;
 }
+*/

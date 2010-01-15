@@ -22,6 +22,7 @@ msa.Algorithmus = function () {
 	var mitte;
 	var ergebnis = {};
 	var ergebnisNodes = {};
+	var animationen = {};
 	
 	this.durchlaufen = function (options, l, r) {
 		fertig = options.fertig;
@@ -29,7 +30,9 @@ msa.Algorithmus = function () {
 		linkeGrenze  =l;
 		rechteGrenze =r;
 		
-		trivialUndSplit();
+		// animation .split
+		msa.trennstrich.zeichnenAdapter(linkeGrenze, rechteGrenze, trivialUndSplit);
+//		trivialUndSplit();
 	}
 	
 	
@@ -40,15 +43,20 @@ msa.Algorithmus = function () {
 			// trivialer Fall => Ergebnis melden
 			
 			if (linkeGrenze > rechteGrenze) {
-				fertig (0);  // leerer Array
+				var nullErgebnis = document.createElement('DIV');  // :TODO:
+				msa.ui.canvas.appendChild(nullErgebnis);
+				fertig (0, nullErgebnis);  // leerer Array
 			}
 			if (array[linkeGrenze] < 0) {
-				fertig (0);  // nur ein Element (negativ => Maximum ist leerer Sub-Array)
+				var nullErgebnis = document.createElement('DIV');  // :TODO:
+				msa.ui.canvas.appendChild(nullErgebnis);
+				fertig (0, nullErgebnis);  // nur ein Element (negativ => Maximum ist leerer Sub-Array)
 			}
 			else {
-//				msa.maxHochfahren.hochf(linkeGrenze, array[linkeGrenze], function(){
-					fertig (array[linkeGrenze]);  // nur ein Element
-//				});
+				var animation = new msa.MaxHochfahren();
+				animation.hochf(linkeGrenze, function(){
+					fertig (array[linkeGrenze], animation.geben().trivialElement);  // nur ein Element
+				});
 			 }
 			
 		}
@@ -57,11 +65,7 @@ msa.Algorithmus = function () {
 			
 			// Split (Divide)
 			mitte = Math.floor((linkeGrenze + rechteGrenze) / 2);
-			
-			// animation .split
-			msa.trennstrich.zeichnenAdapter(mitte + 1, function () {
-				rekursionLinks();
-			});
+			rekursionLinks();
 		}
 	}
 	
@@ -77,8 +81,9 @@ msa.Algorithmus = function () {
 	}
 	
 	
-	function rekursionRechts (ergebnisLinks) {
+	function rekursionRechts (ergebnisLinks, ergebnisLinksNode) {
 		ergebnis.links = ergebnisLinks;
+		ergebnisNodes.links = ergebnisLinksNode;
 		
 		var rechterTeil = new msa.Algorithmus()
 		var options = {};
@@ -90,17 +95,13 @@ msa.Algorithmus = function () {
 	}
 	
 	
-	function theJoin (ergebnisRechts) {
+	function theJoin (ergebnisRechts, ergebnisRechtsNode) {
 		ergebnis.rechts = ergebnisRechts;
+		ergebnisNodes.rechts = ergebnisRechtsNode;
 		
-		if (rechteGrenze - linkeGrenze > 1) {  // :FIX: prevent double drawing of divider (:TODO: remove this)
-			msa.trennstrich.zeichnenAdapter(mitte + 1, function () {
-				randmaximumLinkerTeil();
-			});
-		}
-		else {
+		msa.trennstrich.zeichnenAdapter(linkeGrenze, rechteGrenze, function () {
 			randmaximumLinkerTeil();
-		}
+		});
 	}
 	
 	
@@ -122,15 +123,19 @@ msa.Algorithmus = function () {
 			columnCount: linkeGrenze - mitte - 1,
 			divider: document.getElementsByClassName('trennstrich')[0],  // :BUG: dirty hack, but seems to work and is only used for horizontal positioning anyway
 			after: function () {
-				ergebnisNodes.randmaximumRechterTeil = animation.randmaximumNode();
+				ergebnisNodes.randmaximumLinkerTeil = animation.randmaximumNode();
+/*
 				animation.containerNode().style.opacity = 1;
 				emile(animation.containerNode(), 'opacity:0', { duration: 600, after: function () {  // :TODO: this animation should better be handled by msa.RandmaximumAnimation itself
 					animation.flush();
 					randmaximumRechterTeil();
 				} });
+*/
+				randmaximumRechterTeil();
 			},
 		});
 		animation.run();
+		animationen.randmaximumLinkerTeil = animation;  // speichern fuer spaeteres ausblenden
 	}
 	
 	
@@ -153,14 +158,11 @@ msa.Algorithmus = function () {
 			divider: document.getElementsByClassName('trennstrich')[0],  // :BUG: dirty hack, but seems to work and is only used for horizontal positioning anyway
 			after: function () {
 				ergebnisNodes.randmaximumRechterTeil = animation.randmaximumNode();
-				animation.containerNode().style.opacity = 1;
-				emile(animation.containerNode(), 'opacity:0', { duration: 600, after: function () {  // :TODO: this animation should better be handled by msa.RandmaximumAnimation itself
-					animation.flush();
-					ergebnisAuswaehlen();
-				} });
+				ergebnisAuswaehlen();
 			},
 		});
 		animation.run();
+		animationen.randmaximumRechterTeil = animation;  // speichern fuer spaeteres ausblenden
 	}
 	
 		
@@ -168,22 +170,26 @@ msa.Algorithmus = function () {
 		// groesstes der drei Maxima ermitteln (noch Join)
 		
 		var maximaleSumme = ergebnis.mitte;
-		if (ergebnis.links > maximaleSumme) 
-		{
+		var maximaleSummeNode = null;
+		if (ergebnis.links > maximaleSumme) {
 			maximaleSumme = ergebnis.links;
+			maximaleSummeNode = ergebnisNodes.links;
 		}
-		if (ergebnis.rechts > maximaleSumme) 
-		{
+		if (ergebnis.rechts > maximaleSumme) {
 			maximaleSumme = ergebnis.rechts;
+			maximaleSummeNode = ergebnisNodes.rechts;
 		}
 		
 		msa.addieren.addieren(
-				ergebnis.links, ergebnisNodes.randmaximumLinkerTeil,
-				ergebnis.rechts, ergebnisNodes.randmaximumRechterTeil,
-				function(){
-			// Ergebnis zurueckgeben an hoehere Ebene
-			fertig(maximaleSumme, 'Ergebnis');
-		});
+			ergebnis.links, ergebnisNodes.randmaximumLinkerTeil,
+			ergebnis.rechts, ergebnisNodes.randmaximumRechterTeil,
+			function(){
+				animationen.randmaximumRechterTeil.fadeOut();
+				animationen.randmaximumLinkerTeil.fadeOut();
+				// Ergebnis zurueckgeben an hoehere Ebene
+				fertig(maximaleSumme, maximaleSummeNode);
+			}
+		);
 	}
 }
 

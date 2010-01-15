@@ -28,18 +28,61 @@ msa.Trennstrich = function  () {;
 //		node.className = 'trennstrich-example';
 	}
 	
-	this.zeichnenAdapter = function (index, callback) {
-		
-		binfertig = callback;
+	this.zeichnenAdapter = function (l, r, callback) {
 		
 		var zahlen = msa.ui.dom.zahlenleiste.getElementsByClassName('zahlenblock');
-		var zahl = zahlen[index];
-		var zahlPositionX = zahl.offsetLeft;
 		
-		this.zeichnen(zahlPositionX - 10);
+		var index = Math.floor((l + r) / 2) + 1
+		var zahl = zahlen[index]; 
+		
+		
+		
+		for (var i=0; i < l; i++)
+		{
+			zahlen[i].className = 'zahlenblock aus';
+		}	
+			
+		for (var j=l; j <= r; j++)
+		{
+			zahlen[j].className = 'zahlenblock';
+		}
+		
+		for (var k=r+1; k < zahlen.length; k++)
+		{
+			zahlen[k].className = 'zahlenblock aus';
+		}
+				
+			
+			
+		
+		
+		//  bereich hervorheben
+		
+		
+		
+		// trennstrich zeichnen
+		if (l == r) {
+			callback();  // :TODO:
+		}
+		else {
+			
+			binfertig = callback;
+			
+			index = Math.floor((l + r) / 2) + 1
+			zahl = zahlen[index];
+			var zahlPositionX = zahl.offsetLeft;
+			
+			this.zeichnen(zahlPositionX - 10);
+		}
 	}
 	
+	
+		
+			
+				
+		
 	this.zeichnen = function (left) {
+	
 		// falls  der strich schon existiert, loeschen
 		var trennstrich = msa.ui.dom.trennstrich;
 		if (trennstrich) {
@@ -62,9 +105,11 @@ msa.Trennstrich = function  () {;
 				
 		// do a little animation, just for fun
 		//Dauer der Animation in millisekunden
-		emile(trennstrich, 'height:400px;top:20px', { duration: 600, after: function () {
+		emile(trennstrich, 'height:400px;top:20px', { duration: 3000, after: function () {
 			binfertig();
 		} });
+		
+		
 	}
 	
 	init ();
@@ -74,7 +119,7 @@ msa.trennstrich = new msa.Trennstrich();
 //zahlenleiste.appendChild(trennstrich);
 msa.schaltstelle.addDomLoadedMessage(function () {
 	
-	msa.trennstrich.zeichnenAdapter(7, function(){});
+	msa.trennstrich.zeichnenAdapter(function(){});
 	
 });
 
