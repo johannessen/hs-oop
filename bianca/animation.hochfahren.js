@@ -53,7 +53,7 @@ msa.MaxHochfahren = function (){
 	this.geben = function () {
 	    return{
 			trivialElement:max,
-			maxl:max,
+			maxl:document.getElementById('maxl'),
 			maxr:document.getElementById('maxr')
 		}
 	}
