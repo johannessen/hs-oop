@@ -233,6 +233,14 @@ msa.RandmaximumAnimation = function (options) {
 	}
 	
 	
+	this.fadeOut = function () {
+		containerNode.style.opacity = 1;
+		emile(containerNode, 'opacity:0', { duration: 600, after: function () {
+			this.flush();
+		} });
+	}
+	
+	
 	init();
 	
 }
