@@ -212,6 +212,11 @@ msa.RandmaximumAnimation = function (options) {
 	}
 	
 	
+	this.randmaximumNode = function () {
+		return numberMaxNode;
+	}
+	
+	
 	this.run = function () {
 		var moveDownColumn = this.moveDownColumn;
 		function moveColumn (i) {
