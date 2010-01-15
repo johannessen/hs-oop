@@ -34,7 +34,7 @@ msa.Hochfahren = function () {
 		
 		setTimeout(function () {
 			var wennFertig = function(){
-				alert('fertig')
+//				alert('fertig')
 	        };
 			msa.merge.merge(wennFertig, rmaxs);
 		}, 3000);
