@@ -12,9 +12,11 @@
 // make sure our namespace exists
 if (! window.msa) { window.msa = {}; }
 
+	var posLeftRmax = [125,175,225,275,325,375,425,465];
+
 msa.Addieren = function () {
 	var posLeftMax = [145,195,245,295,345,395,445];
-	//var posLeftRmax = [115,165,215,265,315,365,415,465];	
+		
 	function init () {	
 	
 	}
@@ -65,13 +67,13 @@ msa.schaltstelle.addDomLoadedMessage(function () {
 
 	nodeLinks = document.getElementById('nodeLinks');      
 	nodeLinks.style.top='300px'; 
-    nodeLinks.style.left='425px';
+    nodeLinks.style.left=posLeftRmax[6] + 'px';
 	nodeLinks.style.fontSize='20px';
 	nodeLinks.style.fontWeight='bold';
 	
 	nodeRechts = document.getElementById('nodeRechts');
   	nodeRechts.style.top='300px'; 
-    nodeRechts.style.left='465px';
+    nodeRechts.style.left=posLeftRmax[7] + 'px';
 	nodeRechts.style.fontSize='20px';
 	nodeRechts.style.fontWeight='bold';
 	

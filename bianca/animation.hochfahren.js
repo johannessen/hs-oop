@@ -4,7 +4,7 @@
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
  * Skriptsprachen / Objektorientierte Programmierung WS 2009/10, Gruppe 5
  * 
- * Copyright (c) 2009 Bianca Foerster
+ * Copyright (c) 2010 Bianca Foerster
  * All rights reserved.
  */
 
@@ -25,7 +25,7 @@ msa.MaxHochfahren = function (){
 	this.maxHochfahren = function (stelle){
 		max = document.createElement('DIV');
 		max.className = 'max';
-		//Fügt das ELement 'max' an das Canvas-Element an:
+		//Fuegt das ELement 'max' an das Canvas-Element an:
 		msa.ui.dom.canvas.appendChild(max);
 		
 		max.style.top = '200px';
@@ -37,10 +37,10 @@ msa.MaxHochfahren = function (){
 		max.innerHTML = msa.theArray[stelle];
 		msa.ui.vorzeichenAnbringen(max);
 		
-		emile(max, 'top:50px', { duration: verzoegerung});
+		emile(max, 'top:10px', { duration: verzoegerung});
 	}
 	
-	//Funktion zur Festlegung, welcher Wert (stelle in dem Array) wann 'hoch fährt':
+	//Funktion zur Festlegung, welcher Wert (stelle in dem Array) wann 'hoch faehrt':
 	this.hochf = function (stelle, binfertig) {
 	    // animation
 		msa.maxHochfahren.maxHochfahren(stelle); 
@@ -49,7 +49,7 @@ msa.MaxHochfahren = function (){
 		}, verzoegerung);
 	}
 	
-	//Schnittstelle zu Antonia´s 'animation.merge.js'-Datei. Die Werte werden ihr übergeben:
+	//Schnittstelle zu Antonia´s 'animation.merge.js'-Datei. Die Werte werden ihr uebergeben:
 	this.geben = function () {
 	    return{
 			trivialElement:max,
@@ -63,8 +63,8 @@ msa.MaxHochfahren = function (){
 msa.schaltstelle.addDomLoadedMessage(function () {
 //neues Objekt wird erstellt, Zahlenleiste wird gezeichnet
 	msa.maxHochfahren = new msa.MaxHochfahren();
-	setTimeout(function () {
-		msa.maxHochfahren.hochf(0, function(){
-		});
-	}, 3000);
+//	setTimeout(function () {
+//		msa.maxHochfahren.hochf(0, function(){
+//		});
+//	}, 3000);
 });
