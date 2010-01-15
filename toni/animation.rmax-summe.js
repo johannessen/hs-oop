@@ -19,8 +19,10 @@ msa.Hochfahren = function () {
 	function init () {
 		
 	}
-	
-	this.hochfahren = function (objekt) {
+	/*beim Aufruf von 'hochfahren' fährt  die übergebene Variable
+	  rmaxs auf die Zielposition, zwischen maxl uns maxr in 'animation.merge'
+	*/
+	this.hochfahren = function (objekt, wennFertig) {
 	
 		var zielPos = 'left:445px;top:50px';
 		
@@ -33,9 +35,6 @@ msa.Hochfahren = function () {
 		emile(rmaxs, zielPos, {duration: 3000});
 		
 		setTimeout(function () {
-			var wennFertig = function(){
-//				alert('fertig')
-	        };
 			msa.merge.merge(wennFertig, rmaxs);
 		}, 3000);
 	}

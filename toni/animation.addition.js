@@ -13,15 +13,23 @@
 if (! window.msa) { window.msa = {}; }
 
 msa.Addieren = function () {
-	
+	var posLeftMax = [145,195,245,295,345,395,445];
+	//var posLeftRmax = [115,165,215,265,315,365,415,465];	
 	function init () {	
+	
 	}
+	/*beim Aufruf von 'addieren' fahren die übergebenen Variablen nodeLinks und nodeRechts auf die Zielposition
+	  und werden danach unsichtbar.Danach wird die Summe aus den Werten von nodelinks und nodeRechts errechnet und 
+	  in rmaxs ausgegeben. 
+	*/
+	 	//this.positionLeft = function (stelle) {
+		//return (110 + stelle * 50);
+	//}
 	
     this.addieren = function (zahlLinks, nodeLinks, zahlRechts, nodeRechts, binfertig) {
 		//zielPos ist die Position an der nodeLinks und nodeRechts nach der Animation stehen sollen	
 		var zielPos = 'left:445px;top:300px';
-		var rmaxs;		
-		rmaxs = document.createElement('DIV');
+		var rmaxs = document.createElement('DIV');		
 
 		emile(nodeLinks, zielPos, { duration: 3000, after: function() {
 			
@@ -32,8 +40,8 @@ msa.Addieren = function () {
 			// berechnete summe dem dom-baum hinzufuegen (quasi: ins html einfuegen)
 			var summe = zahlLinks + zahlRechts;
 			rmaxs.innerHTML = summe;
+			rmaxs.style.left=posLeftMax[6] + 'px';
 			rmaxs.style.top='300px'; 
-			rmaxs.style.left='445px';
 			rmaxs.style.zIndex='2';
 			rmaxs.style.background='white';
 			rmaxs.style.fontSize='20px';
@@ -44,7 +52,7 @@ msa.Addieren = function () {
 		emile(nodeRechts, zielPos, { duration: 3000 });
 	    
 		setTimeout(function () {
-			msa.hochfahren.hochfahren(rmaxs);
+			msa.hochfahren.hochfahren(rmaxs, binfertig);
 		}, 3000);	
 	}
 	init();

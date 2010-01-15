@@ -28,7 +28,10 @@ msa.Merge = function () {
 		maxl = geben.maxl;
 		maxr = geben.maxr;
 	}
-	
+	/*beim Aufruf von 'merge' werden in den 'if-Anweisungen' die übergebenen Inhalte der Variablen maxl, maxr 
+	  und rmax (welche rmaxs zugewiesen wird) verglichen und der höchste wert wird an die 'emile-Animation' 
+      übergeben. maxl und maxr fahren zusammen auf die Position  
+	*/
     this.merge = function (binfertig, rmax) {
 		rmaxs = rmax;
 	   	var zielPos = 'left:445px;top:50px';
@@ -50,12 +53,6 @@ msa.Merge = function () {
 			maxr.style.visibility = 'hidden'; 
 		
 			maxs.style.fontSize = '0.14em';	
-			//maxs.style.top = '50px';	
-			//maxs.style.left = '445px';
-			//maxs.style.background = 'white';
-			//maxs.style.zIndex = '2';
-			
-			//msa.ui.dom.canvas.appendChild(maxs);
 			
 			emile(maxs, 'font-size:1em', { duration: 3000, after: function(){ 
 		
