@@ -1,4 +1,4 @@
-/* Id: algorithmus.js 2010-01-13
+/* Id: algorithmus.js 2010-01-15
  * 
  * Hochfahr-Animation (1)+(2) (bereits bekanntes, linkes/rechtes Ergebnis "faehrt hoch"; einschl. trivialer Fall)
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
@@ -13,34 +13,34 @@
 if (! window.msa) { window.msa = {}; }
 
 msa.MaxHochfahren = function (){
-
-	var max = null;
 	
+	var max = null;
 	var verzoegerung = 3000;
 
 	function init(){
 		max = document.getElementById('max');
 	}
 	
-	
+	//Diese Funktion legt fest, wann und wie die absoluten Maxima (max) hochfahren:
 	this.maxHochfahren = function (stelle){
 		max = document.createElement('DIV');
 		max.className = 'max';
-		
+		//Fügt das ELement 'max' an das Canvas-Element an:
 		msa.ui.dom.canvas.appendChild(max);
 		
 		max.style.top = '200px';
+		
+		//Da hier nur der triviale Fall abhandelt wird werden nur die vorhandenen Werte der Zahlenleiste verwendet. 
+		//Die horizontale Platzierung erfolgt indem  auf die Funktion 'positionLeft' aus 'zeichnen.zahlenleiste.js' zugegriffen wird:
 		max.style.left = msa.zahlenleiste.positionLeft(stelle) + 'px';
+		//Als Werte werden die Zahlen aus dem Array in Arne´s 'ui.js'-Datei verwendet, wie auch schon in der Datei 'zeichnen.zahlenleiste.js':
 		max.innerHTML = msa.theArray[stelle];
 		msa.ui.vorzeichenAnbringen(max);
+		
 		emile(max, 'top:50px', { duration: verzoegerung});
-		
-		
-//		setTimeout(function () {
-//			msa.hochfahren.hochfahren();
-//		}, 3000);
 	}
 	
+	//Funktion zur Festlegung, welcher Wert (stelle in dem Array) wann 'hoch fährt':
 	this.hochf = function (stelle, binfertig) {
 	    // animation
 		msa.maxHochfahren.maxHochfahren(stelle); 
@@ -49,11 +49,11 @@ msa.MaxHochfahren = function (){
 		}, verzoegerung);
 	}
 	
-	
+	//Schnittstelle zu Antonia´s 'animation.merge.js'-Datei. Die Werte werden ihr übergeben:
 	this.geben = function () {
 	    return{
 			trivialElement:max,
-			maxl:document.getElementById('maxl'),
+			maxl:max,
 			maxr:document.getElementById('maxr')
 		}
 	}
@@ -61,14 +61,10 @@ msa.MaxHochfahren = function (){
 }
 
 msa.schaltstelle.addDomLoadedMessage(function () {
-//neues objekt wird erstellt, zahlenreihe wird gezeichnet
+//neues Objekt wird erstellt, Zahlenleiste wird gezeichnet
 	msa.maxHochfahren = new msa.MaxHochfahren();
-	//funktion wir aufgerrufen 
-	//msa.MaxHochfahren.MaxHochfahren();
 	setTimeout(function () {
 		msa.maxHochfahren.hochf(0, function(){
-		//alert('fertig mit trivialem fall')
 		});
 	}, 3000);
 });
-// to be continued...

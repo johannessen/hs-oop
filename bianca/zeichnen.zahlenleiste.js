@@ -1,4 +1,4 @@
-﻿/* Id: zeichnen.zahlenleiste.js 2009-12-20
+﻿/* Id: zeichnen.zahlenleiste.js 2010-01-15
  * 
  * Zahlenleiste zeichnen
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
@@ -16,88 +16,94 @@ if (! window.msa) { window.msa = {}; }
 //was in der Funktion msa.Zahlenleiste aufgelistet wird wird alles ausgefuehrt unten bei new msa.Zahlenleiste
 msa.Zahlenleiste = function () {
 	
-	
 	var node = null;
-	//Array mit den Zahlen der Zahlenleiste:
+	
+	//zahlenwerte greift auf das Array zu, das in Arne´s 'ui.js'-Datei steht:
 	var zahlenwerte = msa.theArray;
 	
-	this.nehmen = function(){
-		return{
-			zahllenwerte:zahlenwerte
-		}
-	}
 	
 	function init () {
-		// create the HTML element in its initial state
+		// ein HTML-DIV-Element mit dem Klassennahmen 'zahlenleiste' wird erstellt.
+		//Dieses DIV-Element umschließt alle Elemente, die die Zahlenleiste betreffen 
 		node = document.createElement('DIV');
 		node.className = 'zahlenleiste';
 	}
 	
-	
+	//In dieser Funktion wird festgelegt, wie die einzelnen Blöcke gezeichnet und positioniert werden
 	this.zahlenblockZeichnen = function (wert, positionX) {
+		//Ein Zahlenblock ist eine Einheit, das bedeutet ein grünes, bzw ein rotes Kästchen
 		var zahlenblock = document.createElement('DIV');
 		zahlenblock.className = 'zahlenblock';
+		//die *.style.*-Zeilen definieren den Ausgangsstyle der Animation
 		zahlenblock.style.left = positionX;
 		zahlenblock.style.width = '0';
-		zahlenblock.style.color = '#55de52';
 		zahlenblock.style.height = Math.abs(wert)*30+'px';
 		zahlenblock.style.fontSize = '0';
 	
+		// Zahlenwerte, die kleiner gleich Null sind, werden unterhalb des Zahlenleisten-Strichs gezeichnet. 
+		//Die Farbanimation der Zahlen beginnt mit einem rot-ton.
 		if (wert<=0){
+			zahlenblock.style.color = '#b6220d';
 			zahlenblock.style.top = 1 + 'px';
 		}
+		// Zahlenwerte, die größer Null sind, werden oberhalb des Zahlenleisten-Strichs gezeichnet
+		//Die Farbanimation der Zahlen beginnt mit einem grün-ton.
 		else {
+			zahlenblock.style.color = '#4bd449';
 			zahlenblock.style.bottom = 1 + 'px';
 		}
 		
+		//Die Zahlenwerte werden visualisiert, indem aus den einzelnen Einheiten (block) ein Block (zahlenblock) zusammengesetzt wird
 		for(var i=0; i<Math.abs(wert); i++){
 			var block = document.createElement('DIV');
+			//Ist der Wert größer Null, so werden grüne Elemente verwendet:
 			if (wert>0){
 				block.className = 'Einheit';
 			}
+			//Ansonsten werden rote Elemente verwendet:
 			else{
 				block.className = 'Einheit negativ';
 			}
-			
+			//Das von dem Zahlenleisten-Strich aus gesehene erste Element wird jeweils mit dem Wert des ganzen Blocks beschriftet:
 			if (i == 0 && wert < 0 || i == Math.abs(wert) - 1 && wert > 0) {
 				block.innerHTML = wert;
+				//Um das korrekte Vorzeichen anzufügen wird auf die Funktion 'vorzeichenAnbringen' in Arnes 'ui.js'-Datei zugegriffen:
 				msa.ui.vorzeichenAnbringen(block);
 			}
-			
+			//Der Knoten 'block' wird an 'zahlenblock' angehängt:
 			zahlenblock.appendChild(block);
 		}
+		//Der Knoten 'zahlenblock' wird an 'node' angehängt:
 		node.appendChild(zahlenblock);
-		//Animation - Aufbau der Zahlenblöcke und deren Beschriftung:
+		//Der Aufbau der Zahlenblöcke, sowie deren Beschriftung wird animiert:
 		emile(zahlenblock, 'left:positionX;width:30px;color:#ffffff;font-size:20px;', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
-		
 	}
 	
-	
+	//Funktion zur Festlegung der horizontalen Ausrichtung der Zahlenblöcke:
 	this.positionLeft = function (stelle) {
 		return (110 + stelle * 50);
 	}
 	
-	
+	//Hier wird alles aufgelistet, was in das Canvas-Element (das helle Rechteck) gezeichnet wird:
 	this.zeichnen = function () {
-		// add the existing element to the HTML page
+		// Der Knoten 'node' wird an das Canvas-Element angefügt:
 		var canvasNode = msa.ui.dom.canvas;
 		canvasNode.appendChild(node);
 		
-		// make our newly added element available to the rest of the app
+		// Die Zahlenleiste wird an das DOM angefügt:
 		msa.ui.dom.zahlenleiste = node;
 		
-		
+		//Der Zahlenleisten-Strich wird definiert und mittels Animation gezeichnet
 		var strich = document.createElement('DIV');
 		strich.className = 'zahlenleiste-strich';
 		strich.style.left = '300px';
 		strich.style.width = '0';
 		node.appendChild(strich);
 		
-		// do a little animation, just for fun
-		//Dauer der Animation in millisekunden
 		emile(strich, 'left:70px;width:460px', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
 		
-		//Array mit den X-Positionen der einzelnen Zahlen auf der Zahlenleiste:
+		
+		//Die Funktionen zum zeichnen und horizontalen platzieren der Zahlenblöcke werden aufgerufen:
 		for(var i = 0; i < zahlenwerte.length; i++) {
 			this.zahlenblockZeichnen(zahlenwerte[i], this.positionLeft(i) + 'px');
 		}
@@ -108,5 +114,4 @@ msa.Zahlenleiste = function () {
 	
 }
 
-//msa bedeutet maximumsubarray - Namensraum/Variable?
 msa.zahlenleiste = new msa.Zahlenleiste();
