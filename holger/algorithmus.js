@@ -21,6 +21,7 @@ msa.Algorithmus = function () {
 	var linkeGrenze, rechteGrenze;
 	var mitte;
 	var ergebnis = {};
+	var ergebnisNodes = {};
 	
 	this.durchlaufen = function (options, l, r) {
 		fertig = options.fertig;
@@ -121,6 +122,7 @@ msa.Algorithmus = function () {
 			columnCount: linkeGrenze - mitte - 1,
 			divider: document.getElementsByClassName('trennstrich')[0],  // :BUG: dirty hack, but seems to work and is only used for horizontal positioning anyway
 			after: function () {
+				ergebnisNodes.randmaximumRechterTeil = animation.randmaximumNode();
 				animation.containerNode().style.opacity = 1;
 				emile(animation.containerNode(), 'opacity:0', { duration: 600, after: function () {  // :TODO: this animation should better be handled by msa.RandmaximumAnimation itself
 					animation.flush();
@@ -150,6 +152,7 @@ msa.Algorithmus = function () {
 			columnCount: rechteGrenze - mitte,
 			divider: document.getElementsByClassName('trennstrich')[0],  // :BUG: dirty hack, but seems to work and is only used for horizontal positioning anyway
 			after: function () {
+				ergebnisNodes.randmaximumRechterTeil = animation.randmaximumNode();
 				animation.containerNode().style.opacity = 1;
 				emile(animation.containerNode(), 'opacity:0', { duration: 600, after: function () {  // :TODO: this animation should better be handled by msa.RandmaximumAnimation itself
 					animation.flush();
@@ -163,7 +166,7 @@ msa.Algorithmus = function () {
 		
 	function ergebnisAuswaehlen () {
 		// groesstes der drei Maxima ermitteln (noch Join)
-	
+		
 		var maximaleSumme = ergebnis.mitte;
 		if (ergebnis.links > maximaleSumme) 
 		{
@@ -174,16 +177,13 @@ msa.Algorithmus = function () {
 			maximaleSumme = ergebnis.rechts;
 		}
 		
-//		msa.animation.merge(...);
-			
-//		msa.animation.hochfahren(...);
-//		msa.split.animieren(l, r, ...);  // gleiche, originale grenzen l und r
-		
-		// Ergebnis zurueckgeben
-		//msa.schaltstelle....(maximum);
-		setTimeout(function () {
+		msa.addieren.addieren(
+				ergebnis.links, ergebnisNodes.randmaximumLinkerTeil,
+				ergebnis.rechts, ergebnisNodes.randmaximumRechterTeil,
+				function(){
+			// Ergebnis zurueckgeben an hoehere Ebene
 			fertig(maximaleSumme, 'Ergebnis');
-		}, 1);
+		});
 	}
 }
 
