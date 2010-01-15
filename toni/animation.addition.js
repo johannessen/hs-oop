@@ -21,6 +21,7 @@ msa.Addieren = function () {
 		//zielPos ist die Position an der nodeLinks und nodeRechts nach der Animation stehen sollen	
 		var zielPos = 'left:445px;top:300px';
 		var rmaxs;		
+		rmaxs = document.createElement('DIV');
 
 		emile(nodeLinks, zielPos, { duration: 3000, after: function() {
 			
@@ -30,7 +31,6 @@ msa.Addieren = function () {
 			
 			// berechnete summe dem dom-baum hinzufuegen (quasi: ins html einfuegen)
 			var summe = zahlLinks + zahlRechts;
-			rmaxs = document.createElement('DIV');
 			rmaxs.innerHTML = summe;
 			rmaxs.style.top='300px'; 
 			rmaxs.style.left='445px';
