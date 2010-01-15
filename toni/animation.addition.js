@@ -14,22 +14,15 @@ if (! window.msa) { window.msa = {}; }
 
 msa.Addieren = function () {
 	
-	function init () {
-		// create the HTML element in its initial state
-		
-		
-		
-		
+	function init () {	
 	}
 	
-   this.addieren = function (zahlLinks, nodeLinks, zahlRechts, nodeRechts, binfertig) {
-		
-		
-		
-		var zielCss = 'left:445px;top:300px';
+    this.addieren = function (zahlLinks, nodeLinks, zahlRechts, nodeRechts, binfertig) {
+		//zielPos ist die Position an der nodeLinks und nodeRechts nach der Animation stehen sollen	
+		var zielPos = 'left:445px;top:300px';
 		var rmaxs;		
 
-        emile(nodeLinks, zielCss, { duration: 3000, after: function() {
+		emile(nodeLinks, zielPos, { duration: 3000, after: function() {
 			
 			// summanden unsichtbar machen
 			nodeLinks.style.visibility = 'hidden';
@@ -45,57 +38,36 @@ msa.Addieren = function () {
 			rmaxs.style.background='white';
 			rmaxs.style.fontSize='20px';
 			msa.ui.dom.canvas.appendChild(rmaxs);
-			
-			
-			//binfertig();
-	    } });    
+			} 
+		});    
 		   
-		emile(nodeRechts, zielCss, { duration: 3000 });
+		emile(nodeRechts, zielPos, { duration: 3000 });
 	    
 		setTimeout(function () {
 			msa.hochfahren.hochfahren(rmaxs);
-		}, 3000);
-		
-	
+		}, 3000);	
 	}
-	
-/*
-	this.weitergeben = function () {
-		return{
-			rmaxs:rmaxs
-		}
-	}
-*/
-	
 	init();
 }
 
 // execute this immediately when the app is loaded; 
 msa.schaltstelle.addDomLoadedMessage(function () {
-//neues objekt wird erstellt, zahlenreihe wird gezeichnet
-	msa.addieren = new msa.Addieren();
-	//funktion wir aufgerrufen
 
-	nodeLinks = document.getElementById('nodeLinks');
-	    //zahl2 = document.getElementById('Zahl2');       
-	    nodeRechts = document.getElementById('nodeRechts');
-	    
+	msa.addieren = new msa.Addieren();
+
+	nodeLinks = document.getElementById('nodeLinks');      
 	nodeLinks.style.top='300px'; 
     nodeLinks.style.left='425px';
 	nodeLinks.style.fontSize='20px';
 	nodeLinks.style.fontWeight='bold';
-   
-	nodeRechts.style.top='300px'; 
+	
+	nodeRechts = document.getElementById('nodeRechts');
+  	nodeRechts.style.top='300px'; 
     nodeRechts.style.left='465px';
 	nodeRechts.style.fontSize='20px';
 	nodeRechts.style.fontWeight='bold';
 	
 	msa.addieren.addieren(4, nodeLinks, 3, nodeRechts, function(){
-//			alert('fertig2')
-	        }
-		);
-	
-//	setTimeout(function () {
-//		msa.hochfahren.hochfahren();
-//	}, 3000);
+		}
+	);
 });

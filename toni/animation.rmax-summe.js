@@ -12,60 +12,40 @@
 // make sure our namespace exists
 if (! window.msa) { window.msa = {}; }
 
-// 2 variablen, position, dann 3 zahlen, dom-elemente - div im canvas, später referenz auf dom elemente, div mit beispielwert: var zahl1Node = document.getElementById('Zahl1'); 
 msa.Hochfahren = function () {
-
+	//rmaxs (wird von addieren) übergeben
 	var rmaxs = null;
 	
 	function init () {
-		// create the HTML element in its initial state
-	    //rmaxs = document.getElementById('rmaxs');       
 		
-
-		
-		//rmaxs werden von addition übergeben
-//	var weitergeben = msa.addieren.weitergeben ();
-//	rmaxs = weitergeben.rmaxs;
-	
 	}
 	
 	this.hochfahren = function (objekt) {
+	
+		var zielPos = 'left:445px;top:50px';
+		
 		rmaxs = objekt;
 		rmaxs.style.top = '300px';
 		rmaxs.style.zIndex = '2';
 		rmaxs.style.background = 'white';
 		rmaxs.style.fontSize = '20px';
 		
-		emile(rmaxs, 'left:445px;top:50px', {
-			duration: 3000
-		});
+		emile(rmaxs, zielPos, {duration: 3000});
 		
 		setTimeout(function () {
 			var wennFertig = function(){
-//				alert('fertig')
+				alert('fertig')
 	        };
 			msa.merge.merge(wennFertig, rmaxs);
 		}, 3000);
 	}
-	/*
-  this.zahlen = function () {
-  return{
-		rmaxs:rmaxs,
-	}
-  }
-  */
 	init();
 }
 
 
 // execute this immediately when the app is loaded; 
 msa.schaltstelle.addDomLoadedMessage(function () {
-	//neues objekt wird erstellt, zahlenreihe wird gezeichnet
+
 	msa.hochfahren = new msa.Hochfahren();
 
-	//funktion wird aufgerrufen 
-	//msa.hochfahren.hochfahren();
 });
-
-
-

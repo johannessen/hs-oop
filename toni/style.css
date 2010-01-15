@@ -4,7 +4,7 @@
  * All rights reserved.
  */
 
-#Zahl1{
+#nodeLinks{
 	top:100px; 
     left:425px;
 	font-size:20px;
@@ -18,7 +18,7 @@
 	font-weight:bold;
  }
  
- #Zahl3{
+ #nodeRechts{
 	top:100px; 
     left:475px;
 	font-size:20px;
