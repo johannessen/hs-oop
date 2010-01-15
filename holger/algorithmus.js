@@ -42,18 +42,22 @@ msa.Algorithmus = function () {
 		if (linkeGrenze >= rechteGrenze ) {
 			// trivialer Fall => Ergebnis melden
 			
+			var animation = new msa.MaxHochfahren();
 			if (linkeGrenze > rechteGrenze) {
 				var nullErgebnis = document.createElement('DIV');  // :TODO:
-				msa.ui.canvas.appendChild(nullErgebnis);
-				fertig (0, nullErgebnis);  // leerer Array
+				msa.ui.dom.canvas.appendChild(nullErgebnis);
+				animation.hochf(linkeGrenze, function(){
+					fertig (0, nullErgebnis);  // leerer Array
+				});
 			}
 			if (array[linkeGrenze] < 0) {
 				var nullErgebnis = document.createElement('DIV');  // :TODO:
-				msa.ui.canvas.appendChild(nullErgebnis);
-				fertig (0, nullErgebnis);  // nur ein Element (negativ => Maximum ist leerer Sub-Array)
+				msa.ui.dom.canvas.appendChild(nullErgebnis);
+				animation.hochf(linkeGrenze, function(){
+					fertig (0, nullErgebnis);  // nur ein Element (negativ => Maximum ist leerer Sub-Array)
+				});
 			}
 			else {
-				var animation = new msa.MaxHochfahren();
 				animation.hochf(linkeGrenze, function(){
 					fertig (array[linkeGrenze], animation.geben().trivialElement);  // nur ein Element
 				});
