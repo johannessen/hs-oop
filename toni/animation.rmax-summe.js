@@ -14,8 +14,8 @@
 if (! window.msa) { window.msa = {}; }
 
 msa.Hochfahren = function () {
-	//rmaxs (wird von addieren) übergeben
-	var rmaxs = null;
+	
+	var animationsDauer = 3000;
 	
 	function init () {
 		
@@ -23,21 +23,22 @@ msa.Hochfahren = function () {
 	/*beim Aufruf von 'hochfahren' fährt  die übergebene Variable
 	  rmaxs auf die Zielposition, zwischen maxl uns maxr in 'animation.merge'
 	*/
-	this.hochfahren = function (objekt, wennFertig) {
+	this.hochfahren = function (objekt, wennFertig, ergebnis, ergebnisNodes) {
 	
-		var zielPos = 'left:445px;top:50px';
+		var zielPos = 'top:-200px';
 		
-		rmaxs = objekt;
-		rmaxs.style.top = '300px';
+		//rmaxs (wird von addieren) übergeben
+		var rmaxs = objekt;
 		rmaxs.style.zIndex = '2';
 		rmaxs.style.background = 'white';
 		rmaxs.style.fontSize = '20px';
 		
-		emile(rmaxs, zielPos, {duration: 3000});
+		emile(rmaxs, zielPos, {duration: animationsDauer});
 		
 		setTimeout(function () {
-			msa.merge.merge(wennFertig, rmaxs);
-		}, 3000);
+			var animation = new msa.Merge(ergebnisNodes);
+			animation.merge(wennFertig, rmaxs, ergebnis);
+		}, animationsDauer);
 	}
 	init();
 }

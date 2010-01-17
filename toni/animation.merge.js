@@ -13,7 +13,7 @@
 // make sure our namespace exists
 if (! window.msa) { window.msa = {}; }
 
-msa.Merge = function () {
+msa.Merge = function (ergebnisNodes) {
 
 	//rmaxl und rmaxr werden von maxHochfahren übergeben
 	//rmaxs wird von hochfahren übergeben
@@ -25,53 +25,51 @@ msa.Merge = function () {
 	
 	function init () {
 
-		var geben = msa.maxHochfahren.geben ();
-		maxl = geben.maxl;
-		maxr = geben.maxr;
+		maxl = ergebnisNodes.links;
+		maxr = ergebnisNodes.rechts;
 	}
 	/*beim Aufruf von 'merge' werden in den 'if-Anweisungen' die übergebenen Inhalte der Variablen maxl, maxr 
 	  und rmax (welche rmaxs zugewiesen wird) verglichen und der höchste wert wird an die 'emile-Animation' 
       übergeben. maxl und maxr fahren zusammen auf die Position  
 	*/
-    this.merge = function (binfertig, rmax) {
+	this.merge = function (binfertig, rmax, ergebnis) {
 		rmaxs = rmax;
-	   	var zielPos = 'left:445px;top:50px';
+		var rmaxsNumber = ergebnis.randmaximumLinkerTeil + ergebnis.randmaximumRechterTeil;
+		var zielPos = 'left:' + (rmax.offsetLeft) + 'px';
 		
 		// die übergebenen Zahlen werden verglichen und die höchste wird in die variable maxs geschrieben 
-	    if(Number(maxl.innerHTML) < Number(rmaxs.innerHTML)){
+		var maxsNumber;
+		if(ergebnis.links < rmaxsNumber){
 			maxs = rmaxs;
-	    }else{
+			maxsNumber = rmaxsNumber;
+		}else{
 			maxs = maxl;
-	    }
+			maxsNumber = ergebnis.links;
+		}
 	   
-	    if(Number(maxs.innerHTML)<Number(maxr.innerHTML)){
+		if(maxsNumber<ergebnis.rechts){
 			maxs = maxr;
-	    }
-	    //maxs wird auf 200% vergrößert
-        emile(maxs, 'font-size:200%', { duration: 3000, after: function(){ 
+			maxsNumber = ergebnis.rechts;
+		}
+		//maxs wird auf 200% vergrößert
+		emile(maxs, 'font-size:40px', { duration: 3000, after: function(){ 
 
 			maxl.style.visibility = 'hidden';
 			maxr.style.visibility = 'hidden'; 
 		
-			maxs.style.fontSize = '0.14em';	
+			maxs.style.visibility = 'visible'; 
+			maxs.style.fontSize = '40px';	
 			
-			emile(maxs, 'font-size:1em', { duration: 3000, after: function(){ 
+			emile(maxs, 'font-size:20px', { duration: 3000, after: function(){ 
 		
-					binfertig();}
+					binfertig(maxs);}
 				}); 
 			}		
 		});		
 		
-        emile(maxl, zielPos, { duration: 3000});    
-        emile(maxr, zielPos, { duration: 3000});  		
+		emile(maxl, zielPos, { duration: 3000});    
+		emile(maxr, zielPos, { duration: 3000});  		
 
 	}
 	init();
 }
-
-// execute this immediately when the app is loaded; 
-msa.schaltstelle.addDomLoadedMessage(function () {
-
-	msa.merge = new msa.Merge();
-	
-});

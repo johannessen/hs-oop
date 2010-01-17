@@ -13,13 +13,12 @@
 // make sure our namespace exists
 if (! window.msa) { window.msa = {}; }
 
-	var posLeftRmax = [125,175,225,275,325,375,425,465];
 
 msa.Addieren = function () {
-	var posLeftMax = [145,195,245,295,345,395,445];
+	var animationsDauer = 3000;
 		
 	function init () {	
-	
+		
 	}
 	/*beim Aufruf von 'addieren' fahren die übergebenen Variablen nodeLinks und nodeRechts auf die Zielposition
 	  und werden danach unsichtbar.Danach wird die Summe aus den Werten von nodelinks und nodeRechts errechnet und 
@@ -29,12 +28,21 @@ msa.Addieren = function () {
 		//return (110 + stelle * 50);
 	//}
 	
-    this.addieren = function (zahlLinks, nodeLinks, zahlRechts, nodeRechts, binfertig) {
+	this.addieren = function (ergebnis, ergebnisNodes, mitteIndex, binfertig) {
+		var zahlLinks = ergebnis.randmaximumLinkerTeil;
+		var nodeLinks = ergebnisNodes.randmaximumLinkerTeil;
+		var zahlRechts = ergebnis.randmaximumRechterTeil;
+		var nodeRechts = ergebnisNodes.randmaximumRechterTeil;
+		
+//		var posLeftMax = (msa.zahlenleiste.positionLeft(mitteIndex) + msa.zahlenleiste.positionLeft(mitteIndex + 1)) / 2 + 12;
+		var posLeftMax = msa.zahlenleiste.positionLeft(mitteIndex) + 35;  // :BUG: das stimmt so nicht ganz
+		var posTopMax = nodeLinks.offsetTop;
 		//zielPos ist die Position an der nodeLinks und nodeRechts nach der Animation stehen sollen	
-		var zielPos = 'left:445px;top:300px';
-		var rmaxs = document.createElement('DIV');		
+		var zielPos = 'left:' + posLeftMax + 'px;top:' + nodeLinks.offsetTop + 'px';
+		var rmaxs = document.createElement('DIV');
+		rmaxs.className = 'rmaxs';
 
-		emile(nodeLinks, zielPos, { duration: 3000, after: function() {
+		emile(nodeLinks, zielPos, { duration: animationsDauer, after: function() {
 			
 			// summanden unsichtbar machen
 			nodeLinks.style.visibility = 'hidden';
@@ -43,42 +51,18 @@ msa.Addieren = function () {
 			// berechnete summe dem dom-baum hinzufuegen (quasi: ins html einfuegen)
 			var summe = zahlLinks + zahlRechts;
 			rmaxs.innerHTML = summe;
-			rmaxs.style.left=posLeftMax[6] + 'px';
-			rmaxs.style.top='300px'; 
+			msa.ui.vorzeichenAnbringen(rmaxs);
+			rmaxs.style.left=posLeftMax + 'px';
+			rmaxs.style.top=nodeLinks.offsetTop + 'px';
 			rmaxs.style.zIndex='2';
 			rmaxs.style.background='white';
 			rmaxs.style.fontSize='20px';
-			msa.ui.dom.canvas.appendChild(rmaxs);
+			msa.ui.dom.zahlenleiste.appendChild(rmaxs);
+			msa.hochfahren.hochfahren(rmaxs, binfertig, ergebnis, ergebnisNodes);
 			} 
 		});    
 		   
-		emile(nodeRechts, zielPos, { duration: 3000 });
-	    
-		setTimeout(function () {
-			msa.hochfahren.hochfahren(rmaxs, binfertig);
-		}, 3000);	
+		emile(nodeRechts, zielPos, { duration: animationsDauer });
 	}
 	init();
 }
-
-// execute this immediately when the app is loaded; 
-msa.schaltstelle.addDomLoadedMessage(function () {
-
-	msa.addieren = new msa.Addieren();
-
-	nodeLinks = document.getElementById('nodeLinks');      
-	nodeLinks.style.top='300px'; 
-    nodeLinks.style.left=posLeftRmax[6] + 'px';
-	nodeLinks.style.fontSize='20px';
-	nodeLinks.style.fontWeight='bold';
-	
-	nodeRechts = document.getElementById('nodeRechts');
-  	nodeRechts.style.top='300px'; 
-    nodeRechts.style.left=posLeftRmax[7] + 'px';
-	nodeRechts.style.fontSize='20px';
-	nodeRechts.style.fontWeight='bold';
-	
-	msa.addieren.addieren(4, nodeLinks, 3, nodeRechts, function(){
-		}
-	);
-});

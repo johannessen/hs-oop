@@ -26,30 +26,30 @@ msa.MaxHochfahren = function (){
 		max = document.createElement('DIV');
 		max.className = 'max';
 		//Fuegt das ELement 'max' an das Canvas-Element an:
-		msa.ui.dom.canvas.appendChild(max);
+		msa.ui.dom.zahlenleiste.appendChild(max);
 		
-		max.style.top = '200px';
+		max.style.top = '0px';
 		
 		//Da hier nur der triviale Fall abhandelt wird werden nur die vorhandenen Werte der Zahlenleiste verwendet. 
 		//Die horizontale Platzierung erfolgt indem  auf die Funktion 'positionLeft' aus 'zeichnen.zahlenleiste.js' zugegriffen wird:
 		max.style.left = msa.zahlenleiste.positionLeft(stelle) + 'px';
-		//Als Werte werden die Zahlen aus dem Array in Arne´s 'ui.js'-Datei verwendet, wie auch schon in der Datei 'zeichnen.zahlenleiste.js':
+		//Als Werte werden die Zahlen aus dem Array in Arnes 'ui.js'-Datei verwendet, wie auch schon in der Datei 'zeichnen.zahlenleiste.js':
 		max.innerHTML = msa.theArray[stelle];
 		msa.ui.vorzeichenAnbringen(max);
 		
-		emile(max, 'top:10px', { duration: verzoegerung});
+		emile(max, 'top:-200px', { duration: verzoegerung});
 	}
 	
 	//Funktion zur Festlegung, welcher Wert (stelle in dem Array) wann 'hoch faehrt':
 	this.hochf = function (stelle, binfertig) {
 	    // animation
-		msa.maxHochfahren.maxHochfahren(stelle); 
+		this.maxHochfahren(stelle); 
 		setTimeout(function () {
 			binfertig();
 		}, verzoegerung);
 	}
 	
-	//Schnittstelle zu Antonia´s 'animation.merge.js'-Datei. Die Werte werden ihr uebergeben:
+	//Schnittstelle zu Antonias 'animation.merge.js'-Datei. Die Werte werden ihr uebergeben:
 	this.geben = function () {
 	    return{
 			trivialElement:max,

@@ -44,12 +44,11 @@ msa.Algorithmus = function () {
 			
 			var animation = new msa.MaxHochfahren();
 			if (linkeGrenze > rechteGrenze) {
-				// :TODO: Arne
 				fertig (0, null);  // leerer Array
 			}
 			else {
 				animation.hochf(linkeGrenze, function(){
-					var trivialErgebnis = Math.max(0, array[linkeGrenze]);
+					var trivialErgebnis = array[linkeGrenze];
 					var trivialErgebnisNode = animation.geben().trivialElement;
 					fertig (trivialErgebnis, trivialErgebnisNode);  // nur ein Element
 				});
@@ -167,28 +166,20 @@ msa.Algorithmus = function () {
 		// groesstes der drei Maxima ermitteln (noch Join)
 		
 		var maximaleSumme = ergebnis.randmaximumLinkerTeil + ergebnis.randmaximumRechterTeil;
-		var maximaleSummeNode = null;
 		if (ergebnis.links > maximaleSumme) {
 			maximaleSumme = ergebnis.links;
-			maximaleSummeNode = ergebnisNodes.links;
 		}
 		if (ergebnis.rechts > maximaleSumme) {
 			maximaleSumme = ergebnis.rechts;
-			maximaleSummeNode = ergebnisNodes.rechts;
 		}
 		
-		msa.addieren.addieren(
-			ergebnis.randmaximumLinkerTeil, ergebnisNodes.randmaximumLinkerTeil,
-			ergebnis.randmaximumRechterTeil, ergebnisNodes.randmaximumRechterTeil,
-			function(){
-				animationen.randmaximumRechterTeil.fadeOut();
-				animationen.randmaximumLinkerTeil.fadeOut();
-				// Ergebnis zurueckgeben an hoehere Ebene
-				fertig(maximaleSumme, maximaleSummeNode);
-			},
-			ergebnis.links, ergebnisNodes.links,
-			ergebnis.rechts, ergebnisNodes.rechts
-		);
+		var animation = new msa.Addieren();
+		animation.addieren(ergebnis, ergebnisNodes, mitte, function(maximaleSummeNode){
+			animationen.randmaximumRechterTeil.fadeOut();
+			animationen.randmaximumLinkerTeil.fadeOut();
+			// Ergebnis zurueckgeben an hoehere Ebene
+			fertig(maximaleSumme, maximaleSummeNode);
+		});
 	}
 }
 
