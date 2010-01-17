@@ -1,4 +1,5 @@
 /* Id: animation.merge.js 2009-12-04
+ * encoding utf-8
  * 
  * "merge"-Animation (7) (Visualisierung der Auswahl des hoechsten aus je drei Maximis)
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
@@ -14,12 +15,12 @@ if (! window.msa) { window.msa = {}; }
 
 msa.Merge = function () {
 
-	//rmaxl und rmaxr werden von maxHochfahren übergeben
-	//rmaxs wird von hochfahren übergeben
+	//rmaxl und rmaxr werden von maxHochfahren Ã¼bergeben
+	//rmaxs wird von hochfahren Ã¼bergeben
 	var maxl = null;
 	var rmaxs = null;
 	var maxr = null;
-	//maxs ist die höchste Zahl aus maxl, rmaxs, maxr 
+	//maxs ist die hÃ¶chste Zahl aus maxl, rmaxs, maxr 
 	var maxs = null;
 	
 	function init () {
@@ -28,15 +29,15 @@ msa.Merge = function () {
 		maxl = geben.maxl;
 		maxr = geben.maxr;
 	}
-	/*beim Aufruf von 'merge' werden in den 'if-Anweisungen' die übergebenen Inhalte der Variablen maxl, maxr 
-	  und rmax (welche rmaxs zugewiesen wird) verglichen und der höchste wert wird an die 'emile-Animation' 
-      übergeben. maxl und maxr fahren zusammen auf die Position  
+	/*beim Aufruf von 'merge' werden in den 'if-Anweisungen' die Ã¼bergebenen Inhalte der Variablen maxl, maxr 
+	  und rmax (welche rmaxs zugewiesen wird) verglichen und der hÃ¶chste wert wird an die 'emile-Animation' 
+      Ã¼bergeben. maxl und maxr fahren zusammen auf die Position  
 	*/
     this.merge = function (binfertig, rmax) {
 		rmaxs = rmax;
 	   	var zielPos = 'left:445px;top:50px';
 		
-		// die übergebenen Zahlen werden verglichen und die höchste wird in die variable maxs geschrieben 
+		// die Ã¼bergebenen Zahlen werden verglichen und die hÃ¶chste wird in die variable maxs geschrieben 
 	    if(Number(maxl.innerHTML) < Number(rmaxs.innerHTML)){
 			maxs = rmaxs;
 	    }else{
@@ -46,7 +47,7 @@ msa.Merge = function () {
 	    if(Number(maxs.innerHTML)<Number(maxr.innerHTML)){
 			maxs = maxr;
 	    }
-	    //maxs wird auf 200% vergrößert
+	    //maxs wird auf 200% vergrÃ¶ÃŸert
         emile(maxs, 'font-size:200%', { duration: 3000, after: function(){ 
 
 			maxl.style.visibility = 'hidden';

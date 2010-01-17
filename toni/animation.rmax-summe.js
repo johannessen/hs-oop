@@ -1,4 +1,5 @@
 /* Id: animation.rmax-summe.js 2009-12-04
+ * encoding utf-8
  * 
  * Randmaximorum-Animation (5)+(6) (Visualisierung der Addition beider Randmaximorum; Ergebnis "faehrt hoch")
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
@@ -13,13 +14,13 @@
 if (! window.msa) { window.msa = {}; }
 
 msa.Hochfahren = function () {
-	//rmaxs (wird von addieren) übergeben
+	//rmaxs (wird von addieren) Ã¼bergeben
 	var rmaxs = null;
 	
 	function init () {
 		
 	}
-	/*beim Aufruf von 'hochfahren' fährt  die übergebene Variable
+	/*beim Aufruf von 'hochfahren' fÃ¤hrt  die Ã¼bergebene Variable
 	  rmaxs auf die Zielposition, zwischen maxl uns maxr in 'animation.merge'
 	*/
 	this.hochfahren = function (objekt, wennFertig) {

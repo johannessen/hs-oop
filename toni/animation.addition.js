@@ -1,4 +1,5 @@
 /* Id: animation.addition.js 2009-12-04
+ * encoding utf-8
  * 
  * "merge"-Animation (7) (Visualisierung der Auswahl des hoechsten aus je drei Maximis)
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
@@ -20,7 +21,7 @@ msa.Addieren = function () {
 	function init () {	
 	
 	}
-	/*beim Aufruf von 'addieren' fahren die übergebenen Variablen nodeLinks und nodeRechts auf die Zielposition
+	/*beim Aufruf von 'addieren' fahren die Ã¼bergebenen Variablen nodeLinks und nodeRechts auf die Zielposition
 	  und werden danach unsichtbar.Danach wird die Summe aus den Werten von nodelinks und nodeRechts errechnet und 
 	  in rmaxs ausgegeben. 
 	*/
