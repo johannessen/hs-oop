@@ -44,24 +44,16 @@ msa.Algorithmus = function () {
 			
 			var animation = new msa.MaxHochfahren();
 			if (linkeGrenze > rechteGrenze) {
-				var nullErgebnis = document.createElement('DIV');  // :TODO:
-				msa.ui.dom.canvas.appendChild(nullErgebnis);
-				animation.hochf(linkeGrenze, function(){
-					fertig (0, nullErgebnis);  // leerer Array
-				});
-			}
-			if (array[linkeGrenze] < 0) {
-				var nullErgebnis = document.createElement('DIV');  // :TODO:
-				msa.ui.dom.canvas.appendChild(nullErgebnis);
-				animation.hochf(linkeGrenze, function(){
-					fertig (0, nullErgebnis);  // nur ein Element (negativ => Maximum ist leerer Sub-Array)
-				});
+				// :TODO: Arne
+				fertig (0, null);  // leerer Array
 			}
 			else {
 				animation.hochf(linkeGrenze, function(){
-					fertig (array[linkeGrenze], animation.geben().trivialElement);  // nur ein Element
+					var trivialErgebnis = Math.max(0, array[linkeGrenze]);
+					var trivialErgebnisNode = animation.geben().trivialElement;
+					fertig (trivialErgebnis, trivialErgebnisNode);  // nur ein Element
 				});
-			 }
+			}
 			
 		}
 		else {
@@ -120,7 +112,7 @@ msa.Algorithmus = function () {
 				maximaleSumme = summe;
 			}
 		}
-		ergebnis.mitte = maximaleSumme;
+		ergebnis.randmaximumLinkerTeil = maximaleSumme;
 		
 		var animation = new msa.RandmaximumAnimation({
 			startFromIndex: mitte,
@@ -154,9 +146,9 @@ msa.Algorithmus = function () {
 				maximaleSumme = summe;
 			}
 		}
-		ergebnis.mitte = ergebnis.mitte + maximaleSumme;
+		ergebnis.randmaximumRechterTeil = maximaleSumme;
 		
-		var animation = new msa.RandmaximumAnimation({
+		var animationsEinstellungen = {
 			startFromIndex: mitte + 1,
 			columnCount: rechteGrenze - mitte,
 			divider: document.getElementsByClassName('trennstrich')[0],  // :BUG: dirty hack, but seems to work and is only used for horizontal positioning anyway
@@ -164,7 +156,8 @@ msa.Algorithmus = function () {
 				ergebnisNodes.randmaximumRechterTeil = animation.randmaximumNode();
 				ergebnisAuswaehlen();
 			},
-		});
+		};
+		var animation = new msa.RandmaximumAnimation(animationsEinstellungen);
 		animation.run();
 		animationen.randmaximumRechterTeil = animation;  // speichern fuer spaeteres ausblenden
 	}
@@ -173,7 +166,7 @@ msa.Algorithmus = function () {
 	function ergebnisAuswaehlen () {
 		// groesstes der drei Maxima ermitteln (noch Join)
 		
-		var maximaleSumme = ergebnis.mitte;
+		var maximaleSumme = ergebnis.randmaximumLinkerTeil + ergebnis.randmaximumRechterTeil;
 		var maximaleSummeNode = null;
 		if (ergebnis.links > maximaleSumme) {
 			maximaleSumme = ergebnis.links;
@@ -185,14 +178,16 @@ msa.Algorithmus = function () {
 		}
 		
 		msa.addieren.addieren(
-			ergebnis.links, ergebnisNodes.randmaximumLinkerTeil,
-			ergebnis.rechts, ergebnisNodes.randmaximumRechterTeil,
+			ergebnis.randmaximumLinkerTeil, ergebnisNodes.randmaximumLinkerTeil,
+			ergebnis.randmaximumRechterTeil, ergebnisNodes.randmaximumRechterTeil,
 			function(){
 				animationen.randmaximumRechterTeil.fadeOut();
 				animationen.randmaximumLinkerTeil.fadeOut();
 				// Ergebnis zurueckgeben an hoehere Ebene
 				fertig(maximaleSumme, maximaleSummeNode);
-			}
+			},
+			ergebnis.links, ergebnisNodes.links,
+			ergebnis.rechts, ergebnisNodes.rechts
 		);
 	}
 }

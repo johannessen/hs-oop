@@ -21,10 +21,14 @@
 }
 
 .zahlenblock.aus  .Einheit {
-	background-image: none;
-	background-color: #dfd;
+	background-image: url(EinheitPositivInaktiv.png);
+	
 }
 
+.zahlenblock.aus .Einheit.negativ{
+
+background-image: url(EinheitNegativInaktiv.png);
+}
 /*
 .Einheit{
 	

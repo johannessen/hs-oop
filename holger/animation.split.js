@@ -36,10 +36,12 @@ msa.Trennstrich = function  () {;
 		var zahl = zahlen[index]; 
 		
 		
-		
+		//  bereich hervorheben
 		for (var i=0; i < l; i++)
 		{
 			zahlen[i].className = 'zahlenblock aus';
+			
+					
 		}	
 			
 		for (var j=l; j <= r; j++)
@@ -56,7 +58,7 @@ msa.Trennstrich = function  () {;
 			
 		
 		
-		//  bereich hervorheben
+		
 		
 		
 		
@@ -105,7 +107,7 @@ msa.Trennstrich = function  () {;
 				
 		// do a little animation, just for fun
 		//Dauer der Animation in millisekunden
-		emile(trennstrich, 'height:400px;top:20px', { duration: 3000, after: function () {
+		emile(trennstrich, 'height:400px;top:20px', { duration: 300, after: function () {
 			binfertig();
 		} });
 		
