@@ -58,7 +58,17 @@ msa.RandmaximumAnimation = function (options) {
 			x0 = options.x;
 		}
 		x1 = 0;
+		/* We want to prevent overlapping those columns that we receive blocks from,
+		 * because that'd be an ugly visual effect. So the idea is to determine the
+		 * maximum height of negative columns in the vicinity of the divider line.
+		 * This algorithm may consider more columns than strictly necessary in some
+		 * situations (e. g. odd number of array items), but that's of no concern to
+		 * us -- the rmax stack would simply be have more clearance than necessary.
+		 */
 		var maxNegative = 0;
+/*
+		for (var i = 
+*/
 		for (var i = 0; Math.abs(columnCount - i) > 0; i += direction) {  // bi-directional for loop
 			maxNegative = Math.min(maxNegative, msa.theArray[startFromIndex + i]);
 		}
