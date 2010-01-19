@@ -14,6 +14,9 @@
 if (! window.msa) { window.msa = {}; }
 
 
+/**
+ * 
+ */
 msa.Schaltstelle = function () {
 	
 	
@@ -25,6 +28,9 @@ msa.Schaltstelle = function () {
 	arguments.callee.instance = this;
 	
 	
+	/**
+	 * 
+	 */
 	this.addDomLoadedMessage = function (message) {
 		domLoadedMessages[domLoadedMessages.length] = message;
 		if (domLoaded) {
@@ -33,12 +39,21 @@ msa.Schaltstelle = function () {
 	}
 	
 	
+	/**
+	 * 
+	 */
 	var domLoaded = false;
 	
 	
+	/**
+	 * 
+	 */
 	var domLoadedMessages = [];
 	
 	
+	/**
+	 * 
+	 */
 	function domDidLoad () {
 		// only execute this function once (Singleton)
 		if (domLoaded) {
@@ -59,6 +74,9 @@ msa.Schaltstelle = function () {
 	}
 	
 	
+	/**
+	 * 
+	 */
 	function registerDomDidLoad () {
 		/* Currently there's no interoperable way to register an event
 		 * handler to be called after the DOM is loaded, but before images
@@ -107,6 +125,9 @@ msa.Schaltstelle = function () {
 }
 
 
+/**
+ * 
+ */
 msa.Schaltstelle.DomReferenceException = function (referenceName) {
 	this.name = 'msa.Schaltstelle.DomReferenceException';
 	this.message = this.name + ': required DOM reference "' + referenceName + '" unavailable; aborting start of animation';

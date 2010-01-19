@@ -14,15 +14,22 @@
 if (! window.msa) { window.msa = {}; }
 
 
-// das Array, auf dem gearbeitet wird
+/**
+ * das Array, auf dem gearbeitet wird
+ */
 msa.theArray = [2, 4, -8, -1, 2, -6, 4, 3];
 
 
 
+/**
+ * 
+ */
 msa.Ui = function () {
 	
 	
-	// public DOM references
+	/**
+	 * public DOM references
+	 */
 	this.dom = {
 		canvas: null,
 		zahlenleiste: undefined,
@@ -38,10 +45,15 @@ msa.Ui = function () {
 	 */
 	
 	
-	// local reference as lexical closure
+	/**
+	 * local reference as lexical closure
+	 */
 	var dom = this.dom;
 	
 	
+	/**
+	 * 
+	 */
 	function run () {
 		var options = {
 			fertig: function(zahl){ ergebnisZeigen(zahl); },
@@ -52,28 +64,43 @@ msa.Ui = function () {
 	}
 	
 	
+	/**
+	 * 
+	 */
 	function ergebnisZeigen (ergebnisZahl) {
 		alert('Maximale Teilsumme: ' + ergebnisZahl);
 	}
 	
 	
+	/**
+	 * 
+	 */
 	function initDomReferences () {
 		dom.canvas = document.getElementById('canvas');
 		dom.startButton = document.getElementById('start-button');
 	}
 	
 	
+	/**
+	 * 
+	 */
 	function initButtons () {
 		dom.startButton.onclick = run;
 		dom.startButton.disabled = false;
 	}
 	
 	
+	/**
+	 * 
+	 */
 	this.zahlenleisteZeichnenFertig = function () {
 		initButtons();
 	}
 	
 	
+	/**
+	 * 
+	 */
 	this.vorzeichenAnbringen = function (element) {
 		try {
 			var wert = Number(element.innerHTML);
@@ -89,6 +116,9 @@ msa.Ui = function () {
 	}
 	
 	
+	/**
+	 * 
+	 */
 	function init () {
 		// execute this immediately when the app is loaded
 		msa.schaltstelle.addDomLoadedMessage(function () {
