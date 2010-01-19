@@ -14,23 +14,63 @@
 if (! window.msa) { window.msa = {}; }
 
 
+/**
+ * 
+ */
 msa.BlockExplosion = function (block1, block2) {
 	this.block1 = block1;
 	this.block2 = block2;
 }
 msa.BlockExplosion.constructor = msa.BlockExplosion;
 
+
+/**
+ * 
+ */
 msa.BlockExplosion.prototype.removeBlocksAtStep = 1;
+
+
+/**
+ * 
+ */
 msa.BlockExplosion.prototype.stepCount = 5;
+
+
+/**
+ * 
+ */
 msa.BlockExplosion.prototype.millisecondsPerStep = 100;
+
+
+/**
+ * 
+ */
 msa.BlockExplosion.prototype.imageClassName = 'explosion';
+
+
+/**
+ * 
+ */
 msa.BlockExplosion.prototype.imageOffsetTop = -9;
+
+
+/**
+ * 
+ */
 msa.BlockExplosion.prototype.imageOffsetLeft = -9;
 
+
+/**
+ * 
+ */
 msa.BlockExplosion.prototype.heightOfImagePerStep = function (imageNode) {
 	return imageNode.offsetWidth;
 }
 
+
+/**
+ * 
+ */
 msa.BlockExplosion.prototype.run = function () {
 	var block1 = this.block1;
 	var block2 = this.block2;

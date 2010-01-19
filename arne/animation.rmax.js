@@ -14,6 +14,9 @@
 if (! window.msa) { window.msa = {}; }
 
 
+/**
+ * 
+ */
 msa.RandmaximumAnimation = function (options) {
 	
 	
@@ -38,6 +41,9 @@ msa.RandmaximumAnimation = function (options) {
 	var animationDone;
 	
 	
+	/**
+	 * 
+	 */
 	function init () {
 		startFromIndex = options.startFromIndex;
 		columnCount = options.columnCount;
@@ -96,6 +102,9 @@ msa.RandmaximumAnimation = function (options) {
 	}
 	
 	
+	/**
+	 * 
+	 */
 	function cloneColumn (columnNode) {
 		var cloneBlocks = [];
 		for (var i = 0; i < columnNode.childNodes.length; i++) {
@@ -111,12 +120,18 @@ msa.RandmaximumAnimation = function (options) {
 	}
 	
 	
+	/**
+	 * 
+	 */
 	this.flush = function () {
 		if (! containerNode || ! containerNode.parentNode) { return; }
 		containerNode.parentNode.removeChild(containerNode);
 	}
 	
 	
+	/**
+	 * 
+	 */
 	function moveDone () {
 		if (columnIndexOffset * direction >= cloneBlocksColumns.length) {
 			animationDone();
@@ -124,6 +139,9 @@ msa.RandmaximumAnimation = function (options) {
 	}
 	
 	
+	/**
+	 * 
+	 */
 	this.moveDownColumn = function (options) {
 		
 		var moveDoneCallback = options ? options.after || function () {} : function () {};
@@ -207,16 +225,25 @@ msa.RandmaximumAnimation = function (options) {
 	}
 	
 	
+	/**
+	 * 
+	 */
 	this.containerNode = function () {
 		return containerNode;
 	}
 	
 	
+	/**
+	 * 
+	 */
 	this.randmaximumNode = function () {
 		return numberMaxNode;
 	}
 	
 	
+	/**
+	 * 
+	 */
 	this.run = function () {
 		var moveDownColumn = this.moveDownColumn;
 		function moveColumn (i) {
@@ -233,6 +260,9 @@ msa.RandmaximumAnimation = function (options) {
 	}
 	
 	
+	/**
+	 * 
+	 */
 	this.fadeOut = function () {
 		containerNode.style.opacity = 1;
 		var flush = this.flush;
