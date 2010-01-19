@@ -56,6 +56,7 @@ msa.Merge = function (ergebnisNodes) {
 
 			maxl.style.visibility = 'hidden';
 			maxr.style.visibility = 'hidden'; 
+			rmaxs.style.visibility = 'hidden'; 
 		
 			maxs.style.visibility = 'visible'; 
 			maxs.style.fontSize = '40px';	
