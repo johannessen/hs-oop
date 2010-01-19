@@ -128,6 +128,8 @@ msa.Algorithmus = function () {
 */
 				randmaximumRechterTeil();
 			},
+			leftIndex: linkeGrenze,
+			rightIndex: rechteGrenze
 		});
 		animation.run();
 		animationen.randmaximumLinkerTeil = animation;  // speichern fuer spaeteres ausblenden
@@ -155,6 +157,8 @@ msa.Algorithmus = function () {
 				ergebnisNodes.randmaximumRechterTeil = animation.randmaximumNode();
 				ergebnisAuswaehlen();
 			},
+			leftIndex: linkeGrenze,
+			rightIndex: rechteGrenze
 		};
 		var animation = new msa.RandmaximumAnimation(animationsEinstellungen);
 		animation.run();

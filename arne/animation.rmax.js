@@ -42,7 +42,9 @@ msa.RandmaximumAnimation = function (options) {
 	
 	
 	/**
-	 * 
+	 * Read the options passed to us as parameter to the constructor and
+	 * configure the animation accordingly. The essential DOM nodes are also
+	 * created.
 	 */
 	function init () {
 		startFromIndex = options.startFromIndex;
@@ -50,30 +52,52 @@ msa.RandmaximumAnimation = function (options) {
 		direction = columnCount / Math.abs(columnCount);
 		animationDone = options.after || function () {};
 		
-		// determine initial x and y coordinates
-		if (options.divider) {
-			x0 = options.divider.offsetLeft + 2 * options.divider.offsetWidth * direction;
-		}
-		else {  // :KILLME:
-			x0 = options.x;
-		}
+		initCoordinates();
 		x1 = 0;
+		
+		createDomNodes();
+	}
+	
+	
+	/**
+	 * Determines initial x0 and y0 coordinates to start the animation at in
+	 * accordance with the parameters passed to the constructor call.
+	 */
+	function initCoordinates () {
+		x0 = options.divider.offsetLeft + 2 * options.divider.offsetWidth * direction;
+		
 		/* We want to prevent overlapping those columns that we receive blocks from,
 		 * because that'd be an ugly visual effect. So the idea is to determine the
-		 * maximum height of negative columns in the vicinity of the divider line.
+		 * maximum height of all negative columns in the vicinity of the divider line.
 		 * This algorithm may consider more columns than strictly necessary in some
 		 * situations (e. g. odd number of array items), but that's of no concern to
-		 * us -- the rmax stack would simply be have more clearance than necessary.
+		 * us -- the rmax stack will simply have more clearance than necessary.
 		 */
 		var maxNegative = 0;
-/*
-		for (var i = 
-*/
-		for (var i = 0; Math.abs(columnCount - i) > 0; i += direction) {  // bi-directional for loop
-			maxNegative = Math.min(maxNegative, msa.theArray[startFromIndex + i]);
+		var maxNegativeIndicesDefined = options.leftIndex != undefined && options.rightIndex != undefined;
+		if (maxNegativeIndicesDefined) {
+			for (var i = options.leftIndex; i <= options.rightIndex; i++) {
+				maxNegative = Math.min(maxNegative, msa.theArray[i]);
+			}
+		}
+		else {
+			/* Since we didn't receive absolute array indices, we can only take
+			 * into consideration those columns that we actively operate on, not
+			 * any others that might be affected in ways this animation doesn't
+			 * know about.
+			 */
+			for (var i = 0; Math.abs(columnCount - i) > 0; i += direction) {  // bi-directional for loop
+				maxNegative = Math.min(maxNegative, msa.theArray[startFromIndex + i]);
+			}
 		}
 		y0 = maxNegative * -30 + 30;
-		
+	}
+	
+	
+	/**
+	 * 
+	 */
+	function createDomNodes () {
 		containerNode = document.createElement('DIV');
 		containerNode.className = 'randmaximum-container';
 		msa.ui.dom.zahlenleiste.appendChild(containerNode);
