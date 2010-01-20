@@ -382,7 +382,7 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 		<br>Umfang: mäßig
 		<br>Schwere: gering
 		
-		<li class=erledigt>Ob der veränderte Algorithmus auf Arrays mit ungerader Länge noch numerisch korrekt arbeitet, ist unsicher; ggf. reparieren. (arne/, holger/)
+		<li class=erledigt>Ob der veränderte Algorithmus auf Arrays mit ungerader Länge noch numerisch korrekt arbeitet, ist unsicher; ggf. reparieren. (holger/)
 		<br>Umfang: klein (prüfen), groß (reparieren)
 		<br>Schwere: gering (Konzept sieht statischen Array vor)
 		<br><small>Grund: <code>arne/test.js</code> → <code>NumerikTest#testTrivialeFaelle_1</code> schlägt in der Tat fehl, weil der veränderte Algorithmus negative Trivialergebnisse immer unkorrigiert zurückgibt, was nur kein Problem ist g. d. w. Randmaxima berechnet werden. Das ist aber beim Array <code>[-1]</code> nicht der Fall. Weil der veränderte Algorithmus aber für die Animation benötigt wird, ist ein Special-Case die einzige vernünftige Lösung für diese Regression.</small>
