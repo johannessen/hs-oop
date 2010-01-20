@@ -394,10 +394,11 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 		<br>Umfang: klein
 		<br>Schwere: gering
 		
-		<li>Die Zahlenleiste wird gelegentlich an falscher Position im Canvas gezeichnet; Neuladen hilft. (bianca/, ./, arne/)
+		<li>Die Zahlenleiste wird gelegentlich an falscher Position im Canvas gezeichnet; Neuladen hilft. (bianca/)
 		<br>Umfang: klein
 		<br>Schwere: gering
-		<br><small>Grund: race condition</small>
+		<br><small>Grund: Entweder in <code>Émile.js</code> oder in <code>window.getComputedStyle()</code> gibt es ein Problem, das anscheinend durch unseren Code getriggert wird und das statt des von uns korrekt gesetzten <code>.style.left</code>-Wertes <code>'auto'</code> zurückliefert, was dann von <code>Émile.js</code> nicht weiterverarbeitet werden kann.</small>
+		<br><strong>Workaround:</strong> Neu laden
 		
 		<li>Das z-Ordering passt nicht während der Merge-Animation. (toni/)
 		<br>Umfang: klein
