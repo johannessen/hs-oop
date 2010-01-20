@@ -50,6 +50,7 @@ msa.Algorithmus = function () {
 				animation.hochf(linkeGrenze, function(){
 					var trivialErgebnis = array[linkeGrenze];
 					var trivialErgebnisNode = animation.geben().trivialElement;
+					if (trivialErgebnis < 0 && array.length == 1) { trivialErgebnis = 0; }  // loest Problem Nr. 6 (siehe Bugliste) -aj3
 					fertig (trivialErgebnis, trivialErgebnisNode);  // nur ein Element
 				});
 			}
