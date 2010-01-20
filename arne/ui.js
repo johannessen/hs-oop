@@ -57,7 +57,7 @@ msa.Ui = function () {
 	function run () {
 		dom.startButton.disabled = true;
 		var options = {
-			fertig: function(zahl){ ergebnisZeigen(zahl); },
+			fertig: function(zahl, node){ showFinalResult(zahl, node); },
 			array: msa.theArray
 		}
 		var algorithmus = new msa.Algorithmus();
@@ -68,8 +68,25 @@ msa.Ui = function () {
 	/**
 	 * 
 	 */
-	function ergebnisZeigen (ergebnisZahl) {
-		alert('Maximale Teilsumme: ' + ergebnisZahl);
+	function showFinalResult (ergebnisZahl, ergebnisNode) {
+		// report final result value
+		dom.output.innerHTML = ergebnisZahl;
+		msa.ui.vorzeichenAnbringen(dom.output);
+		dom.output.innerHTML = 'Summe des Maximum–Sub-Arrays: ' + dom.output.innerHTML;
+		
+		// let the final result's node vanish
+		ergebnisNode.style.opacity = 1;
+		ergebnisNode.style.fontSize = '20px';
+		ergebnisNode.style.marginLeft = 0;
+		emile(ergebnisNode, 'opacity:0;font-size:96px;margin-left:-.5em', { duration: 1200 });
+
+		// flash the screen once in celebration
+		document.documentElement.style.backgroundColor = '#eee';
+		emile(document.documentElement, 'background-color:#090', { duration: 120, after: function () {
+			emile(document.documentElement, 'background-color:#eee', { duration: 180 });
+		} });
+		
+		// enable the start button to give the user another chance to see the demo
 		dom.startButton.disabled = false;
 	}
 	
@@ -80,6 +97,7 @@ msa.Ui = function () {
 	function initDomReferences () {
 		dom.canvas = document.getElementById('canvas');
 		dom.startButton = document.getElementById('start-button');
+		dom.output = document.getElementById('state');
 	}
 	
 	

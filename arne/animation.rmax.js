@@ -318,7 +318,7 @@ msa.RandmaximumAnimation = function (options) {
 msa.schaltstelle.addDomLoadedMessage(function () {
 	var widgetNode = document.createElement('DIV');
 	widgetNode.innerHTML = '<INPUT TYPE="button" VALUE="Randmaximum-Animation testen" ONCLICK="testRandmaximumAnimation()">';
-	document.body.appendChild(widgetNode);
+	document.getElementById('controls').appendChild(widgetNode);
 });
 function testRandmaximumAnimation () {
 	// :DEBUG: hard-code input values
