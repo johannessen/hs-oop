@@ -56,6 +56,7 @@ msa.Ui = function () {
 	 */
 	function run () {
 		dom.startButton.disabled = true;
+		dom.output.innerHTML = 'Vorführung läuft…';
 		var options = {
 			fertig: function(zahl, node){ showFinalResult(zahl, node); },
 			array: msa.theArray
@@ -78,7 +79,8 @@ msa.Ui = function () {
 		ergebnisNode.style.opacity = 1;
 		ergebnisNode.style.fontSize = '20px';
 		ergebnisNode.style.marginLeft = 0;
-		emile(ergebnisNode, 'opacity:0;font-size:96px;margin-left:-.5em', { duration: 1200 });
+		ergebnisNode.style.marginTop = 0;
+		emile(ergebnisNode, 'opacity:0;font-size:96px;margin-left:-.5em;margin-top:300px', { duration: 1200 });
 
 		// flash the screen once in celebration
 		document.documentElement.style.backgroundColor = '#eee';
