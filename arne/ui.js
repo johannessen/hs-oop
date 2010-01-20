@@ -17,7 +17,7 @@ if (! window.msa) { window.msa = {}; }
 /**
  * das Array, auf dem gearbeitet wird
  */
-msa.theArray = [2, 4, -8, -1, 2, -6, 4, 3];
+msa.theArray = [2, -3, 5, -1, 1, -4, 2, 3];
 
 
 
@@ -55,6 +55,7 @@ msa.Ui = function () {
 	 * 
 	 */
 	function run () {
+		dom.startButton.disabled = true;
 		var options = {
 			fertig: function(zahl){ ergebnisZeigen(zahl); },
 			array: msa.theArray
@@ -69,6 +70,7 @@ msa.Ui = function () {
 	 */
 	function ergebnisZeigen (ergebnisZahl) {
 		alert('Maximale Teilsumme: ' + ergebnisZahl);
+		dom.startButton.disabled = false;
 	}
 	
 	
