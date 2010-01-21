@@ -124,7 +124,7 @@ msa.RandmaximumAnimation = function (options) {
 				maxNegative = Math.min(maxNegative, msa.theArray[startFromIndex + i]);
 			}
 		}
-		y0 = maxNegative * -30 + 30;
+		y0 = maxNegative * -30 + 20;
 	}
 	
 	
@@ -237,6 +237,7 @@ msa.RandmaximumAnimation = function (options) {
 		var currentSubtotalValue = currentValue;
 		var arrayItemValue = msa.theArray[startFromIndex + columnIndexOffset];
 		
+		
 		// show maximum (stack and number)
 		currentValue += arrayItemValue;
 		if (currentValue > currentMaxValue) {
@@ -249,8 +250,9 @@ msa.RandmaximumAnimation = function (options) {
 			setTimeout(function () {
 				numberMaxNode.innerHTML = currentMaxValue;
 				numberMaxNode.style.left = (x0 + direction * (currentMaxValue * 30 + 1)) + 'px';
-			}, 160 * arrayItemValue - 160 + 450);  // :FIXME:
+			}, 160 * arrayItemValue - 160 + 450);
 		}
+		
 		
 		// show current (animate blocks and update number)
 		var blocks = cloneBlocksColumns[Math.abs(columnIndexOffset)];
@@ -262,6 +264,7 @@ msa.RandmaximumAnimation = function (options) {
 				}, 450);
 				return;  // end recursion
 			}
+			
 			
 			// calculate new subtotal value
 			var stackGetsLarger = currentSubtotalValue >= 0 && arrayItemValue > 0 || currentSubtotalValue <= 0 && arrayItemValue < 0;
@@ -276,10 +279,11 @@ msa.RandmaximumAnimation = function (options) {
 			}
 			var xLeft = x;
 			if ( (direction > 0) == stackGetsLarger ) {
-				xLeft -= 30;  // // adjust for position root being on the left edge whenever the direction of move is towards the left
+				xLeft -= 30;  // adjust for position root being on the left edge whenever the direction of move is towards the left
 			}
 			var left = (x0 + xLeft) + 'px';
 			var top = (y0) + 'px';
+			
 			
 			// animate block movement down to the horizontal stack
 			var block = blocks[i];
@@ -302,6 +306,7 @@ msa.RandmaximumAnimation = function (options) {
 			emile(numberNode, numberCss, { duration: 450, after: function () {
 				numberNode.innerHTML = Number(numberNode.innerHTML) + (arrayItemValue > 0 ? 1 : -1);
 			} });
+			
 			
 			// delay recursion so that all blocks don't move at once
 			setTimeout(function () {
@@ -372,7 +377,7 @@ msa.RandmaximumAnimation = function (options) {
 	this.fadeOut = function () {
 		containerNode.style.opacity = 1;
 		var flush = this.flush;
-		emile(containerNode, 'opacity:0', { duration: 600, after: function () {
+		emile(containerNode, 'opacity:0', { duration: 700, after: function () {
 			flush();
 		} });
 	}

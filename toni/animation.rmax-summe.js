@@ -15,7 +15,7 @@ if (! window.msa) { window.msa = {}; }
 
 msa.Hochfahren = function () {
 	
-	var animationsDauer = 3000;
+	var animationsDauer = 2200;
 	
 	function init () {
 		

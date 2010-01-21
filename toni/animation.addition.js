@@ -15,7 +15,7 @@ if (! window.msa) { window.msa = {}; }
 
 
 msa.Addieren = function () {
-	var animationsDauer = 3000;
+	var animationsDauer = 2000;
 		
 	function init () {	
 		
@@ -35,7 +35,8 @@ msa.Addieren = function () {
 		var nodeRechts = ergebnisNodes.randmaximumRechterTeil;
 		
 //		var posLeftMax = (msa.zahlenleiste.positionLeft(mitteIndex) + msa.zahlenleiste.positionLeft(mitteIndex + 1)) / 2 + 12;
-		var posLeftMax = msa.zahlenleiste.positionLeft(mitteIndex) + 35;  // :BUG: das stimmt so nicht ganz
+//		var posLeftMax = msa.zahlenleiste.positionLeft(mitteIndex) + 35;  // :BUG: das stimmt so nicht ganz
+		var posLeftMax = (msa.zahlenleiste.positionLeft(mitteIndex) + msa.zahlenleiste.positionLeft(mitteIndex + 1)) / 2 + 15;
 		var posTopMax = nodeLinks.offsetTop;
 		//zielPos ist die Position an der nodeLinks und nodeRechts nach der Animation stehen sollen	
 		var zielPos = 'left:' + posLeftMax + 'px;top:' + nodeLinks.offsetTop + 'px';
@@ -52,8 +53,8 @@ msa.Addieren = function () {
 			var summe = zahlLinks + zahlRechts;
 			rmaxs.innerHTML = summe;
 			msa.ui.vorzeichenAnbringen(rmaxs);
-			rmaxs.style.left=posLeftMax + 'px';
-			rmaxs.style.top=nodeLinks.offsetTop + 'px';
+			rmaxs.style.left=(posLeftMax - 10) + 'px';
+			rmaxs.style.top=(nodeLinks.offsetTop) + 'px';
 			rmaxs.style.zIndex='2';
 			rmaxs.style.background='white';
 			rmaxs.style.fontSize='20px';

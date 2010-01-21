@@ -74,7 +74,7 @@ msa.Trennstrich = function  () {;
 			zahl = zahlen[index];
 			var zahlPositionX = zahl.offsetLeft;
 			
-			this.zeichnen(zahlPositionX - 10);
+			this.zeichnen(zahlPositionX - 11);
 		}
 	}
 	
@@ -107,7 +107,7 @@ msa.Trennstrich = function  () {;
 				
 		// do a little animation, just for fun
 		//Dauer der Animation in millisekunden
-		emile(trennstrich, 'height:400px;top:20px', { duration: 300, after: function () {
+		emile(trennstrich, 'height:380px;top:10px', { duration: 1000, after: function () {
 			binfertig();
 		} });
 		

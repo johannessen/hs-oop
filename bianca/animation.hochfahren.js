@@ -15,7 +15,7 @@ if (! window.msa) { window.msa = {}; }
 msa.MaxHochfahren = function (){
 	
 	var max = null;
-	var verzoegerung = 3000;
+	var verzoegerung = 1700;
 
 	function init(){
 		max = document.getElementById('max');
@@ -28,7 +28,7 @@ msa.MaxHochfahren = function (){
 		//Fuegt das ELement 'max' an das Canvas-Element an:
 		msa.ui.dom.zahlenleiste.appendChild(max);
 		
-		max.style.top = '0px';
+		max.style.top = '-10px';
 		
 		//Da hier nur der triviale Fall abhandelt wird werden nur die vorhandenen Werte der Zahlenleiste verwendet. 
 		//Die horizontale Platzierung erfolgt indem  auf die Funktion 'positionLeft' aus 'zeichnen.zahlenleiste.js' zugegriffen wird:

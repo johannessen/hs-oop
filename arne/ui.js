@@ -88,6 +88,7 @@ msa.Ui = function () {
 		}
 		
 		// let the final result's node vanish
+		ergebnisNode.style.backgroundColor = 'transparent';
 		ergebnisNode.style.opacity = 1;
 		ergebnisNode.style.fontSize = '20px';
 		ergebnisNode.style.marginLeft = 0;
@@ -176,6 +177,19 @@ msa.Ui = function () {
 			msa.zahlenleiste.zeichnen(msa.theArray);
 			
 		});
+		
+		// read test array from URL query string
+		var uri = window.location.toString();
+		if (uri.indexOf('?') > 0) {
+			var array = uri.substring(uri.indexOf('?') + 1).split(',');
+			msa.theArray = [];
+			for (var i = 0; i < array.length; i++) {
+				if (! array[i].match(/^[-+0-9]+$/)) {
+					break;
+				}
+				msa.theArray.push(Number(array[i]));
+			}
+		}
 	}
 	
 	

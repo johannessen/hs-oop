@@ -52,7 +52,7 @@ msa.Merge = function (ergebnisNodes) {
 			maxsNumber = ergebnis.rechts;
 		}
 		//maxs wird auf 200% vergrößert
-		emile(maxs, 'font-size:40px', { duration: 3000, after: function(){ 
+		emile(maxs, 'font-size:40px', { duration: 400, after: function(){ 
 
 			maxl.style.visibility = 'hidden';
 			maxr.style.visibility = 'hidden'; 
@@ -60,17 +60,21 @@ msa.Merge = function (ergebnisNodes) {
 		
 			maxs.style.visibility = 'visible'; 
 			maxs.style.fontSize = '40px';	
+			maxs.style.zIndex = undefined;	
 			
-			emile(maxs, 'font-size:20px', { duration: 3000, after: function(){ 
+			emile(maxs, 'font-size:20px', { duration: 750, after: function(){ 
 		
 					binfertig(maxs);}
 				}); 
 			}		
 		});		
 		
-		emile(maxl, zielPos, { duration: 3000});    
-		emile(maxr, zielPos, { duration: 3000});  		
-
+		emile(maxl, zielPos, { duration: 520});    
+		emile(maxr, zielPos, { duration: 520});  		
+		
+		// loest Problem Nr. 10 (siehe Bugliste) -aj3
+		maxs.style.zIndex = 10;
+		maxs.style.backgroundColor = 'white';
 	}
 	init();
 }
