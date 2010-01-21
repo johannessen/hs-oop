@@ -15,50 +15,55 @@ if (! window.msa) { window.msa = {}; }
 
 
 /**
- * das Array, auf dem gearbeitet wird
+ * The hard-coded default array that we work with.
  */
 msa.theArray = [2, -3, 5, -1, 1, -4, 2, 3];
 
 
-
 /**
+ * This is the adapter to the human interface. In a Model-View-Controller
+ * pattern according to Jacobsen, this is a 'View' object that Jacobsen calls
+ * 'Interface' object; according to Reenskaug et. al, this is a 'Controller'
+ * object.
  * 
+ * This object prototype was dveloped out of msa.Schaltstelle when it was
+ * realised that the latter was suffering from scope creep. As a result,
+ * msa.Schaltstelle is now a mere collection of some utility functions.
+ * 
+ * Creating multiple instances of msa.Ui is unsupported and will likely
+ * produce problems.
  */
 msa.Ui = function () {
 	
 	
 	/**
-	 * public DOM references
+	 * Object containing public DOM references. May be supplanted by code
+	 * outside msa.Ui.
+	 * 
+	 * The references listed here having 'null' value are required references,
+	 * without which the applicaton won't work.
 	 */
 	this.dom = {
 		canvas: null,
-		zahlenleiste: undefined,
 		startButton: null
 	}
 	
-	/* Public DOM references that are intentionally undefined are merely
-	 * placeholders for objects to be defined later. Since nothing is
-	 * dependant upon their existence, they may safely be removed. Their
-	 * purpose is to give an in-code overview over the abvailable DOM
-	 * references while at the same time not interfere with the DOM reference
-	 * load success checker algorithm.
-	 */
 	
-	
-	/**
-	 * local reference as lexical closure
-	 */
+	// local reference as lexical closure
 	var dom = this.dom;
 	
 	
 	/**
-	 * 
+	 * This function starts off the demonstration of the divide-and-conquer
+	 * approach to the MSA problem. Call this to get things going.
 	 */
 	function run () {
 		dom.startButton.disabled = true;
-		dom.output.innerHTML = 'Vorführung läuft…';
+		if (dom.output) {
+			dom.output.innerHTML = 'Vorführung läuft…';
+		}
 		var options = {
-			fertig: function(zahl, node){ showFinalResult(zahl, node); },
+			fertig: function (zahl, node) { showFinalResult(zahl, node); },
 			array: msa.theArray
 		}
 		var algorithmus = new msa.Algorithmus();
@@ -67,13 +72,20 @@ msa.Ui = function () {
 	
 	
 	/**
+	 * This function is used as a callback function when the demo is started.
+	 * It is supposed to be called when the demo is done and announces the
+	 * final result when it is.
 	 * 
+	 * @param ergebnisZahl - value of the final result
+	 * @param ergebnisNode - DOM node containing the final result's value
 	 */
 	function showFinalResult (ergebnisZahl, ergebnisNode) {
-		// report final result value
-		dom.output.innerHTML = ergebnisZahl;
-		msa.ui.vorzeichenAnbringen(dom.output);
-		dom.output.innerHTML = 'Summe des Maximum–Sub-Arrays: ' + dom.output.innerHTML;
+		if (dom.output) {
+			// report final result value
+			dom.output.innerHTML = ergebnisZahl;
+			msa.ui.vorzeichenAnbringen(dom.output);
+			dom.output.innerHTML = 'Summe des Maximum–Sub-Arrays: ' + dom.output.innerHTML;
+		}
 		
 		// let the final result's node vanish
 		ergebnisNode.style.opacity = 1;
@@ -94,7 +106,8 @@ msa.Ui = function () {
 	
 	
 	/**
-	 * 
+	 * Try to find and assign references to frequently-needed nodes of the
+	 * HTML DOM tree.
 	 */
 	function initDomReferences () {
 		dom.canvas = document.getElementById('canvas');
@@ -104,7 +117,7 @@ msa.Ui = function () {
 	
 	
 	/**
-	 * 
+	 * Sets up the UI widgets to be enabled and ready to be used.
 	 */
 	function initButtons () {
 		dom.startButton.onclick = run;
@@ -113,7 +126,9 @@ msa.Ui = function () {
 	
 	
 	/**
-	 * 
+	 * This method is supposed to be called by the animation object running
+	 * after this web page has been opened to signal that the animation is
+	 * done and the UI widgets should be enabled.
 	 */
 	this.zahlenleisteZeichnenFertig = function () {
 		initButtons();
@@ -121,7 +136,9 @@ msa.Ui = function () {
 	
 	
 	/**
+	 * Adds a typograohically correct + or - sign to a DOM node.
 	 * 
+	 * @param element - the DOM node containing the value to be signed
 	 */
 	this.vorzeichenAnbringen = function (element) {
 		try {
@@ -139,7 +156,8 @@ msa.Ui = function () {
 	
 	
 	/**
-	 * 
+	 * Constructor handler; arranges for the UI to be initialised as soon as
+	 * the DOM has finished loading.
 	 */
 	function init () {
 		// execute this immediately when the app is loaded

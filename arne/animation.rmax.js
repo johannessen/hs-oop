@@ -15,30 +15,66 @@ if (! window.msa) { window.msa = {}; }
 
 
 /**
+ * The RandmaximumAnimation is one of the major parts of this project, as the
+ * divide-and-conquer approach to the maximum sub-array problem relies on the
+ * edge maximum (Randmaximum or just 'rmax') to join the two parts after
+ * recursion has run its course. The rmax behaviour is not always intuitive.
+ * This animation attempts to make it easy to understand how the rmax works by
+ * behaving as in an additive numbering system (as opposed to a positional
+ * system).
  * 
+ * This animation is not designed to run stand-alone. It requires access to a
+ * properly initialised msa.ui.dom.
+ * 
+ * Example:
+ *  new msa.RandmaximumAnimation({
+ *      startFromIndex: 6,
+ *      columnCount: -3,
+ *      divider: document.getElementsByClassName('trennstrich')[0],
+ *      after: function () { alert('done'); },
+ *  }).run();
+ * 
+ * @param options - a configuration object with the following properties:
+ *  startFromIndex: index of the msa.theArray item nearest to the dividing
+ *   point (required)
+ *  columnCount: number of columns to animate (negative for right-hand side
+ *   rmax) (required)
+ *  divider: a reference to a DOM node at the horizontal position of the
+ *   dividing point (required)
+ *  after: a callback function reference that will be called when the animation
+ *   is done (required)
+ *  leftIndex: left-most msa.theArray item to be considered for this
+ *   animation's vertical position (optional)
+ *  rightIndex: right-most msa.theArray item to be considered for this
+ *   animation's vertical position (optional)
+ *  x1: (ignored, no longer supported)
  */
 msa.RandmaximumAnimation = function (options) {
 	
+	// some variables for easier handling with the closures
 	
+	// initial x0 and y0 and current x1 pixel position of the animation
 	var x0, y0;
-	var x1;
-	var containerNode;
-	var stackNode;
-	var stackedBlocksContainerNode;
-	var numberNode;
-	var numberMaxNode;
+	var x1 = 0;  // relative to x0
 	
+	// various DOM node references we need at one point or other
+	var containerNode;  // container node for this animation (for positioning)
+	var stackNode;  // the background 'progress bar' to the maximum marker
+	var stackedBlocksContainerNode;  // a container for all the blocks on the stack
+	var numberNode;  // the 'current' (scrolling) value
+	var numberMaxNode;  // the 'maximum' (jumping) value
+	
+	// copies of configuration options for more convenient access
 	var startFromIndex;
 	var columnCount;
 	var direction;
+	var animationDone;  // delegate function
 	
-	var currentValue = 0;
-	var currentMaxValue = 0;
-	
-	var cloneBlocksColumns = [];
-	
-	var columnIndexOffset;
-	var animationDone;
+	// state variables
+	var columnIndexOffset = 0;  // current msa.theArray index, offset by startFromIndex
+	var currentValue = 0;  // current subtotal of the rmax sum
+	var currentMaxValue = 0;  // highest subtotal of the rmax sum up till now
+	var cloneBlocksColumns = [];  // clones blocks for columns from Zahlenleiste
 	
 	
 	/**
@@ -53,8 +89,6 @@ msa.RandmaximumAnimation = function (options) {
 		animationDone = options.after || function () {};
 		
 		initCoordinates();
-		x1 = 0;
-		
 		createDomNodes();
 	}
 	
@@ -95,7 +129,8 @@ msa.RandmaximumAnimation = function (options) {
 	
 	
 	/**
-	 * 
+	 * Creates all the DOM nodes required for this animation, including their
+	 * class name, style and other attributes.
 	 */
 	function createDomNodes () {
 		containerNode = document.createElement('DIV');
@@ -132,12 +167,15 @@ msa.RandmaximumAnimation = function (options) {
 		for (var i = 0; Math.abs(columnCount - i) > 0; i += direction) {  // bi-directional for loop
 			cloneColumn(zahlen[options.startFromIndex + i]);
 		}
-		columnIndexOffset = 0;
 	}
 	
 	
 	/**
+	 * To avoid disturbing the existing Zahlenleiste graphic, we clone its blocks
+	 * and use the copies instead of the originals for this animation. This
+	 * function creates those clones.
 	 * 
+	 * @param columnNode - reference to the DOM node of the column to be cloned
 	 */
 	function cloneColumn (columnNode) {
 		var cloneBlocks = [];
@@ -155,7 +193,11 @@ msa.RandmaximumAnimation = function (options) {
 	
 	
 	/**
+	 * Call this method to remove all of this animation's DOM elements from the
+	 * DOM tree. Calling this method multiple times is allowed, but has no effect.
 	 * 
+	 * Warning: the results of this method when called while the animation is
+	 * running are explicitly undefined.
 	 */
 	this.flush = function () {
 		if (! containerNode || ! containerNode.parentNode) { return; }
@@ -164,7 +206,8 @@ msa.RandmaximumAnimation = function (options) {
 	
 	
 	/**
-	 * 
+	 * This function calls the callback function supplied to the constructor if
+	 * the animation has finished running.
 	 */
 	function moveDone () {
 		if (columnIndexOffset * direction >= cloneBlocksColumns.length) {
@@ -174,7 +217,19 @@ msa.RandmaximumAnimation = function (options) {
 	
 	
 	/**
+	 * The actual workhorse of the animation. Call this to get things rolling.
 	 * 
+	 * Moves down exactly one column (the next one in line, that's the first one
+	 * of those that hasn't been moved down yet). Needs to be called multiple
+	 * times to perform the entire animation. See run() for a convenience method
+	 * with an example implementation of that.
+	 * 
+	 * Note that the options parameter accepts only one optional property. The
+	 * options object may be empty or undefined.
+	 * 
+	 * @param options - a configuration object with the following property:
+	 *  after: a callback function reference that will be called when this step
+	 *  of the animation is done (optional)
 	 */
 	this.moveDownColumn = function (options) {
 		
@@ -260,7 +315,11 @@ msa.RandmaximumAnimation = function (options) {
 	
 	
 	/**
+	 * Accessor to the container DOM node that is an ancestor of all this
+	 * animation's DOM elements. May be useful for things like animating a fade
+	 * out of the entire rmax animation.
 	 * 
+	 * @return reference to the rmax container node
 	 */
 	this.containerNode = function () {
 		return containerNode;
@@ -268,7 +327,14 @@ msa.RandmaximumAnimation = function (options) {
 	
 	
 	/**
+	 * Accessor to the DOM node that contains the result value of rmax -- that is,
+	 * the largest of all possible sub-array values of those that are anchored at
+	 * the divider at one end.
 	 * 
+	 * This is what you need if you want to further animate this animation's
+	 * result in the larger context of the divide-and-conquer MSA algorithm demo.
+	 * 
+	 * @return reference to the maximum value display's node
 	 */
 	this.randmaximumNode = function () {
 		return numberMaxNode;
@@ -276,7 +342,11 @@ msa.RandmaximumAnimation = function (options) {
 	
 	
 	/**
-	 * 
+	 * Convenience method that sets up the animation of the complete set of
+	 * moveDownColumn() calls. Clients should use this method if they don't want
+	 * to make those individual calls themselves manually. If you want custom
+	 * timings, you're out of luck and actually need to call moveDownColumn()
+	 * for yourself.
 	 */
 	this.run = function () {
 		var moveDownColumn = this.moveDownColumn;
@@ -295,7 +365,9 @@ msa.RandmaximumAnimation = function (options) {
 	
 	
 	/**
-	 * 
+	 * Convenience method to slow down the flush() by means of an opacity
+	 * reduction animation. In contrast to flush() itself, this method may not be
+	 * called multiple times.
 	 */
 	this.fadeOut = function () {
 		containerNode.style.opacity = 1;

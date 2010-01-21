@@ -15,21 +15,37 @@ if (! window.msa) { window.msa = {}; }
 
 
 /**
+ * Some utility methods, particularly for registering for the DOMContentLoaded
+ * event.
  * 
+ * A while into the development of msa.Schaltstelle it was realised that scope
+ * creep was changing its focus from what Jacobsen might call a 'Control'
+ * object to an 'Interface' object, with lots of UI-specific code. As a result,
+ * lots of stuff was moved out to msa.Ui and it turned out that not much was
+ * left over. That's why msa.Schaltstelle is now a mere collection of utility
+ * functions, despite its high-flying name.
+ * 
+ * Creating multiple instances of msa.Ui is unsupported and will likely
+ * produce problems. A make-shift Singleton pattern has been included in an
+ * attempt to catch misuse early.
  */
 msa.Schaltstelle = function () {
 	
-	
 	// Singleton
 	if (arguments.callee.instance) {
-		throw 'only call this once!';  // :DEBUG: fail-fast
-//		return arguments.callee.instance;
+		throw 'only call this once!';
 	}
 	arguments.callee.instance = this;
 	
 	
+	var domLoaded = false;
+	var domLoadedMessages = [];
+	
+	
 	/**
+	 * Register a callback function for the DOMContentLoaded event.
 	 * 
+	 * @param message - the function reference to be called
 	 */
 	this.addDomLoadedMessage = function (message) {
 		domLoadedMessages[domLoadedMessages.length] = message;
@@ -40,19 +56,9 @@ msa.Schaltstelle = function () {
 	
 	
 	/**
-	 * 
-	 */
-	var domLoaded = false;
-	
-	
-	/**
-	 * 
-	 */
-	var domLoadedMessages = [];
-	
-	
-	/**
-	 * 
+	 * To be called whenever it has been determined that the DOM tree is in
+	 * fact available. This function is intended to be called multiple times;
+	 * it will only send registered messages the first time it is called.
 	 */
 	function domDidLoad () {
 		// only execute this function once (Singleton)
@@ -67,7 +73,7 @@ msa.Schaltstelle = function () {
 			}
 			catch (exception) {
 				if (exception instanceof msa.Schaltstelle.DomReferenceException) {
-					throw exception;  // a DOM reference failed to load; abort these steps
+					throw exception;  // a required DOM reference failed to load; abort these steps
 				}
 			}
 		}
@@ -75,7 +81,8 @@ msa.Schaltstelle = function () {
 	
 	
 	/**
-	 * 
+	 * Register JS event handlers to call the domDidLoad() function. Several
+	 * handlers are registered to maximise interoperability.
 	 */
 	function registerDomDidLoad () {
 		/* Currently there's no interoperable way to register an event
@@ -124,21 +131,35 @@ msa.Schaltstelle = function () {
 	
 }
 
-
-/**
- * 
- */
-msa.Schaltstelle.DomReferenceException = function (referenceName) {
-	this.name = 'msa.Schaltstelle.DomReferenceException';
-	this.message = this.name + ': required DOM reference "' + referenceName + '" unavailable; aborting start of animation';
-	this.toString = function () {
-		return this.message;
-	}
-}
-
-
 msa.schaltstelle = new msa.Schaltstelle();
 
 
-// :DEBUG:
-function $ (id) { return document.getElementById(id); }
+
+
+/**
+ * An exception prototype to be used when a required DOM element like the
+ * canvas cannot be found.
+ * 
+ * @param referenceName - the name of the reference (will be used in the message)
+ */
+msa.Schaltstelle.DomReferenceException = function (referenceName) {
+	this.message = this.name + ': required DOM reference "' + referenceName + '" unavailable; aborting start of animation';
+}
+msa.Schaltstelle.DomReferenceException.constructor = msa.Schaltstelle.DomReferenceException;
+
+
+/**
+ * Name of this Exception.
+ */
+msa.Schaltstelle.DomReferenceException.prototype.name = 'msa.Schaltstelle.DomReferenceException';
+
+
+/**
+ * Returns this exception's message, including the name of the missing
+ * DOM reference.
+ * 
+ * @return string representation of this object
+ */
+msa.Schaltstelle.DomReferenceException.prototype.toString = function () {
+	return this.message;
+}
