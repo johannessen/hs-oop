@@ -197,7 +197,7 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 		<dd>erste Endfassung
 		<dt>21. Januar 2010, Version 1.0.1
 		<dd>Probleme 7, 10 und 11 behandelt
-		<dd>testweise eine Query-String–Abfrage für Arrays nach Nutzervorgabe eingebaut
+		<dd>testweise eine Query-String–Abfrage für Arrays nach Nutzervorgabe eingebaut (z. B. <a href="divide-and-conquer.html?2,-3,4,-1">[2, -3, 4, -1]</a>)
 		<dd>@accesskey eingefügt
 		<dd>Timing optimiert
 		<dd>kleinere Änderungen und Bugfixes
@@ -385,10 +385,10 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 		<br>Schwere: wesentlich
 		<br><small>Grund: <code>rmaxs</code> wird nicht versteckt</small>
 		
-		<li>Das Canvas ist zu klein / die Zahlen im Array sind zu groß. (./, arne/, bianca/)
+		<li class=erledigt>Das Canvas ist zu klein / die Zahlen im Array sind zu groß. (./, arne/, bianca/)
 		<br>Umfang: klein
 		<br>Schwere: wesentlich
-		<br><strong>Workaround:</strong> kleinere Zahlen verwendet
+		<br><small>Workaround: kleinere Zahlen verwendet</small>
 		
 		<li class=erledigt>Die Demo lässt sich mehrfach gleichzeitig starten, läuft aber nur beim ersten Start vernünftig. (./, arne/)
 		<br>Umfang: gering
@@ -431,6 +431,38 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 		<br><strong>Workaround:</strong> Keine Nullen im Array verwenden…
 		
 	</ol>
+	
+	<h2>Demo mit anderen Arrays</h2>
+	
+	<form action="divide-and-conquer.html" method=GET>
+		<p>Eigenen Array eingeben: [<input name=array id=array>] <input type=submit>
+		<p><input type=button value="Zufallszahlen erzeugen" onclick="randomise(8, -4, 6)">
+		<script>
+function randomise (count, smallest, largest) {
+	var array = [];
+	for (var i = 8; i > 0; i--) {
+		var randomNumber = Math.floor(Math.random() * (largest - smallest + 1)) + smallest;
+		array.push(randomNumber);
+	}
+	document.getElementById('array').value = array.join(',');
+}
+		</script>
+	</form>
+	
+	<ul>
+		<li><a href="divide-and-conquer.html?1">[1]</a>
+		<li><a href="divide-and-conquer.html?-1">[-1]</a>
+		<li><a href="divide-and-conquer.html?4,5,2,6,1,7,3">[4, 5, 2, 6, 1, 7, 3]</a>
+		<li><a href="divide-and-conquer.html?-2,-1,-4">[-2, -1, -4]</a>
+		<li><a href="divide-and-conquer.html?">[]</a>
+		<li><a href="divide-and-conquer.html?2,-1,4,-5,3">[2, -1, 4, -5, 3]</a>
+		<li><a href="divide-and-conquer.html?1,4,0,-3,-6,2,5">[1, 4, 0, -3, -6, 2, 5]</a>
+		<li><a href="divide-and-conquer.html?2,4,-8,-1,2,-6,4,3">[2, 4, -8, -1, 2, -6, 4, 3]</a>
+		<li><a href="divide-and-conquer.html?2,-3,4,-1">[2, -3, 4, -1]</a>
+		<li><a href="divide-and-conquer.html?4,-1,0,-2,-3,5">[4, -1, 0, -2, -3, 5]</a>
+		<li><a href="divide-and-conquer.html?2,4,-8,3,7,-2,0,1">[2, 4, -8, 3, 7, -2, 0, 1]</a>
+		<li><a href="divide-and-conquer.html?1,-2">[1, -2]</a>
+	</ul>
 	
 </section>
 
