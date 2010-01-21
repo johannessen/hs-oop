@@ -235,8 +235,6 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 		<dt class=arne>Randmaximum-Animation „positive und negative Blöcke annihilieren sich gegenseitig“ [B], Teil von [3+4]
 		<dd><span>Arne Johannessen</span>
 		<dd><code>arne/animation.explosion.js</code>
-		<dt>Randmaximum-Animation „Thermometer wird zum Randmaximum“ [C], Teil von [5] oder [3+4]
-		<dd><i>offen (fällt voraus. weg)</i>
 		<dt class=toni>Randmaxima-Animation [5] und [6] (Visualisierung der Addition beider Randmaximorum; Ergebnis „fährt hoch“)
 		<dd><span>Antonia Boemanns</span>
 		<dd><code>toni/animation.addition.js</code>, <code>toni/animation.rmax-summe.js</code>
@@ -279,7 +277,7 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 	Die <strong>Dokumentation</strong> der einzelnen Module auf Projektebene wird überwiegend in den Modulen selbst in Textform vorgenommen. Die Module enthalten alle einen oder wenige JavaScript-„Klassen“ (genauer: Objekte zur Verwendung als Prototyp zusammen mit dem <code>new</code>-Operator). Neben einer kurzen Dokumentation zur „Klasse“ selbst in einem Dokumentationskommentar werden die Schnittstellen aller dieser „Klassen“ jeweils auf Methoden-Ebene dokumentiert. Das Ergebnis ähnelt dem Javadoc-Dokumentationsstil, eine automatische Weiterverarbeitung ist jedoch nicht vorgesehen.
 	
 	<p>
-	Parallel zur Entwicklung ist eine Anzahl von <strong>Struktur- und Sequenzdiagrammen</strong> entstanden, deren graphische Qualität jedoch nicht wiedergabefähig ist. Soweit es die Zeit erlaubt, ist vorgesehen, diese (bzw. eine Auswahl) zur Ergänzung der Dokumentation sauber neu zu zeichnen.
+	Parallel zur Entwicklung ist eine Anzahl von <strong>Struktur- und Sequenzdiagrammen</strong> entstanden, deren graphische Qualität jedoch nicht wiedergabefähig ist. Diese (oder auch nur eine Auswahl davon) zur Ergänzung der Dokumentation sauber neu zu zeichnen, hat die Zeit leider nicht erlaubt.
 	
 	<h2>Weitere Eigenschaften von Contract-first Design</h2>
 	
@@ -361,11 +359,11 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 	
 	<ol class=bugtracker>
 		
-		<li>Text (./)
+		<li class=erledigt>Text (./)
 		<br>Umfang: mäßig bis groß
 		<br>Schwere: wesentlich
 		
-		<li>UI / Layout (./, arne/)
+		<li class=erledigt>UI / Layout (./, arne/)
 		<br>Umfang: mäßig
 		<br>Schwere: wesentlich
 		
@@ -377,27 +375,34 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 		<li>Das Canvas ist zu klein / die Zahlen im Array sind zu groß. (./, arne/, bianca/)
 		<br>Umfang: klein
 		<br>Schwere: wesentlich
+		<br><strong>Workaround:</strong> kleinere Zahlen verwendet
 		
-		<li>Die Demo lässt sich mehrfach gleichzeitig starten, läuft aber nur beim ersten Start vernünftig. (./, arne/)
+		<li class=erledigt>Die Demo lässt sich mehrfach gleichzeitig starten, läuft aber nur beim ersten Start vernünftig. (./, arne/)
+		<br>Umfang: gering
+		<br>Schwere: gering
+		
+		<li class=erledigt>Ob der veränderte Algorithmus auf Arrays mit ungerader Länge noch numerisch korrekt arbeitet, ist unsicher; ggf. reparieren. (holger/)
+		<br>Umfang: klein (prüfen), groß (reparieren)
+		<br>Schwere: gering (Konzept sieht statischen Array vor)
+		<br><small>Grund: <code>arne/test.js</code> → <code>NumerikTest#testTrivialeFaelle_1</code> schlägt in der Tat fehl, weil der veränderte Algorithmus negative Trivialergebnisse immer unkorrigiert zurückgibt, was nur kein Problem ist g. d. w. Randmaxima berechnet werden. Das ist aber beim Array <code>[-1]</code> nicht der Fall. Weil der veränderte Algorithmus aber für die Animation benötigt wird, ist ein Special-Case die einzige vernünftige Lösung für diese Regression.</small>
+		
+		<li>Die Positionen diverser Elemente erscheinen noch um einige Pixel daneben. (toni/, holger/, arne/)
 		<br>Umfang: mäßig
 		<br>Schwere: gering
 		
-		<li>Ob der veränderte Algorithmus auf Arrays mit ungerader Länge noch numerisch korrekt arbeitet, ist unsicher; ggf. reparieren. (arne/, holger/)
-		<br>Umfang: klein (prüfen), groß (reparieren)
-		<br>Schwere: gering (Konzept sieht statischen Array vor)
-		
-		<li>Die Positionen diverser Elemente erscheinen noch um einige Pixel daneben. (toni/, holger/, arne/)
+		<li class=erledigt>Die Randmaxima sind noch nicht auf gleicher Höhe. (arne/)
 		<br>Umfang: klein
 		<br>Schwere: gering
 		
-		<li>Die Randmaxima sind noch nicht auf gleicher Höhe. (arne/)
+		<li>Die Zahlenleiste wird gelegentlich an falscher Position im Canvas gezeichnet; Neuladen hilft. (bianca/)
 		<br>Umfang: klein
 		<br>Schwere: gering
+		<br><small>Grund: Entweder in <code>Émile.js</code> oder in <code>window.getComputedStyle()</code> gibt es ein Problem, das anscheinend durch unseren Code getriggert wird und das statt des von uns korrekt gesetzten <code>.style.left</code>-Wertes <code>'auto'</code> zurückliefert, was dann von <code>Émile.js</code> nicht weiterverarbeitet werden kann.</small>
+		<br><strong>Workaround:</strong> Neu laden
 		
-		<li>Die Zahlenleiste wird gelegentlich an falscher Position im Canvas gezeichnet; Neuladen hilft. (bianca/, ./, arne/)
+		<li>Das z-Ordering passt nicht während der Merge-Animation. (toni/)
 		<br>Umfang: klein
-		<br>Schwere: gering
-		<br><small>Grund: race condition</small>
+		<br>Schwere: trivial
 		
 		<li>Die Zahlen bei den Randmaxima könnten gestalterisch Verbesserung vertragen. (arne/)
 		<br>Umfang: klein
@@ -406,6 +411,11 @@ Dieses Dokument ist Teil des wöchtentlichen Berichts der Gruppe 5 (Algorithmus:
 		<li>Die neueren Blockgrafiken haben weiße Punkte in den Ecken, die knallgrüne erste Blockgrafik aber nicht. (bianca/)
 		<br>Umfang: klein
 		<br>Schwere: trivial
+		
+		<li>Array-Elemente mit dem Wert 0 werden nicht angezeigt. (bianca/)
+		<br>Umfang: klein
+		<br>Schwere: gering
+		<br><strong>Workaround:</strong> Keine Nullen im Array verwenden…
 		
 	</ol>
 	

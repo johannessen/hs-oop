@@ -2,9 +2,6 @@
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=UTF-8">
 <TITLE>Visualisierung der Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems</TITLE>
 
-<!--
-	der Typ der Skripte müsste eigentlich application/ecmascript sein, aber das versteht der IE natürlich nicht :-(
--->
 <SCRIPT TYPE="text/javascript" SRC="frameworks/emile/emile.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="arne/schaltstelle.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="arne/ui.js"></SCRIPT>
@@ -18,50 +15,43 @@
 <SCRIPT TYPE="text/javascript" SRC="toni/animation.rmax-summe.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="toni/animation.merge.js"></SCRIPT>
 
-<!--
-	Da zu diesem Zeitpunkt (2009-12-03) das Grafikdesign noch nicht vorliegt, ist hier lediglich ein sehr knappes Platzhalter-Design umgesetzt.
--->
 <STYLE TYPE="text/css">
 @import url(toni/style.css);
 @import url(bianca/style.css);
 @import url(arne/style.css);
 @import url(holger/style.css);
-
-HTML {
-	background-color: #eee;
-	font: 100% sans-serif;
-	color: #777;
-}
-H1 {
-	font-size: 1.2em;
-	text-shadow: 0px 1px 0px white;
-}
-#canvas {
-	position: relative;
-	padding: 0;  /* for positioning */
-	width: 600px;
-	height: 400px;
-	border: 3px ridge #ddd;
-	background-color: white;
-}
-#canvas>* {
-	position: absolute;
-}
-ADDRESS {
-	display: block;
-	margin-top: 1em;
-	font-size: .83em;
-}
 </STYLE>
 
 <H1>Die Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems</H1>
 
-<P>
-<INPUT TYPE="button" VALUE="Demo starten" ID="start-button" DISABLED>
-<INPUT TYPE="button" VALUE="nächster Schritt" ID="continue-button" DISABLED>
+<NOSCRIPT><P>Diese Web-Anwendung benötigt JavaScript. Eine Alternative ohne JavaScript steht leider nicht zur Verfügung.</NOSCRIPT>
 
-<DIV ID="canvas"></DIV>
+<P>Der Maximum–Sub-Array ist derjenige <EM>Teil</EM> eines Arrays, dessen Summe der enthaltenen Elemente die größte aller Teile des Arrays ist.
 
-<NOSCRIPT><P>Diese Web-Anwendung benötigt JavaScript. Eine Alternative ohne JavaScript steht leider noch nicht zur Verfügung.</NOSCRIPT>
+<DIV ID="main">
+	
+	<DIV ID="aside">
+		<P>Für das Maximum–Sub-Array–Problem existieren verschiedene Lösungsansätze. Diese Web-Anwendung führt die Arbeitsweise einer Lösung nach dem <strong>Divide-and-Conquer–Prinzip</strong> vor. Gesucht ist ledglich der Zahlenwert des größten Arrayteils.
+		<P>Das Lösungsverfahren teilt den Array in zwei Hälften auf <i lang="en">(divide),</i> löst das Maximum–Sub-Array–Problem für beide Hälften getrennt <i lang="en">(conquer)</i> und setzt hinterher aus den Teilergebnissen die Lösung zusammen <i lang="en">(join).</i> Beim Lösen der beiden Hälften wird das gleiche Verfahren rekursiv angewandt.
+		<P>Nach jeder Trennung kann sich der gesuchte Sub-Array ganz in der linken Hälfte oder ganz in der rechten Hälfte befinden. Es ist aber auch möglich, dass er sich <strong>über die Trennstelle hinweg</strong> erstreckt. Dieser Möglichkeit muss durch Berechnung und Addition der <strong>Randmaxima</strong> an der Trennstelle in beide Richtung Rechnung getragen werden; diese wird in der Vorführung <strong>in der Horizontalen</strong> gezeigt.
+	</DIV>
+	
+	<DIV ID="controls">
+		<P><INPUT TYPE="button" VALUE="Divide-and-Conquer vorführen" ID="start-button" DISABLED> <SPAN ID="state"></SPAN>
+		
+		<P ID="version">20. Januar 2010, Version 1.0
+		
+		<ADDRESS>Antonia Boemanns, Bianca Förster, Arne Johannessen, Holger Schropp</ADDRESS>
+		
+		<P ID="uni">Skriptsprachen / Objektorientierte Programmierung
+		<BR>Fakultät für Geomatik, Studienrichtung Kartographie
+		<BR>Hochschule Karlsruhe – Technik und Wirtschaft
+		
+		<P ID="docs-link">→ <A HREF="Projektdoku%20Grp5.html">Projektdokumentation</A>
+	</DIV>
+	
+	<DIV ID="canvas"></DIV>
+	
+</DIV>
 
-<ADDRESS>Antonia Boemanns, Bianca Förster, Arne Johannessen, Holger Schropp</ADDRESS>
+<!--$Id$-->

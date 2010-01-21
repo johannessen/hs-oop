@@ -5,6 +5,92 @@
  * All rights reserved.
  */
 
+
+/* styles for general page layout */
+BODY {
+	margin: 0;
+	padding: 0;
+}
+HTML {
+	margin: .5em .4em 1em .5em;
+	max-width: 60em;
+}
+#main {
+	position: relative;  /* for absolute positioning of childs */
+}
+#aside {
+	margin-left: 600px;
+	padding-left: 1em;
+}
+#canvas, #controls {
+	position: absolute;
+	width: 600px;
+}
+#canvas {
+	padding: 0;  /* for simple positioning of childs */
+	top: 0;
+	height: 400px;
+}
+#controls {
+	top: 400px;
+}
+ADDRESS {
+	display: block;
+	margin-top: 1em;
+}
+
+
+/* styles for general page design */
+HTML {
+	background-color: #eee;
+	font: 100% sans-serif;
+	color: #222;
+}
+H1 {
+	font-size: 1.2em;
+	text-shadow: 0px 1px 0px white;
+	color: #666;
+	margin: 0;
+}
+P {
+	margin: .9em 0;
+}
+#canvas {
+	border: 3px ridge #ddd;
+	background-color: white;
+}
+#controls {
+	margin-top: 6px;
+}
+#state {
+	font-size: .83em;
+	font-weight: bold;
+	padding-left: 1ex;
+}
+ADDRESS, P#uni, P#docs-link, P#version {
+	font-size: .83em;
+	color: #666;
+	font-style: italic;
+	margin: .7em 0;
+}
+A, A:link, A:visited, A:hover, A:active {
+	text-decoration: underline;
+	color: #33a;
+	border: none;
+	outline: none;
+}
+A:hover, A:active {
+	font-weight: bold;
+}
+
+
+/* legacy styles for compatibility */
+#canvas>* {
+	position: absolute;
+}
+
+
+/* styles for the rmax animation */
 .randmaximum-container, .stapel-blocks-container {
 	position: absolute;
 	z-index: 1;
@@ -39,6 +125,8 @@
 	color: red;
 }
 
+
+/* styles for the explosion animation */
 .explosion {
 	position: absolute;
 	z-index: 1;
