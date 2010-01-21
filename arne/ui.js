@@ -87,13 +87,15 @@ msa.Ui = function () {
 			dom.output.innerHTML = 'Summe des Maximum–Sub-Arrays: ' + dom.output.innerHTML;
 		}
 		
-		// let the final result's node vanish
-		ergebnisNode.style.backgroundColor = 'transparent';
-		ergebnisNode.style.opacity = 1;
-		ergebnisNode.style.fontSize = '20px';
-		ergebnisNode.style.marginLeft = 0;
-		ergebnisNode.style.marginTop = 0;
-		emile(ergebnisNode, 'opacity:0;font-size:96px;margin-left:-.5em;margin-top:300px', { duration: 1200 });
+		if (ergebnisNode) {
+			// let the final result's node vanish
+			ergebnisNode.style.backgroundColor = 'transparent';
+			ergebnisNode.style.opacity = 1;
+			ergebnisNode.style.fontSize = '20px';
+			ergebnisNode.style.marginLeft = 0;
+			ergebnisNode.style.marginTop = 0;
+			emile(ergebnisNode, 'opacity:0;font-size:96px;margin-left:-.5em;margin-top:300px', { duration: 1200 });
+		}
 
 		// flash the screen once in celebration
 		document.documentElement.style.backgroundColor = '#eee';
@@ -181,7 +183,12 @@ msa.Ui = function () {
 		// read test array from URL query string
 		var uri = window.location.toString();
 		if (uri.indexOf('?') > 0) {
-			var array = uri.substring(uri.indexOf('?') + 1).split(',');
+			var query = uri.substring(uri.indexOf('?') + 1);
+			if (query.indexOf('array=') == 0) {
+				query = query.substring(6);
+			}
+			query = query.replace(/%2C/gi, ',');
+			var array = query.split(',');
 			msa.theArray = [];
 			for (var i = 0; i < array.length; i++) {
 				if (! array[i].match(/^[-+0-9]+$/)) {
