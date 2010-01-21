@@ -34,8 +34,6 @@ msa.Addieren = function () {
 		var zahlRechts = ergebnis.randmaximumRechterTeil;
 		var nodeRechts = ergebnisNodes.randmaximumRechterTeil;
 		
-//		var posLeftMax = (msa.zahlenleiste.positionLeft(mitteIndex) + msa.zahlenleiste.positionLeft(mitteIndex + 1)) / 2 + 12;
-//		var posLeftMax = msa.zahlenleiste.positionLeft(mitteIndex) + 35;  // :BUG: das stimmt so nicht ganz
 		var posLeftMax = (msa.zahlenleiste.positionLeft(mitteIndex) + msa.zahlenleiste.positionLeft(mitteIndex + 1)) / 2 + 15;
 		var posTopMax = nodeLinks.offsetTop;
 		//zielPos ist die Position an der nodeLinks und nodeRechts nach der Animation stehen sollen	
