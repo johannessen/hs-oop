@@ -63,7 +63,7 @@ msa.Trennstrich = function  () {;
 		
 		
 		// trennstrich zeichnen
-		if (l == r) {
+		if (l >= r) {
 			callback();  // :TODO:
 		}
 		else {
