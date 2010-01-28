@@ -1,4 +1,4 @@
-﻿/* Id: zeichnen.zahlenleiste.js 2010-01-15
+﻿/* $Id: zeichnen.zahlenleiste.js 2010-01-15$
  * 
  * Zahlenleiste zeichnen
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
@@ -6,6 +6,11 @@
  * 
  * Copyright (c) 2010 Bianca Foerster
  * All rights reserved.
+ * 
+ * This program is free software; you can redistribute it or
+ * modify it under the terms of a 3-clause BSD-style license.
+ * There is absolutely no warranty for this program!
+ * See LICENSE for details.
  */
 
 
