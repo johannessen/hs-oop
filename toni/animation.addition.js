@@ -1,4 +1,4 @@
-/* $Id: animation.addition.js 2009-12-04$
+/* $Id$
  * encoding utf-8
  * 
  * "merge"-Animation (7) (Visualisierung der Auswahl des hoechsten aus je drei Maximis)

@@ -1,4 +1,4 @@
-/* $Id: animation.split.js 2009-12-04$
+/* $Id$
  * 
  * "split"–Animation (Visualisierung der Einschraenkung der Zahlenleiste auf den momentan betrachteten Sub-Array)
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems

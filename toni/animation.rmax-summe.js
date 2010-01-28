@@ -1,4 +1,4 @@
-/* $Id: animation.rmax-summe.js 2009-12-04$
+/* $Id$
  * encoding utf-8
  * 
  * Randmaximorum-Animation (5)+(6) (Visualisierung der Addition beider Randmaximorum; Ergebnis "faehrt hoch")

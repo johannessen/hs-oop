@@ -1,4 +1,4 @@
-﻿/* $Id: zeichnen.zahlenleiste.js 2010-01-15$
+﻿/* $Id$
  * 
  * Zahlenleiste zeichnen
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems

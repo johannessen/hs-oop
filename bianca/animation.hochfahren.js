@@ -1,4 +1,4 @@
-/* $Id: algorithmus.js 2010-01-15$
+/* $Id$
  * 
  * Hochfahr-Animation (1)+(2) (bereits bekanntes, linkes/rechtes Ergebnis "faehrt hoch"; einschl. trivialer Fall)
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
