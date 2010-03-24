@@ -19,12 +19,12 @@
 	<P><INPUT TYPE="button" VALUE="Zufallszahlen erzeugen" ONCLICK="randomise(8, -4, 6)">
 	<SCRIPT TYPE="text/javascript">
 function randomise (count, smallest, largest) {
-var array = [];
-for (var i = 8; i > 0; i--) {
-	var randomNumber = Math.floor(Math.random() * (largest - smallest + 1)) + smallest;
-	array.push(randomNumber);
-}
-document.getElementById('array').value = array.join(',');
+	var array = [];
+	for (var i = 8; i > 0; i--) {
+		var randomNumber = Math.floor(Math.random() * (largest - smallest + 1)) + smallest;
+		array.push(randomNumber);
+	}
+	document.getElementById('array').value = array.join(',');
 }
 	</SCRIPT>
 </FORM>
