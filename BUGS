@@ -1,0 +1,55 @@
+$Id$
+UTF-8
+
+
+** Liste bekannter Probleme und Bugs in Nisterud **
+
+Nachdem das "Gruppe 5"-Projekt mit einer einfachen Bugliste anstatt eines
+Issue-Tracking-Systems gearbeitet hat, wird dieser dort eingeschlagene Weg vom 
+"Nisterud"-Projekt fortgesetzt. Die Probleme bis Nummer 13 wurden direkt von
+"Gruppe 5" übernommen; siehe hierzu auch Projektdoku Gruppe 5.html.
+
+Nächste Problem-Nummer: 15
+
+
+===== Bekannte Probleme =====
+
+#7
+Die Positionen diverser Elemente erscheinen noch um einige Pixel daneben.
+(toni/, holger/, arne/)
+Umfang: mäßig 
+Schwere: gering
+
+#9
+Die Zahlenleiste wird gelegentlich an falscher Position im Canvas gezeichnet;
+Neuladen hilft.
+(bianca/) 
+Umfang: klein
+Schwere: gering
+Grund: Entweder in Émile.js oder in window.getComputedStyle() gibt es ein
+Problem, das anscheinend durch unseren Code getriggert wird und das statt des
+von uns korrekt gesetzten .style.left-Wertes 'auto' zurückliefert, was dann von
+Émile.js nicht weiterverarbeitet werden kann.
+Workaround: Neu laden
+
+#12
+Die neueren Blockgrafiken haben weiße Punkte in den Ecken, die knallgrüne erste
+Blockgrafik aber nicht.
+(bianca/)
+Umfang: klein
+Schwere: trivial
+
+#13
+Array-Elemente mit dem Wert 0 werden nicht angezeigt.
+(bianca/)
+Umfang: klein
+Schwere: gering
+Workaround: Keine Nullen im Array verwenden…
+
+#14
+Die Methode getElementsByClassName() des HTML5-DOMs findet Verwendung, was die
+Kompatibilität zu alten Browsern (einschl. IE8) einschränkt. Hier wird ein
+Adapter benötigt.
+Umfang: klein
+Schwere: gering
+Workaround: modernen Browser verwenden (Safari, Opera, Chrome, Firefox)

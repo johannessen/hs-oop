@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=UTF-8">
+<TITLE>Arrayeingabe zur Visualisierung der Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems</TITLE>
+
+<STYLE TYPE="text/css">
+@import url(arne/style.css);
+</STYLE>
+
+<H1>Die Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems</H1>
+
+<H2>Arrayeingabe</H2>
+
+<P>An dieser Stelle können eigene Arrays als Quelle für die Visualisierung der Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems eingegeben werden.
+
+<P>Problematisch bei freigewählten ist das begrenzte Sichtfeld in Verbindung mit der festen Größe der roten/grünen Zahlenblöcke in der Animation. Es ist zu empfehlen, nur <STRONG>sehr kleine Zahlen</STRONG> zu verwenden (nicht kleiner als &minus;4, nicht größer als +6) und insgesamt <STRONG>nicht mehr als acht Zahlen</STRONG> einzugeben.
+
+<FORM ACTION="divide-and-conquer.html" METHOD="GET">
+	<P>Eigenen Array eingeben: [<INPUT NAME="array" ID="array">] <INPUT TYPE="submit" VALUE="Los!">
+	<P><INPUT TYPE="button" VALUE="Zufallszahlen erzeugen" ONCLICK="randomise(8, -4, 6)">
+	<SCRIPT TYPE="text/javascript">
+function randomise (count, smallest, largest) {
+var array = [];
+for (var i = 8; i > 0; i--) {
+	var randomNumber = Math.floor(Math.random() * (largest - smallest + 1)) + smallest;
+	array.push(randomNumber);
+}
+document.getElementById('array').value = array.join(',');
+}
+	</SCRIPT>
+</FORM>
+
+<H2>Liste mit Beispielen</H2>
+
+<UL>
+	<LI><A HREF="divide-and-conquer.html">Standard</A> ([2, -3, 5, -1, 1, -4, 2, 3])
+	<LI><A HREF="divide-and-conquer.html?1">[1]</A>
+	<LI><A HREF="divide-and-conquer.html?-1">[-1]</A>
+	<LI><A HREF="divide-and-conquer.html?4,5,2,6,1,7,3">[4, 5, 2, 6, 1, 7, 3]</A>
+	<LI><A HREF="divide-and-conquer.html?-2,-1,-4">[-2, -1, -4]</A>
+	<LI><A HREF="divide-and-conquer.html?">[]</A>
+	<LI><A HREF="divide-and-conquer.html?2,-1,4,-5,3">[2, -1, 4, -5, 3]</A>
+	<LI><A HREF="divide-and-conquer.html?1,4,0,-3,-6,2,5">[1, 4, 0, -3, -6, 2, 5]</A>
+	<LI><A HREF="divide-and-conquer.html?2,4,-8,-1,2,-6,4,3">[2, 4, -8, -1, 2, -6, 4, 3]</A>
+	<LI><A HREF="divide-and-conquer.html?2,-3,4,-1">[2, -3, 4, -1]</A>
+	<LI><A HREF="divide-and-conquer.html?4,-1,0,-2,-3,5">[4, -1, 0, -2, -3, 5]</A>
+	<LI><A HREF="divide-and-conquer.html?2,4,-8,3,7,-2,0,1">[2, 4, -8, 3, 7, -2, 0, 1]</A>
+	<LI><A HREF="divide-and-conquer.html?1,-2">[1, -2]</A>
+</UL>
+
+<HR>
+
+<P ID="version">Nisterud 1.1<!--, 24. März 2010-->
+
+<ADDRESS>Arne Johannessen</ADDRESS>
+
+<!--$Id$-->
+<!--
+This program is free software; you can redistribute it or
+modify it under the terms of a 3-clause BSD-style license.
+There is absolutely no warranty for this program!
+See LICENSE for details.
+-->

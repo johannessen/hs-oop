@@ -1,0 +1,84 @@
+$Id$
+UTF-8
+
+
+** Nisterud **
+
+Visualisierung der Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems
+
+Im Rahmen der Abgabe der Studienarbeit "Gruppe 5" (siehe "verwendete Software")
+stellte sich heraus, dass die präsentierte Animation aufgrund ihrer
+Geschwindigkeit nur eingeschränkt vorführungsfähig war. Für Zwecke der Lehre
+wäre neben eines generellen maßvollen Bremsens der Animation ein Pause-Knopf
+wünschenswert gewesen. Daraufhin erstellte Arne Johannessen diese Anwendung
+("Nisterud"), die auf "Gruppe 5" aufbaut und versucht, diesen Problemen
+Rechnung zu tragen.
+
+
+===== Entwickler =====
+
+Arne Johannessen
+<joar0011@hs-karlsruhe.de>
+
+Weitere Entwickler siehe "verwendete Software".
+
+
+===== Systemvoraussetzungen =====
+
+Ein User Agent mit Unterstützung gängiger Web-Standards, insbesondere:
+- W3C HTML 4
+- W3C CSS Level 2.1
+- W3C DOM Level 2
+- ECMA 262-3 (ECMAScript 3rd ed.)
+- WHATWG HTML 5 (getElementsByClassName)
+
+Erfolgreich getestet mit folgenden Browsern:
+- Safari 4
+- Firefox 3
+- Opera 10
+- Chrome
+- iCab 4
+
+Primäre Entwicklungsumgebung:
+- Safari 4
+
+
+===== Änderungs- und Versionsgeschichte =====
+
+Siehe CHANGELOG.
+
+Die Versionsnummerierung von "Nisterud" beginnt mit 1.1, um die nahtlose
+Übernahme von "Gruppe 5" zu betonen. CHANGELOG enthält daher auch die
+Änderungsgeschichte von "Gruppe 5" bis zum Ende der Zusammenarbeit des
+Entwicklungsteams in Version 1.0.2.
+
+
+===== Rechtliche Bedingungen =====
+
+Copyright (C) 2010 Arne Johannessen.
+Alle Rechte vorbehalten.
+
+Diese Anwendung ist freie Software; Sie dürfen sie zu den Bedingungen einer
+Drei-Klausel–BSD-Lizenz verändern oder weiterverbreiten. Es besteht keinerlei
+Garantie oder Gewährleistung für diese Anwendung!
+
+Details siehe LICENSE.
+
+
+===== Verwendendete Software =====
+
+"Gruppe 5"
+Visualisierung der Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems
+Studienarbeit Skriptsprachen / Objektorientierte Programmierung WS 2009/10
+Weitere Informationen siehe Projektdoku Gruppe 5.html.
+
+Copyright (C) 2009-2010 Antonia Boemanns, Bianca Foerster, Arne Johannessen, Holger Schropp.
+Alle Rechte vorbehalten.
+Bedingungen zur Nutzung und Weiterbreitung siehe LICENSE.
+
+"Émile"
+Stand-alone CSS animation JavaScript mini-framework
+Weitere Informationen siehe frameworks/emile/README.md
+
+Copyright (C) 2009 Thomas Fuchs http://script.aculo.us/thomas
+Bedingungen zur Nutzung und Weiterbreitung siehe frameworks/emile/MIT-LICENSE

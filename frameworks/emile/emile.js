@@ -1,33 +1,10 @@
-/* emile.js is a no-thrills stand-alone CSS animation JavaScript framework, named after Émile Cohl, early animator.
- * 
- * LICENSE
- * 
- * Copyright (c) 2009 Thomas Fuchs http://script.aculo.us/thomas
- * 
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- * 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 // git snapshot of 2009-12-01
 
 // emile.js (c) 2009 Thomas Fuchs
 // Licensed under the terms of the MIT license.
+
+// added type cast to String in parse(), 2010-01-28 Arne Johannessen
+// $Id$
 
 (function(emile, container){
   var parseEl = document.createElement('div'),
@@ -50,7 +27,7 @@
   }
   
   function parse(prop){
-    var p = parseFloat(prop), q = prop.replace(/^[\-\d\.]+/,'');
+    var p = parseFloat(prop), q = String(prop).replace(/^[\-\d\.]+/,'');
     return isNaN(p) ? { v: q, f: color, u: ''} : { v: p, f: interpolate, u: q };
   }
   

@@ -57,6 +57,14 @@ H1 {
 	color: #666;
 	margin: 0;
 }
+H2 {
+	font-size: 1.2em;
+	font-weight: normal;
+	margin: 1.5em 0 .83em 0;
+	background-color: #eee;
+	border-bottom: 2px solid #ccc;
+	padding: .2em;
+}
 P {
 	margin: .9em 0;
 }
@@ -72,11 +80,14 @@ P {
 	font-weight: bold;
 	padding-left: 1ex;
 }
-ADDRESS, P#uni, P#docs-link, P#version {
+ADDRESS, P.impress, P#uni, P#docs-link, P#version, P#custom-link {
 	font-size: .83em;
 	color: #666;
 	font-style: italic;
 	margin: .7em 0;
+}
+P#version, ADDRESS {
+	margin: 0;  /* no paragraph break between these two */
 }
 A, A:link, A:visited, A:hover, A:active {
 	text-decoration: underline;
@@ -86,6 +97,13 @@ A, A:link, A:visited, A:hover, A:active {
 }
 A:hover, A:active {
 	font-weight: bold;
+}
+HR {
+	margin-top: 2em;
+	background-color: #eee;
+	border: none;
+	border-bottom: 2px solid #ccc;
+	padding: 0;
 }
 
 

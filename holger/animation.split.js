@@ -1,9 +1,10 @@
 /* $Id$
+ * UTF-8
  * 
  * "split"–Animation (Visualisierung der Einschraenkung der Zahlenleiste auf den momentan betrachteten Sub-Array)
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
- * Skriptsprachen / Objektorientierte Programmierung WS 2009/10, Gruppe 5
  * 
+ * Copyright (c) 2010 Arne Johannessen
  * Copyright (c) 2009 Holger Schropp
  * All rights reserved.
  * 
@@ -35,6 +36,13 @@ msa.Trennstrich = function  () {;
 	
 	this.zeichnenAdapter = function (l, r, callback) {
 		
+		/* Die Methode Element.getElementsByClassName() ist in HTML 5
+		 * definiert und wird nur von modernen User Agents implementiert.
+		 * Firefox 3, Safari 4, Opera 10 und Chrome 1 unterstützen sie,
+		 * nicht aber Internet Explorer 8. Mehr Informationen:
+		 * <http://www.whatwg.org/specs/web-apps/current-work/#dom-document-getelementsbyclassname>
+		 * <http://www.quirksmode.org/dom/w3c_core.html#gettingelements>
+		 */
 		var zahlen = msa.ui.dom.zahlenleiste.getElementsByClassName('zahlenblock');
 		
 		var index = Math.floor((l + r) / 2) + 1

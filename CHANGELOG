@@ -1,0 +1,25 @@
+$Id$
+UTF-8
+
+
+===== Version 1.1 ===== unveröffentlicht =====
+- Eingabe eigener Arrays durch separate HTML-Datei, individuell erweiterbar
+- kleinere Verbesserungen für IE8
+
+
+===== Version 1.0.2 (Gruppe 5) ===== 28. Januar 2010 =====
+- Lizenz geändert auf BSD 3-clause (einvernehmlich mit allen Teilnehmern)
+- end of development (Gruppe 5)
+
+
+===== Version 1.0.1 (Gruppe 5) ===== 21. Januar 2010 =====
+- Probleme 7, 10 und 11 behandelt
+- testweise eine Query-String–Abfrage für Arrays nach Nutzervorgabe eingebaut
+  (z. B. <divide-and-conquer.html?2,-3,4,-1> für [2, -3, 4, -1])
+- @accesskey eingefügt
+- Timing optimiert
+- kleinere Änderungen und Bugfixes
+
+
+===== Version 1.0 (Gruppe 5) ===== 20. Januar 2010 =====
+- erste Endfassung
