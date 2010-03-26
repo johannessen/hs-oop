@@ -25,9 +25,10 @@ msa.theArray = [2, -3, 5, -1, 1, -4, 2, 3];
 
 
 /**
- * The hard-coded default speed factor of all our animations.
+ * The hard-coded default speed factor (= duration divisor) of all our
+ * animations.
  */
-msa.theSpeed = 1;  // :TODO: actually hook this up to all our animations
+msa.theSpeed = 1;
 
 
 /**
@@ -91,11 +92,9 @@ msa.Ui = function () {
 		state.returnFromInterrupt();
 		return true;
 */
-/*
 		// :DEBUG:
 		setTimeout(function () { resume(); }, 1);
 		return true;
-*/
 		
 		dom.continueButton.onclick = function () { resume(); }
 		dom.continueButton.disabled = false;
@@ -140,13 +139,13 @@ msa.Ui = function () {
 			ergebnisNode.style.fontSize = '20px';
 			ergebnisNode.style.marginLeft = 0;
 			ergebnisNode.style.marginTop = 0;
-			emile(ergebnisNode, 'opacity:0;font-size:96px;margin-left:-.5em;margin-top:300px', { duration: 1200 });
+			emile(ergebnisNode, 'opacity:0;font-size:96px;margin-left:-.5em;margin-top:300px', { duration: 1200 / msa.theSpeed });
 		}
 
 		// flash the screen once in celebration
 		document.documentElement.style.backgroundColor = '#eee';
-		emile(document.documentElement, 'background-color:#090', { duration: 120, after: function () {
-			emile(document.documentElement, 'background-color:#eee', { duration: 180 });
+		emile(document.documentElement, 'background-color:#090', { duration: 120 / msa.theSpeed, after: function () {
+			emile(document.documentElement, 'background-color:#eee', { duration: 180 / msa.theSpeed });
 		} });
 		
 		// enable the start button to give the user another chance to see the demo

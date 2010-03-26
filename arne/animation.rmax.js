@@ -3,7 +3,6 @@
  * 
  * Randmaximum-Animation „Blöcke fliegen runter“ [A], Teil von ③+④ (Visualisierung der Bildung eines einzelnen Randmaximi)
  * Visualisierung der Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems
- * Skriptsprachen / Objektorientierte Programmierung WS 2009/10, Gruppe 5
  * 
  * Copyright (c) 2009-2010 Arne Johannessen
  * All rights reserved.
@@ -242,6 +241,10 @@ msa.RandmaximumAnimation = function (options) {
 		var currentSubtotalValue = currentValue;
 		var arrayItemValue = msa.theArray[startFromIndex + columnIndexOffset];
 		
+		var durationStep = 160 / msa.theSpeed;
+		var durationMove = 450 / msa.theSpeed;
+		var durationTotal = durationStep * (arrayItemValue - 1) + durationMove;
+		
 		
 		// show maximum (stack and number)
 		currentValue += arrayItemValue;
@@ -251,22 +254,23 @@ msa.RandmaximumAnimation = function (options) {
 			if (direction < 0) {
 				stackCss += ';margin-left:' + (currentMaxValue * -30) + 'px';
 			}
-			emile(stackNode, stackCss, { duration: 160 * arrayItemValue - 160 + 450 });
+			emile(stackNode, stackCss, { duration: durationTotal });
 			setTimeout(function () {
 				numberMaxNode.innerHTML = currentMaxValue;
 				numberMaxNode.style.left = (x0 + direction * (currentMaxValue * 30 + 1)) + 'px';
-			}, 160 * arrayItemValue - 160 + 450);
+			}, durationTotal);
 		}
 		
 		
 		// show current (animate blocks and update number)
 		var blocks = cloneBlocksColumns[Math.abs(columnIndexOffset)];
 		function moveDownBlocks (i) {
+			
 			if (i < 0) {
 				setTimeout(function (i) {
 					moveDoneCallback();
 					moveDone();
-				}, 450);
+				}, durationMove);
 				return;  // end recursion
 			}
 			
@@ -294,7 +298,7 @@ msa.RandmaximumAnimation = function (options) {
 			var block = blocks[i];
 			block.style.visibility = 'visible';
 			var blockCss = 'left:' + left + ';top:' + top;
-			emile(block, blockCss, { duration: 450, after: function () {
+			emile(block, blockCss, { duration: durationMove, after: function () {
 				if (stackGetsLarger) {
 					block.parentNode.removeChild(block);
 					stackedBlocksContainerNode.appendChild(block);
@@ -302,13 +306,14 @@ msa.RandmaximumAnimation = function (options) {
 				else {
 					var existingBlock = stackedBlocksContainerNode.childNodes[stackedBlocksContainerNode.childNodes.length - 1];
 					var explosion = new msa.BlockExplosion(block, existingBlock);
+					explosion.millisecondsPerStep /= msa.theSpeed;
 					explosion.run();
 				}
 			} });
 			
 			// show calculated current value and animate its movement along the stack
 			var numberCss = 'left:' + (x0 + x) + 'px';
-			emile(numberNode, numberCss, { duration: 450, after: function () {
+			emile(numberNode, numberCss, { duration: durationMove, after: function () {
 				numberNode.innerHTML = Number(numberNode.innerHTML) + (arrayItemValue > 0 ? 1 : -1);
 			} });
 			
@@ -316,7 +321,7 @@ msa.RandmaximumAnimation = function (options) {
 			// delay recursion so that all blocks don't move at once
 			setTimeout(function () {
 				moveDownBlocks(i - 1);
-			}, 160);
+			}, durationStep);
 		}
 		moveDownBlocks(blocks.length - 1);
 		
@@ -367,7 +372,7 @@ msa.RandmaximumAnimation = function (options) {
 			moveDownColumn({ after: function () {
 				setTimeout(function () {
 					moveColumn(i - 1);
-				}, 600);
+				}, 600 / msa.theSpeed);
 			} });
 		}
 		moveColumn(Math.abs(columnCount) - 1);
@@ -382,7 +387,7 @@ msa.RandmaximumAnimation = function (options) {
 	this.fadeOut = function () {
 		containerNode.style.opacity = 1;
 		var flush = this.flush;
-		emile(containerNode, 'opacity:0', { duration: 700, after: function () {
+		emile(containerNode, 'opacity:0', { duration: 700 / msa.theSpeed, after: function () {
 			flush();
 		} });
 	}

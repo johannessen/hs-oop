@@ -19,7 +19,9 @@
 if (! window.msa) { window.msa = {}; }
 
 msa.Merge = function (ergebnisNodes) {
-
+	
+	var animationsDauer = 750 / msa.theSpeed;
+	
 	//rmaxl und rmaxr werden von maxHochfahren übergeben
 	//rmaxs wird von hochfahren übergeben
 	var maxl = null;
@@ -29,14 +31,14 @@ msa.Merge = function (ergebnisNodes) {
 	var maxs = null;
 	
 	function init () {
-
 		maxl = ergebnisNodes.links;
 		maxr = ergebnisNodes.rechts;
 	}
-	/*beim Aufruf von 'merge' werden in den 'if-Anweisungen' die übergebenen Inhalte der Variablen maxl, maxr 
-	  und rmax (welche rmaxs zugewiesen wird) verglichen und der höchste wert wird an die 'emile-Animation' 
-      übergeben. maxl und maxr fahren zusammen auf die Position  
-	*/
+	
+	/* beim Aufruf von 'merge' werden in den 'if-Anweisungen' die übergebenen Inhalte der Variablen maxl, maxr 
+	 * und rmax (welche rmaxs zugewiesen wird) verglichen und der höchste wert wird an die 'emile-Animation' 
+	 * übergeben. maxl und maxr fahren zusammen auf die Position  
+	 */
 	this.merge = function (binfertig, rmax, ergebnis) {
 		rmaxs = rmax;
 		var rmaxsNumber = ergebnis.randmaximumLinkerTeil + ergebnis.randmaximumRechterTeil;
@@ -57,29 +59,29 @@ msa.Merge = function (ergebnisNodes) {
 			maxsNumber = ergebnis.rechts;
 		}
 		//maxs wird auf 200% vergrößert
-		emile(maxs, 'font-size:40px', { duration: 400, after: function(){ 
-
+		emile(maxs, 'font-size:40px', { duration: animationsDauer * 0.533, after: function(){ 
+			
 			maxl.style.visibility = 'hidden';
 			maxr.style.visibility = 'hidden'; 
 			rmaxs.style.visibility = 'hidden'; 
-		
+			
 			maxs.style.visibility = 'visible'; 
 			maxs.style.fontSize = '40px';	
 			maxs.style.zIndex = 2;  // eigentlich "initial" bzw. undefined, aber der IE mag das nicht -aj3
 			
-			emile(maxs, 'font-size:20px', { duration: 750, after: function(){ 
+			emile(maxs, 'font-size:20px', { duration: animationsDauer, after: function(){ 
+				binfertig(maxs);}
+			}); 
+		} });		
 		
-					binfertig(maxs);}
-				}); 
-			}		
-		});		
-		
-		emile(maxl, zielPos, { duration: 520});    
-		emile(maxr, zielPos, { duration: 520});  		
+		var durationMove = animationsDauer * 0.693;
+		emile(maxl, zielPos, { duration: durationMove });    
+		emile(maxr, zielPos, { duration: durationMove });  		
 		
 		// loest Problem Nr. 10 (siehe Bugliste) -aj3
 		maxs.style.zIndex = 10;
 		maxs.style.backgroundColor = 'white';
 	}
+	
 	init();
 }

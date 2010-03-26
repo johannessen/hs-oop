@@ -1,9 +1,10 @@
 ﻿/* $Id$
+ * UTF-8
  * 
  * Zahlenleiste zeichnen
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
- * Skriptsprachen / Objektorientierte Programmierung WS 2009/10, Gruppe 5
  * 
+ * Copyright (c) 2010 Arne Johannessen
  * Copyright (c) 2010 Bianca Foerster
  * All rights reserved.
  * 
@@ -25,6 +26,8 @@ msa.Zahlenleiste = function () {
 	
 	//zahlenwerte greift auf das Array zu, das in Arne´s 'ui.js'-Datei steht:
 	var zahlenwerte = msa.theArray;
+	
+	var duration = 2100 / msa.theSpeed;
 	
 	
 	function init () {
@@ -81,7 +84,7 @@ msa.Zahlenleiste = function () {
 		//Der Knoten 'zahlenblock' wird an 'node' angehaengt:
 		node.appendChild(zahlenblock);
 		//Der Aufbau der Zahlenbloecke, sowie deren Beschriftung wird animiert:
-		emile(zahlenblock, 'left:positionX;width:30px;color:#ffffff;font-size:20px;', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
+		emile(zahlenblock, 'left:positionX;width:30px;color:#ffffff;font-size:20px;', { duration: duration, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
 	}
 	
 	//Funktion zur Festlegung der horizontalen Ausrichtung der Zahlenbloecke:
@@ -105,7 +108,7 @@ msa.Zahlenleiste = function () {
 		strich.style.width = '0';
 		node.appendChild(strich);
 		
-		emile(strich, 'left:70px;width:460px', { duration: 3000, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
+		emile(strich, 'left:70px;width:460px', { duration: duration, after: function(){msa.ui.zahlenleisteZeichnenFertig()} });
 		
 		
 		//Die Funktionen zum zeichnen und horizontalen platzieren der Zahlenbloecke werden aufgerufen:

@@ -3,8 +3,8 @@
  * 
  * "merge"-Animation (7) (Visualisierung der Auswahl des hoechsten aus je drei Maximis)
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
- * Skriptsprachen / Objektorientierte Programmierung WS 2009/10, Gruppe 5
  * 
+ * Copyright (c) 2010 Arne Johannessen
  * Copyright (c) 2009 Antonia Boemanns
  * All rights reserved.
  * 
@@ -20,19 +20,13 @@ if (! window.msa) { window.msa = {}; }
 
 
 msa.Addieren = function () {
-	var animationsDauer = 2000;
+	
+	var animationsDauer = 2000 / msa.theSpeed;
 		
-	function init () {	
-		
-	}
 	/*beim Aufruf von 'addieren' fahren die übergebenen Variablen nodeLinks und nodeRechts auf die Zielposition
 	  und werden danach unsichtbar.Danach wird die Summe aus den Werten von nodelinks und nodeRechts errechnet und 
 	  in rmaxs ausgegeben. 
 	*/
-	 	//this.positionLeft = function (stelle) {
-		//return (110 + stelle * 50);
-	//}
-	
 	this.addieren = function (ergebnis, ergebnisNodes, mitteIndex, binfertig) {
 		var zahlLinks = ergebnis.randmaximumLinkerTeil;
 		var nodeLinks = ergebnisNodes.randmaximumLinkerTeil;
@@ -62,11 +56,11 @@ msa.Addieren = function () {
 			rmaxs.style.background='white';
 			rmaxs.style.fontSize='20px';
 			msa.ui.dom.zahlenleiste.appendChild(rmaxs);
-			msa.hochfahren.hochfahren(rmaxs, binfertig, ergebnis, ergebnisNodes);
+			new msa.Hochfahren().hochfahren(rmaxs, binfertig, ergebnis, ergebnisNodes);
 			} 
 		});    
 		   
 		emile(nodeRechts, zielPos, { duration: animationsDauer });
 	}
-	init();
+	
 }

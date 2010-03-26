@@ -1,9 +1,10 @@
 /* $Id$
+ * UTF-8
  * 
  * Hochfahr-Animation (1)+(2) (bereits bekanntes, linkes/rechtes Ergebnis "faehrt hoch"; einschl. trivialer Fall)
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
- * Skriptsprachen / Objektorientierte Programmierung WS 2009/10, Gruppe 5
  * 
+ * Copyright (c) 2010 Arne Johannessen
  * Copyright (c) 2010 Bianca Foerster
  * All rights reserved.
  * 
@@ -20,7 +21,7 @@ if (! window.msa) { window.msa = {}; }
 msa.MaxHochfahren = function (){
 	
 	var max = null;
-	var verzoegerung = 1700;
+	var verzoegerung = 1700 / msa.theSpeed;
 
 	function init(){
 		max = document.getElementById('max');

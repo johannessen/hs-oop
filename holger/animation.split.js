@@ -94,7 +94,7 @@ msa.Trennstrich = function  () {;
 		else {
 			// do a little animation, just for fun
 			//Dauer der Animation in millisekunden
-			emile(trennstrich, 'height:380px;top:10px', { duration: 1000, after: function () {
+			emile(trennstrich, 'height:380px;top:10px', { duration: 1000 / msa.theSpeed, after: function () {
 				binfertig();
 			} });
 		}
