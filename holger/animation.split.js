@@ -19,22 +19,14 @@
 if (! window.msa) { window.msa = {}; }
 
 
-// to be continued...
-
-
 
 msa.Trennstrich = function  () {;
 
 	var trennstrich = null;
 	var binfertig;
 	
-	function init () {
-		// create the HTML element in its initial state
-//		node = document.createElement('DIV');
-//		node.className = 'trennstrich-example';
-	}
 	
-	this.zeichnenAdapter = function (l, r, callback) {
+	this.zeichnenAdapter = function (l, r, callback, skipAnimation) {
 		
 		/* Die Methode Element.getElementsByClassName() ist in HTML 5
 		 * definiert und wird nur von modernen User Agents implementiert.
@@ -48,95 +40,66 @@ msa.Trennstrich = function  () {;
 		var index = Math.floor((l + r) / 2) + 1
 		var zahl = zahlen[index]; 
 		
-		
 		//  bereich hervorheben
-		for (var i=0; i < l; i++)
-		{
+		for (var i=0; i < l; i++) {
 			zahlen[i].className = 'zahlenblock aus';
-			
-					
-		}	
-			
-		for (var j=l; j <= r; j++)
-		{
+		}
+		for (var j=l; j <= r; j++) {
 			zahlen[j].className = 'zahlenblock';
 		}
-		
 		for (var k=r+1; k < zahlen.length; k++)
 		{
 			zahlen[k].className = 'zahlenblock aus';
 		}
-				
-			
-			
-		
-		
-		
-		
-		
 		
 		// trennstrich zeichnen
 		if (l >= r) {
 			callback();  // :TODO:
 		}
 		else {
-			
 			binfertig = callback;
 			
 			index = Math.floor((l + r) / 2) + 1
 			zahl = zahlen[index];
 			var zahlPositionX = zahl.offsetLeft;
 			
-			this.zeichnen(zahlPositionX - 11);
+			this.zeichnen(zahlPositionX - 11, skipAnimation);
 		}
 	}
 	
 	
+	this.zeichnen = function (left, skipAnimation) {
 		
-			
-				
-		
-	this.zeichnen = function (left) {
-	
 		// falls  der strich schon existiert, loeschen
 		var trennstrich = msa.ui.dom.trennstrich;
 		if (trennstrich) {
 			trennstrich.parentNode.removeChild(trennstrich);
 		}
 		
-		// add the existing element to the HTML page
 		var canvasNode = msa.ui.dom.canvas;
-		
 		trennstrich = document.createElement('DIV');
 		trennstrich.className = 'trennstrich';
 		trennstrich.style.left = left + 'px';
-		trennstrich.style.top = '300px';
+		trennstrich.style.top = skipAnimation ? '10px' : '300px';
+		trennstrich.style.height = skipAnimation ? '380px' : '0px';
 		trennstrich.style.width = '3px';
 		canvasNode.appendChild(trennstrich);
 		
 		// make our newly added element available to the rest of the app
 		msa.ui.dom.trennstrich = trennstrich;
 		
-				
-		// do a little animation, just for fun
-		//Dauer der Animation in millisekunden
-		emile(trennstrich, 'height:380px;top:10px', { duration: 1000, after: function () {
+		if (skipAnimation) {
 			binfertig();
-		} });
-		
+		}
+		else {
+			// do a little animation, just for fun
+			//Dauer der Animation in millisekunden
+			emile(trennstrich, 'height:380px;top:10px', { duration: 1000, after: function () {
+				binfertig();
+			} });
+		}
 		
 	}
 	
-	init ();
 }
 msa.trennstrich = new msa.Trennstrich();
-
-//zahlenleiste.appendChild(trennstrich);
-msa.schaltstelle.addDomLoadedMessage(function () {
-	
-	msa.trennstrich.zeichnenAdapter(function(){});
-	
-});
-
-
-
