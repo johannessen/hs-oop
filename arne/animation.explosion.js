@@ -48,7 +48,7 @@ msa.BlockExplosion = function (block1, block2) {
 	this.block1 = block1;
 	this.block2 = block2;
 }
-msa.BlockExplosion.constructor = msa.BlockExplosion;
+msa.BlockExplosion.prototype.constructor = msa.BlockExplosion;
 
 
 /**
