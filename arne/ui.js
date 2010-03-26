@@ -3,9 +3,8 @@
  * 
  * User-Interface (Teil des HTML-Moduls)
  * Visualisierung der Divide-and-Conquer–Lösung des Maximum–Sub-Array–Problems
- * Skriptsprachen / Objektorientierte Programmierung WS 2009/10, Gruppe 5
  * 
- * Copyright (c) 2009 Arne Johannessen
+ * Copyright (c) 2009-10 Arne Johannessen
  * All rights reserved.
  * 
  * This program is free software; you can redistribute it or
@@ -28,10 +27,10 @@ msa.theArray = [2, -3, 5, -1, 1, -4, 2, 3];
 /**
  * This is the adapter to the human interface. In a Model-View-Controller
  * pattern according to Jacobsen, this is a 'View' object that Jacobsen calls
- * 'Interface' object; according to Reenskaug et. al, this is a 'Controller'
+ * 'Interface' object; according to Reenskaug et al., this is a 'Controller'
  * object.
  * 
- * This object prototype was dveloped out of msa.Schaltstelle when it was
+ * This object prototype was developed out of msa.Schaltstelle when it was
  * realised that the latter was suffering from scope creep. As a result,
  * msa.Schaltstelle is now a mere collection of some utility functions.
  * 
@@ -164,6 +163,52 @@ msa.Ui = function () {
 	
 	
 	/**
+	 * Read user-specified array from URL query string, if there is one.
+	 * 
+	 * @return array representation of the 'array' query string parameter
+	 */
+	function arrayFromQueryString () {
+		var arrayOfNumbers = null;
+		
+		// parse 'array' parameter out of query string
+		var uri = window.location.toString();
+		if (uri.indexOf('?') > 0) {
+			var query = uri.substring(uri.indexOf('?') + 1);
+			var queryElements = query.split(/&|;/);
+			for (var i = 0; i < queryElements.length; i++) {
+				var queryElement = queryElements[i];
+				if (queryElement.indexOf('array=') == 0) {
+					query = queryElement;
+					break;
+				}
+			}
+			if (query.indexOf('array=') == 0) {
+				// also parse unnamed parameter as 'array' if it is the first one
+				query = query.substring(6);
+			}
+			
+			// try to parse array
+			query = query.replace(/%e2%88%92/gi, '%2d');  // get rid of 'real' minus sign
+			var arrayOfStrings = unescape(query).split(',');
+			for (var i = 0; i < arrayOfStrings.length; i++) {
+				if (! arrayOfStrings[i].match(/^[-+0-9]+$/)) {
+					if (arrayOfStrings[i].length == 0) {
+						continue;
+					}
+					break;
+				}
+				if (! arrayOfNumbers) {
+					arrayOfNumbers = [];
+				}
+				arrayOfNumbers.push( Number(arrayOfStrings[i]) );
+			}
+		}
+		
+		return arrayOfNumbers;
+	}
+	
+	
+	/**
 	 * Constructor handler; arranges for the UI to be initialised as soon as
 	 * the DOM has finished loading.
 	 */
@@ -182,25 +227,11 @@ msa.Ui = function () {
 			// DOM loaded successfully; proceed loading the application
 			dom.startButton.disabled = true;
 			msa.zahlenleiste.zeichnen(msa.theArray);
-			
 		});
 		
-		// read test array from URL query string
-		var uri = window.location.toString();
-		if (uri.indexOf('?') > 0) {
-			var query = uri.substring(uri.indexOf('?') + 1);
-			if (query.indexOf('array=') == 0) {
-				query = query.substring(6);
-			}
-			query = query.replace(/%2C/gi, ',');
-			var array = query.split(',');
-			msa.theArray = [];
-			for (var i = 0; i < array.length; i++) {
-				if (! array[i].match(/^[-+0-9]+$/)) {
-					break;
-				}
-				msa.theArray.push(Number(array[i]));
-			}
+		var userSpecifiedArray = arrayFromQueryString();
+		if (userSpecifiedArray) {
+			msa.theArray = userSpecifiedArray;
 		}
 	}
 	

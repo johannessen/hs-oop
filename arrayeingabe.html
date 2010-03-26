@@ -18,6 +18,7 @@
 	<P>Eigenen Array eingeben: [<INPUT NAME="array" ID="array">] <INPUT TYPE="submit" VALUE="Los!">
 	<P><INPUT TYPE="button" VALUE="Zufallszahlen erzeugen" ONCLICK="randomise(8, -4, 6)">
 	<SCRIPT TYPE="text/javascript">
+
 function randomise (count, smallest, largest) {
 	var array = [];
 	for (var i = count; i > 0; i--) {
@@ -26,6 +27,7 @@ function randomise (count, smallest, largest) {
 	}
 	document.getElementById('array').value = array.join(',');
 }
+
 	</SCRIPT>
 </FORM>
 
