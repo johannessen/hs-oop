@@ -25,6 +25,12 @@ msa.theArray = [2, -3, 5, -1, 1, -4, 2, 3];
 
 
 /**
+ * The hard-coded default speed factor of all our animations.
+ */
+msa.theSpeed = 1;  // :TODO: actually hook this up to all our animations
+
+
+/**
  * This is the adapter to the human interface. In a Model-View-Controller
  * pattern according to Jacobsen, this is a 'View' object that Jacobsen calls
  * 'Interface' object; according to Reenskaug et al., this is a 'Controller'
@@ -67,11 +73,47 @@ msa.Ui = function () {
 			dom.output.innerHTML = 'Vorführung läuft…';
 		}
 		var options = {
-			fertig: function (zahl, node) { showFinalResult(zahl, node); },
-			array: msa.theArray
+			array: msa.theArray,
+			interruptHook: dom.continueButton ? function (state) { return suspend(state); } : null
 		}
-		var algorithmus = new msa.Algorithmus();
-		algorithmus.durchlaufen(options, 0, options.array.length - 1);
+		var algorithmus = new msa.Algorithmus(options);
+		var fertig = function (zahl, node) { showFinalResult(zahl, node); }
+		algorithmus.durchlaufen(fertig, 0, options.array.length - 1);
+	}
+	
+	
+	/**
+	 */
+	function suspend (state) {
+		msa.algorithmState = state;
+/*
+		// :DEBUG:
+		state.returnFromInterrupt();
+		return true;
+*/
+/*
+		// :DEBUG:
+		setTimeout(function () { resume(); }, 1);
+		return true;
+*/
+		
+		dom.continueButton.onclick = function () { resume(); }
+		dom.continueButton.disabled = false;
+		
+		return true;
+	}
+	
+	
+	/**
+	 */
+	function resume () {
+		var state = msa.algorithmState;
+		msa.algorithmState = null;
+		
+		dom.continueButton.disabled = true;
+		dom.continueButton.onclick = null;
+		
+		state.returnFromInterrupt();
 	}
 	
 	
@@ -120,6 +162,7 @@ msa.Ui = function () {
 		dom.canvas = document.getElementById('canvas');
 		dom.startButton = document.getElementById('start-button');
 		dom.output = document.getElementById('state');
+		dom.continueButton = document.getElementById('continue-button');
 	}
 	
 	
@@ -129,6 +172,8 @@ msa.Ui = function () {
 	function initButtons () {
 		dom.startButton.onclick = run;
 		dom.startButton.disabled = false;
+		dom.continueButton.onclick = null;
+		dom.continueButton.disabled = true;
 	}
 	
 	

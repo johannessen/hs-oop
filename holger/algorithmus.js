@@ -1,9 +1,10 @@
 /* $Id$
+ * UTF-8
  * 
  * MSA-Algorithmus (Numerik und ereignisbasierter Wiedereinstieg)
  * Visualisierung der Divide-and-Conquer--Loesung des Maximum--Sub-Array--Problems
- * Skriptsprachen / Objektorientierte Programmierung WS 2009/10, Gruppe 5
  * 
+ * Copyright (c) 2010 Arne Johannessen
  * Copyright (c) 2009 Holger Schropp
  * All rights reserved.
  * 
@@ -11,29 +12,84 @@
  * modify it under the terms of a 3-clause BSD-style license.
  * There is absolutely no warranty for this program!
  * See LICENSE for details.
- * 
- * Changes 2010-01-12 by Arne Johannessen
  */
 
 
 // make sure our namespace exists
 if (! window.msa) { window.msa = {}; }
 
-msa.Algorithmus = function () {
+
+msa.Algorithmus = function (invariantOptions) {
 	
-	var array;
+	// invariant options
+	var invariants = {
+		array: null,
+		interruptHook: null
+	}
+	
+	// varying options
 	var fertig = null;
 	var linkeGrenze, rechteGrenze;
+	
+	// local ('instance') variables
 	var mitte;
 	var ergebnis = {};
 	var ergebnisNodes = {};
 	var animationen = {};
+	var self = this;
 	
-	this.durchlaufen = function (options, l, r) {
-		fertig = options.fertig;
-		array = options.array;
-		linkeGrenze  =l;
-		rechteGrenze =r;
+	
+	this.applyOptions = function (options) {
+		if (! options) {
+			return;
+		}
+		if (options instanceof Function) {
+			fertig = options;
+			return;
+		}
+		if (options.array) { invariants.array = options.array; }
+		if ('left' in options) { linkeGrenze = options.left; }
+		if ('right' in options) { rechteGrenze = options.right; }
+		if (options.fertig) { fertig = options.fertig; }
+		if (options.interruptHook) { invariants.interruptHook = options.interruptHook; }
+	}
+	this.applyOptions(invariantOptions);
+	
+	
+	function validateOptions () {
+		var optionsValid = invariants.array && invariants.array instanceof Array
+				&& typeof linkeGrenze != 'undefined' && linkeGrenze >= 0 && linkeGrenze < invariants.array.length
+				&& typeof rechteGrenze != 'undefined' && rechteGrenze >= 0 && rechteGrenze < invariants.array.length
+				&& linkeGrenze <= rechteGrenze
+				&& typeof fertig == 'function';
+		if (! optionsValid) {
+			throw 'Options to MSA algorithm are incomplete or illegal:'
+					+ ' array=' + String(invariants.array)
+					+ ' left=' + String(linkeGrenze)
+					+ ' right=' + String(rechteGrenze)
+					+ ' fertig=' + String(fertig)
+					+ ' interruptHook=' + String(invariants.interruptHook);
+		}
+	}
+	
+	
+	function interruptAt (position) {
+		return invariants.interruptHook ? invariants.interruptHook(self, position) : false;
+	}
+	
+	
+	this.durchlaufen = function (varyingOptions, l, r) {
+		this.applyOptions(varyingOptions);
+		if (typeof l != 'undefined') { linkeGrenze = l; }
+		if (typeof r != 'undefined') { rechteGrenze = r; }
+		
+		console.log( 'Options to MSA algorithm are:'
+				+ ' array=' + String(invariants.array)
+				+ ' left=' + String(linkeGrenze)
+				+ ' right=' + String(rechteGrenze)
+				+ ' fertig=' + String(fertig)
+				+ ' interruptHook=' + String(invariants.interruptHook) );
+		validateOptions();
 		
 		// animation .split
 		msa.trennstrich.zeichnenAdapter(linkeGrenze, rechteGrenze, trivialUndSplit);
@@ -53,9 +109,9 @@ msa.Algorithmus = function () {
 			}
 			else {
 				animation.hochf(linkeGrenze, function(){
-					var trivialErgebnis = array[linkeGrenze];
+					var trivialErgebnis = invariants.array[linkeGrenze];
 					var trivialErgebnisNode = animation.geben().trivialElement;
-					if (trivialErgebnis < 0 && array.length == 1) { trivialErgebnis = 0; }  // loest Problem Nr. 6 (siehe Bugliste) -aj3
+					if (trivialErgebnis < 0 && invariants.array.length == 1) { trivialErgebnis = 0; }  // loest Problem Nr. 6 (siehe Bugliste) -aj3
 					fertig (trivialErgebnis, trivialErgebnisNode);  // nur ein Element
 				});
 			}
@@ -72,12 +128,9 @@ msa.Algorithmus = function () {
 	
 	
 	function rekursionLinks () {
-		var linkerTeil = new msa.Algorithmus()
-		var options = {};
-		options.fertig = rekursionRechts;
-		options.array = array;
+		var linkerTeil = new msa.Algorithmus(invariants);
 		setTimeout(function () {
-			linkerTeil.durchlaufen(options, linkeGrenze, mitte);
+			linkerTeil.durchlaufen(rekursionRechts, linkeGrenze, mitte);
 		}, 1);
 	}
 	
@@ -86,12 +139,9 @@ msa.Algorithmus = function () {
 		ergebnis.links = ergebnisLinks;
 		ergebnisNodes.links = ergebnisLinksNode;
 		
-		var rechterTeil = new msa.Algorithmus()
-		var options = {};
-		options.fertig = theJoin;
-		options.array = array;
+		var rechterTeil = new msa.Algorithmus(invariants);
 		setTimeout(function () {
-			rechterTeil.durchlaufen(options, mitte + 1, rechteGrenze);
+			rechterTeil.durchlaufen(theJoin, mitte + 1, rechteGrenze);
 		}, 1);
 	}
 	
@@ -102,17 +152,25 @@ msa.Algorithmus = function () {
 		
 		msa.trennstrich.zeichnenAdapter(linkeGrenze, rechteGrenze, function () {
 			randmaximumLinkerTeil();
-		});
+		}, true);
 	}
 	
 	
 	function randmaximumLinkerTeil () {
+		interruptAt('randmaximumLinkerTeil2') || randmaximumLinkerTeil2();
+	}
+	
+	
+	this.returnFromInterrupt = function () { randmaximumLinkerTeil2(); };
+	
+	
+	function randmaximumLinkerTeil2 () {
 		
 		// Sub-Array von rechts nach links durchlaufen und rechtes Randmaximum bestimmen
 		var maximaleSumme = 0;
 		var summe = 0;
 		for (var i = mitte; i >= linkeGrenze; i--) {
-			summe += array[i];
+			summe += invariants.array[i];
 			if (summe > maximaleSumme) {
 				maximaleSumme = summe;
 			}
@@ -148,7 +206,7 @@ msa.Algorithmus = function () {
 		var maximaleSumme = 0;
 		var summe = 0;
 		for (var i = mitte + 1; i <= rechteGrenze; i++) {
-			summe += array[i];
+			summe += invariants.array[i];
 			if (summe > maximaleSumme) {
 				maximaleSumme = summe;
 			}
@@ -192,7 +250,3 @@ msa.Algorithmus = function () {
 		});
 	}
 }
-
-//msa.algorithmus = new msa.Algorithmus();
-
-
